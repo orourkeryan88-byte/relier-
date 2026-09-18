@@ -134,11 +134,60 @@ header{
 .logo{display:flex;flex-direction:column;line-height:1.05;text-decoration:none;}
 .logo .name{font-family:"Archivo",sans-serif;font-weight:900;font-size:20px;letter-spacing:-.02em;}
 .logo .name span{color:var(--accent-ink);}
-.logo .tag{font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--ink-soft);text-transform:uppercase;margin-top:2px;}
+.logo .tag{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--ink-soft);text-transform:uppercase;margin-top:2px;}
 nav.links{display:flex;gap:28px;font-size:14.5px;font-weight:600;}
 nav.links a{text-decoration:none;color:var(--ink-soft);}
 nav.links a:hover{color:var(--ink);}
-@media (max-width:860px){ nav.links{display:none;} }
+.header-actions{display:flex;align-items:center;gap:10px;}
+
+/* ===== MOBILE NAV ===== */
+.mobile-nav{display:none;}
+.mobile-nav summary{
+  list-style:none;cursor:pointer;
+  width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  border:1.5px solid var(--line);border-radius:10px;
+}
+.mobile-nav summary::-webkit-details-marker{display:none;}
+.mobile-nav .burger,
+.mobile-nav .burger::before,
+.mobile-nav .burger::after{
+  display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;
+}
+.mobile-nav .burger{position:relative;}
+.mobile-nav .burger::before,.mobile-nav .burger::after{content:"";position:absolute;left:0;}
+.mobile-nav .burger::before{top:-6px;}
+.mobile-nav .burger::after{top:6px;}
+.mobile-nav[open] .burger{background:transparent;}
+.mobile-nav[open] .burger::before{top:0;transform:rotate(45deg);}
+.mobile-nav[open] .burger::after{top:0;transform:rotate(-45deg);}
+.mobile-nav-panel{
+  position:absolute;top:100%;left:0;right:0;
+  background:var(--bg);
+  border-bottom:1px solid var(--line);
+  box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;
+  padding:8px 24px 16px;
+}
+.mobile-nav-panel a{
+  display:flex;align-items:center;min-height:48px;
+  text-decoration:none;font-weight:600;font-size:16px;
+  border-bottom:1px solid var(--line);
+}
+.mobile-nav-panel a:last-child{border-bottom:none;}
+
+@media (max-width:860px){
+  nav.links{display:none;}
+  .mobile-nav{display:block;}
+}
+@media (max-width:860px){
+  .header-row{padding-block:10px;}   /* slimmer sticky bar on a phone */
+}
+@media (max-width:700px){
+  /* The strapline wraps to three lines on a phone and bloats the sticky bar.
+     It still appears in the footer and in the structured data. */
+  .logo .tag{display:none;}
+}
 
 /* ===== BUTTONS ===== */
 .btn{
@@ -194,6 +243,9 @@ nav.links a:hover{color:var(--ink);}
 
 /* ===== SECTIONS ===== */
 section{padding-block:72px;}
+/* The header is sticky, so an anchor jump would otherwise park the heading
+   underneath it. Keep this above the tallest header height. */
+section[id]{scroll-margin-top:92px;}
 .section-head{max-width:640px;margin-bottom:40px;}
 .section-head h2{font-size:clamp(26px,3.6vw,38px);margin-top:14px;}
 .section-head p{color:var(--ink-soft);margin-top:12px;font-size:16px;}
@@ -281,9 +333,16 @@ section{padding-block:72px;}
   background:var(--surface-2);border:1px solid var(--line);
   padding:5px 10px;border-radius:999px;
 }
-.dots{display:flex;justify-content:center;gap:9px;margin-top:24px;}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--line);border:none;cursor:pointer;padding:0;}
-.dot.active{background:var(--accent-ink);width:22px;border-radius:5px;}
+.dots{display:flex;justify-content:center;gap:0;margin-top:16px;}
+/* 8px dot, 40px tap target: padding grows the hit area, background-clip keeps
+   the paint on the content box only. */
+.dot{
+  width:8px;height:8px;padding:16px;
+  box-sizing:content-box;
+  background:var(--line);background-clip:content-box;
+  border:none;border-radius:50%;cursor:pointer;
+}
+.dot.active{background:var(--accent-ink);background-clip:content-box;width:22px;border-radius:5px;}
 
 /* ===== COVERAGE ===== */
 .coverage-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start;}
@@ -346,7 +405,9 @@ section{padding-block:72px;}
   z-index:60;text-decoration:none;font-size:28px;
 }
 .wa-float:hover{background:var(--green-deep);}
-@media (max-width:560px){ .wa-float{bottom:calc(84px + env(safe-area-inset-bottom,0px));} }
+/* The banner is up to 235px tall on a small phone, so no fixed offset clears
+   it. Hide the float until the visitor has chosen. */
+body.cc-open .wa-float{display:none;}
 
 /* ===== FOOTER ===== */
 footer{background:var(--surface);border-top:1px solid var(--line);padding-block:48px 32px;}
@@ -375,6 +436,12 @@ footer{background:var(--surface);border-top:1px solid var(--line);padding-block:
 .cookie-table th,.cookie-table td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;}
 .cookie-table th{background:var(--surface-2);font-weight:800;}
 .table-scroll{overflow-x:auto;}
+@media (max-width:560px){
+  .cookie-table thead{display:none;}
+  .cookie-table tr{display:block;border:1px solid var(--line);border-radius:10px;padding:12px 14px;}
+  .cookie-table td{display:block;border:none;padding:5px 0;}
+  .cookie-table td::before{content:attr(data-label) ": ";font-weight:800;color:var(--ink);}
+}
 
 /* ===== COOKIE CONSENT ===== */
 .cc-banner{
@@ -403,6 +470,16 @@ footer{background:var(--surface);border-top:1px solid var(--line);padding-block:
 .cc-group p{margin:6px 0 0;font-size:13.5px;color:var(--ink-soft);}
 .cc-dialog-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;}
 .cc-switch{width:18px;height:18px;accent-color:var(--yellow-dk);}
+
+/* ===== TOUCH TARGETS ===== */
+@media (max-width:860px){
+  /* Footer and inline text links are ~17px tall, well under a comfortable
+     thumb target, so give them room on touch screens. */
+  .footer-links{gap:2px;}
+  .footer-links a,
+  .footer-links button{min-height:44px;display:flex;align-items:center;}
+  .legal .linkish{min-height:44px;}
+}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto;}

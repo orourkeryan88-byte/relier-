@@ -182,7 +182,22 @@
       <a href="#faq">FAQ</a>
       <a href="#quote">Get a Quote</a>
     </nav>
-    <a class="btn btn-yellow btn-sm" href="tel:+353858651313">Call Now</a>
+    <div class="header-actions">
+      <!-- details/summary so the menu still opens with JavaScript unavailable -->
+      <details class="mobile-nav" id="mobileNav">
+        <summary aria-label="Open menu"><span class="burger" aria-hidden="true"></span></summary>
+        <nav class="mobile-nav-panel" aria-label="Mobile">
+          <a href="#services">Services</a>
+          <a href="#more-services">Full Range</a>
+          <a href="#why">Why Us</a>
+          <a href="#reviews">Reviews</a>
+          <a href="#coverage">Coverage</a>
+          <a href="#faq">FAQ</a>
+          <a href="#quote">Get a Quote</a>
+        </nav>
+      </details>
+      <a class="btn btn-yellow btn-sm" href="tel:+353858651313">Call Now</a>
+    </div>
   </div>
 </header>
 
@@ -692,10 +707,10 @@
           </thead>
           <tbody>
             <tr>
-              <td><code>dt_consent</code></td>
-              <td>Strictly necessary</td>
-              <td>Remembers your cookie choice so you are not asked on every page.</td>
-              <td>180 days</td>
+              <td data-label="Cookie"><code>dt_consent</code></td>
+              <td data-label="Type">Strictly necessary</td>
+              <td data-label="Purpose">Remembers your cookie choice so you are not asked on every page.</td>
+              <td data-label="Expires">180 days</td>
             </tr>
           </tbody>
         </table>

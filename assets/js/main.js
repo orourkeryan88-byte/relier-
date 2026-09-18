@@ -84,8 +84,10 @@
     var analyticsBox = document.getElementById("ccAnalytics");
     var marketingBox = document.getElementById("ccMarketing");
 
-    function showBanner() { banner.hidden = false; }
-    function hideBanner() { banner.hidden = true; }
+    /* body.cc-open hides the floating WhatsApp button, which would otherwise
+       sit underneath the banner on a phone. */
+    function showBanner() { banner.hidden = false; document.body.classList.add("cc-open"); }
+    function hideBanner() { banner.hidden = true; document.body.classList.remove("cc-open"); }
 
     function openDialog() {
       var c = readConsent();
@@ -229,6 +231,26 @@
     });
   }
 
+  /* ---------------------------------------------------------------------
+     Mobile menu. The <details> element opens on its own without JavaScript;
+     this only adds the closing behaviour.
+     --------------------------------------------------------------------- */
+  function initMobileNav() {
+    var nav = document.getElementById("mobileNav");
+    if (!nav) return;
+    var panel = nav.querySelector(".mobile-nav-panel");
+
+    panel.addEventListener("click", function (e) {
+      if (e.target.tagName === "A") nav.removeAttribute("open");
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") nav.removeAttribute("open");
+    });
+    document.addEventListener("click", function (e) {
+      if (nav.hasAttribute("open") && !nav.contains(e.target)) nav.removeAttribute("open");
+    });
+  }
+
   /* --------------------------------------------------------------------- */
   function initYear() {
     var el = document.getElementById("year");
@@ -237,6 +259,7 @@
 
   function init() {
     initConsent();
+    initMobileNav();
     initTestimonials();
     initForm();
     initYear();
