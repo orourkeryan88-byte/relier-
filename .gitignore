@@ -1,3 +1,3 @@
 # Build output from deploy/prepare-upload.sh
 dist/
-dublin-trades-upload.zip
+dublin-trades-*.zip
