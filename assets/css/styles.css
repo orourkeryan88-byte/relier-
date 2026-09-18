@@ -8,8 +8,7 @@
 /* ===== FONTS (self-hosted, no third-party requests) ===== */
 @font-face{
   font-family:"Archivo";
-  src:url("../fonts/archivo-var.woff2") format("woff2-variations"),
-      url("../fonts/archivo-var.woff2") format("woff2");
+  src:url("../fonts/archivo-var.woff2") format("woff2");
   font-weight:100 900;
   font-stretch:62.5% 125%;
   font-style:normal;
@@ -17,8 +16,7 @@
 }
 @font-face{
   font-family:"Public Sans";
-  src:url("../fonts/public-sans-var.woff2") format("woff2-variations"),
-      url("../fonts/public-sans-var.woff2") format("woff2");
+  src:url("../fonts/public-sans-var.woff2") format("woff2");
   font-weight:100 900;
   font-style:normal;
   font-display:swap;

@@ -152,6 +152,72 @@ domain updated.
 
 ---
 
+## Uploading to Register365 (reg365)
+
+Register365 is normal Apache shared hosting, so `.htaccess` works — you get the
+**full** set of security headers there, unlike GitHub Pages.
+
+### 1. Build the upload bundle
+
+```bash
+./deploy/prepare-upload.sh yourdomain.ie          # Linux hosting (normal)
+./deploy/prepare-upload.sh yourdomain.ie windows  # Windows/IIS plans only
+```
+
+This swaps the placeholder domain everywhere, copies only the files that belong
+on a web server, and writes `dublin-trades-upload.zip`.
+
+Not sure which plan you have? If your control panel is cPanel, or you see a
+`public_html` folder, it is Linux.
+
+### 2. Upload
+
+Control panel → **File Manager** (or FTP with the details on your hosting
+dashboard) → open the **web root**. That is the folder that already contains
+the default holding page — usually `public_html`, sometimes `httpdocs` or `web`.
+
+Upload the zip there and use **Extract**.
+
+> Upload the **contents** of the zip, not the folder itself. The site uses
+> root-relative paths (`/assets/...`), so it must sit directly in the web root.
+> In a subfolder every image and stylesheet 404s.
+
+### 3. Three things that catch people out
+
+- **Delete the default holding page.** Any existing `index.html` or
+  `index.php` left in the web root can take priority over yours.
+- **Show hidden files.** `.htaccess` and `.well-known` start with a dot and
+  most File Managers hide them by default. Turn on "show hidden files" and
+  confirm both arrived — without `.htaccess` you lose every security header.
+- **Turn on SSL before anything else.** Find Let's Encrypt / AutoSSL / free SSL
+  in the panel and enable it for the domain. The `.htaccess` only sends HSTS
+  when the request is already HTTPS, so you cannot lock yourself out — but the
+  forced-HTTPS redirect needs a working certificate.
+
+### 4. Check it worked
+
+```bash
+curl -sI https://yourdomain.ie | grep -i -E "content-security|x-frame|strict-transport"
+```
+
+You should see `content-security-policy`, `x-frame-options: DENY` and
+`strict-transport-security`. Or paste the domain into
+[securityheaders.com](https://securityheaders.com) — it should grade A.
+
+If **no** custom headers come back, Register365 has `mod_headers` disabled on
+your plan. Ask their support to enable it. The `<meta>` CSP and `guard.js`
+still protect the page in the meantime; the gap is `X-Frame-Options` and HSTS.
+Putting Cloudflare (free) in front of the domain also adds headers regardless
+of the host.
+
+### 5. Then
+
+Submit `https://yourdomain.ie/sitemap.xml` in
+[Google Search Console](https://search.google.com/search-console) so the pages
+get indexed.
+
+---
+
 ## Cookies
 
 Built to GDPR / ePrivacy rules, which apply in Ireland:
