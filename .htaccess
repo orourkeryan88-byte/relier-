@@ -13,12 +13,15 @@
   Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains" "expr=%{HTTPS} == 'on'"
 </IfModule>
 
-# Force HTTPS.
+# Force HTTPS and the canonical hostname in a single redirect.
+# Both conditions are false once you are on https://www.dublintrades.ie, so
+# this cannot loop. The host is rewritten by deploy/prepare-upload.sh.
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteCond %{HTTPS} !=on
-  RewriteCond %{HTTP:X-Forwarded-Proto} !https
-  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
+  RewriteCond %{HTTP_HOST} !^www\.dublintrades\.ie$ [NC]
+  RewriteRule ^ https://www.dublintrades.ie%{REQUEST_URI} [L,R=301]
 </IfModule>
 
 # Do not leak directory contents.

@@ -38,18 +38,45 @@ case "$PLATFORM" in
   *) echo "Unknown platform: $PLATFORM (use linux or windows)" >&2; exit 1 ;;
 esac
 
-# Swap the placeholder domain everywhere it appears.
-find "$OUT" -type f \( -name '*.html' -o -name '*.xml' -o -name '*.txt' \
-     -o -name '*.webmanifest' -o -name '*.js' -o -name '*.css' \) \
-     -exec sed -i "s|www\.dublintrades\.ie|${DOMAIN}|g" {} +
+# Swap the placeholder domain everywhere it appears. The config files hold it
+# as a regex (www\.dublintrades\.ie), so both spellings are handled.
+DOMAIN="$DOMAIN" python3 - "$OUT" <<'PYEOF'
+import os, re, sys
+placeholder = "www.dublintrades.ie"
+domain = os.environ["DOMAIN"]
+root = sys.argv[1]
+exts = (".html", ".xml", ".txt", ".webmanifest", ".js", ".css", ".config", ".htaccess")
+changed = 0
+for dirpath, _, names in os.walk(root):
+    for n in names:
+        if not (n.endswith(exts) or n == ".htaccess"):
+            continue
+        f = os.path.join(dirpath, n)
+        try:
+            src = open(f, encoding="utf-8").read()
+        except UnicodeDecodeError:
+            continue
+        out = src.replace(placeholder.replace(".", r"\."), domain.replace(".", r"\."))
+        out = out.replace(placeholder, domain)
+        if out != src:
+            open(f, "w", encoding="utf-8").write(out)
+            changed += 1
+print(f"  rewrote {changed} file(s) to {domain}")
 
-# Only the full placeholder counts as unreplaced - a real domain may legitimately
-# contain part of it.
-if grep -rq "www\.dublintrades\.ie" "$OUT" 2>/dev/null; then
-  echo "WARNING: placeholder domain still present in:" >&2
-  grep -rl "www\.dublintrades\.ie" "$OUT" >&2
-  exit 1
-fi
+if domain != placeholder:
+    stale = []
+    for dirpath, _, names in os.walk(root):
+        for n in names:
+            f = os.path.join(dirpath, n)
+            try:
+                if placeholder in open(f, encoding="utf-8").read():
+                    stale.append(f)
+            except (UnicodeDecodeError, OSError):
+                pass
+    if stale:
+        print("ERROR: placeholder domain still present in:", *stale, sep="\n  ", file=sys.stderr)
+        sys.exit(1)
+PYEOF
 
 ( cd "$OUT" && zip -q -r -X "../$ZIP" . )
 
