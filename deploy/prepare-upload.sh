@@ -4,6 +4,7 @@
 #
 #   ./deploy/prepare-upload.sh yourdomain.ie          # Linux/Apache (default)
 #   ./deploy/prepare-upload.sh yourdomain.ie windows  # Windows/IIS
+#   ./deploy/prepare-upload.sh yourdomain.ie static   # Netlify / Cloudflare Pages
 #
 # Produces  dist/  and  dublin-trades-upload.zip
 # Upload the CONTENTS of the zip into the web root (public_html), not the
@@ -19,7 +20,7 @@ OUT="dist"
 ZIP="dublin-trades-upload.zip"
 
 if [ -z "$DOMAIN" ]; then
-  echo "Usage: $0 <your-domain.ie> [linux|windows]" >&2
+  echo "Usage: $0 <your-domain.ie> [linux|windows|static]" >&2
   exit 1
 fi
 DOMAIN="${DOMAIN#http://}"; DOMAIN="${DOMAIN#https://}"; DOMAIN="${DOMAIN%/}"
@@ -35,7 +36,10 @@ cp -r index.html assets robots.txt sitemap.xml site.webmanifest \
 case "$PLATFORM" in
   linux)   cp .htaccess "$OUT"/ ;;
   windows) cp deploy/web.config "$OUT"/ ;;
-  *) echo "Unknown platform: $PLATFORM (use linux or windows)" >&2; exit 1 ;;
+  # Netlify and Cloudflare Pages both read _headers; netlify.toml is Netlify's
+  # own format and is ignored by Cloudflare, so shipping both is safe.
+  static)  cp _headers netlify.toml "$OUT"/ ;;
+  *) echo "Unknown platform: $PLATFORM (use linux, windows or static)" >&2; exit 1 ;;
 esac
 
 # Swap the placeholder domain everywhere it appears. The config files hold it
