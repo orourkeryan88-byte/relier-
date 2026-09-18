@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://www.dublintrades.ie/</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.dublintrades.ie/assets/img/blockwork-garden-wall-hero-980.jpg</image:loc>
+      <image:title>Block garden wall built by Dublin Trades</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.dublintrades.ie/assets/img/construction-extension-card-760.jpg</image:loc>
+      <image:title>House extension construction in Dublin</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.dublintrades.ie/assets/img/roof-slate-repair-card-760.jpg</image:loc>
+      <image:title>Slate roof repair in Dublin</image:title>
+    </image:image>
+  </url>
+</urlset>

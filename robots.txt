@@ -1,0 +1,6 @@
+# Dublin Trades
+User-agent: *
+Allow: /
+Disallow: /deploy/
+
+Sitemap: https://www.dublintrades.ie/sitemap.xml

@@ -1,0 +1,5 @@
+# If you find a security problem with this website, please tell us.
+Contact: mailto:dublinservices1@gmail.com
+Expires: 2027-09-18T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.dublintrades.ie/.well-known/security.txt
