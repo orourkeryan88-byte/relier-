@@ -10,6 +10,16 @@
 <meta property="og:title" content="Southline Agency — Book a Call">
 <meta property="og:description" content="Watch the video, then book a call.">
 <meta property="og:type" content="website">
+<!-- Social preview. Relative paths work on most scrapers, but once the site has
+     a real domain, change these to the absolute URL (https://yoursite.com/og-image.png). -->
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Southline Agency — more booked jobs, less guesswork.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Southline Agency — Book a Call">
+<meta name="twitter:description" content="Client acquisition for trade businesses.">
+<meta name="twitter:image" content="og-image.png">
 
 <!-- inline favicon: blue "S" mark, no extra file to host -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='40' font-weight='700' fill='%23ffffff' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
@@ -62,6 +72,8 @@
 
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+/* the header is sticky and ~71px tall — keep anchored sections clear of it */
+#top,#book,#what-we-do,#process,#faq{scroll-margin-top:88px}
 body{
   margin:0;
   background:var(--bg);
@@ -705,7 +717,7 @@ footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);fo
 
       <p class="booking-alt">
         Calendar not loading?
-        <a id="booking-direct" href="#" target="_blank" rel="noopener">Open the booking page in a new tab</a>
+        <a id="booking-direct" href="https://api.leadconnectorhq.com/widget/booking/Jyy3OGmnlXllDOv1VZz6" target="_blank" rel="noopener">Open the booking page in a new tab</a>
       </p>
     </div>
   </section>

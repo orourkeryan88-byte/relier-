@@ -39,6 +39,20 @@ against how you actually operate before launch:
 If you later want proof elements — real numbers, named clients, testimonials — add them
 only once you can back them up.
 
+## Pre-launch checklist
+
+- [ ] **Add the VSL video** (below) — the page is a VSL funnel with no video until you do
+- [ ] Confirm the trades listed in the "Who we work with" marquee
+- [ ] Confirm the three service cards describe what you actually deliver
+- [ ] Once the site has a domain, change `og:image` / `twitter:image` in the
+      `<head>` from `og-image.png` to the absolute URL
+- [ ] Check the calendar on the live URL (it can't render in a local file
+      preview or a sandboxed viewer — third-party iframes are blocked there)
+
+All internal links were tested: every "Book a Call" button (nav, hero, above the
+video, final CTA, footer, sticky mobile bar) scrolls to the calendar, and the
+nav/footer links reach their sections clear of the sticky header.
+
 ## What you still need to add
 
 ### Your VSL video
