@@ -98,6 +98,12 @@ element. It differs from `index.html` in three ways:
   otherwise beat anything the embed merely inherits
 - the video paths are placeholders, since the files must be served from GHL's
   Media Library rather than a relative `assets/` folder
+- **it needs no JavaScript.** Page builders routinely strip `script` tags from
+  custom-code blocks, or run them only on the published page and not in the
+  editor. So the video element, the booking iframe and the marquee are all
+  plain markup, scroll-reveal is opt-in rather than opt-out, and the script
+  that remains only adds polish. Verified by rendering the block with every
+  script removed.
 
 Regenerate it after editing `index.html`:
 

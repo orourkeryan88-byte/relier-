@@ -127,28 +127,175 @@ def scope_block(css):
 
 scoped_css = RESET + scope_block(style)
 
-# point the media assets at placeholders the user fills from the GHL media library
-script = script.replace(
-  "    src:    'assets/vsl.mp4',            // H.264 — plays in every real browser\n"
-  "    srcAlt: 'assets/vsl.webm',           // optional VP9 fallback; '' to skip\n"
-  "    poster: 'assets/vsl-poster.jpg'",
-  "    src:    'PASTE_MP4_URL_HERE',        // GHL Media Library URL for vsl.mp4\n"
-  "    srcAlt: '',                          // optional: URL for vsl.webm\n"
-  "    poster: 'PASTE_POSTER_URL_HERE'      // GHL Media Library URL for vsl-poster.jpg")
+
+
+# ---------------------------------------------------------------------------
+# GHL hardening: page builders frequently strip <script> from custom-code
+# blocks, or only run it on the published page and not in the editor. So the
+# GHL build must render fully with JavaScript switched off entirely.
+# ---------------------------------------------------------------------------
+import html as _html
+import re as _re0
+
+# 1. Real <video> in the markup instead of one built by JS.
+_pm = _re0.search(r'<div class="player" id="player">.*?</button>\s*</div>', body, _re0.S)
+assert _pm, 'player block not found'
+old_player = _pm.group(0)
+new_player = """<div class="player" id="player">
+          <video id="vsl" controls playsinline preload="metadata" poster="PASTE_POSTER_URL_HERE">
+            <source src="PASTE_MP4_URL_HERE" type="video/mp4">
+            Your browser cannot play this video.
+          </video>
+          <button class="poster" id="poster" type="button" aria-label="Play the video" hidden>
+            <span class="play" aria-hidden="true">
+              <svg width="26" height="30" viewBox="0 0 26 30" fill="currentColor"><path d="M25 13.27a2 2 0 0 1 0 3.46L3 29.4A2 2 0 0 1 0 27.66V2.34A2 2 0 0 1 3 .6l22 12.67Z"/></svg>
+            </span>
+            <span class="poster-label">Play the video</span>
+            <span class="poster-note">51 seconds — sound on</span>
+          </button>
+        </div>"""
+body = body.replace(old_player, new_player)
+
+# 2. Calendar iframe in the markup instead of one built by JS.
+_cm = _re0.search(r'<div class="calendar-shell" id="calendar-shell">.*?</a>\s*</div>\s*</div>', body, _re0.S)
+assert _cm, 'calendar block not found'
+cal_start, cal_end = _cm.start(), _cm.end()
+new_cal = """<div class="calendar-shell" id="calendar-shell">
+        <iframe src="https://api.leadconnectorhq.com/widget/booking/Jyy3OGmnlXllDOv1VZz6"
+                id="Jyy3OGmnlXllDOv1VZz6_ghl"
+                data-layout='{"id":"INLINE"}' data-trigger-type="alwaysShow"
+                title="Book a call with Southline Agency" scrolling="no"></iframe>
+      </div>
+      <script src="https://link.msgsndr.com/js/form_embed.js"></script>"""
+body = body[:cal_start] + new_cal + body[cal_end:]
+
+# 3. Marquee duplicated in the markup so the loop is seamless without JS.
+track = _re0.search(r'(<div class="marquee-track" id="marquee-track">)(.*?)(</div>)', body, _re0.S)
+body = body.replace(track.group(0), track.group(1) + track.group(2) + track.group(2) + track.group(3))
+
+# 4. Scroll-reveal must not hide content when no script runs: it is now opt-in,
+#    switched on only by the enhancement script below.
+scoped_css = scoped_css.replace('#southline-page .reveal{', '#southline-page.js .reveal{')
+scoped_css = scoped_css.replace('#southline-page .reveal.in{', '#southline-page.js .reveal.in{')
+scoped_css += """
+/* video fills the frame; the branded overlay only appears if JS is running */
+#southline-page #player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+#southline-page .poster[hidden]{display:none}
+#southline-page #ghl-cal,#southline-page .calendar-shell iframe{
+  width:100%;min-height:780px;border:0;border-radius:12px;background:#fff;display:block;
+}
+"""
+
+# 5. Enhancement-only script. Everything it does is optional polish; if GHL
+#    drops it, the page still shows the video, the calendar and all content.
+script = """
+(function () {
+  'use strict';
+  var root = document.getElementById('southline-page');
+  if (!root) return;
+  root.classList.add('js');
+
+  var y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+
+  /* branded play overlay, shown only because JS is available to drive it */
+  var poster = document.getElementById('poster');
+  var video  = document.getElementById('vsl');
+  if (poster && video) {
+    poster.hidden = false;
+    poster.addEventListener('click', function () {
+      poster.hidden = true;
+      video.play().catch(function () {});
+    });
+    video.addEventListener('pause', function () { if (video.currentTime === 0) poster.hidden = false; });
+  }
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* header shadow, scroll progress, sticky mobile CTA */
+  var header = document.getElementById('site-header');
+  var sticky = document.getElementById('sticky');
+  var bar    = document.getElementById('progress');
+  var stage  = root.querySelector('.stage');
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var sy = window.scrollY;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(sy / max, 1) : 0) + ')';
+      if (header) header.classList.toggle('scrolled', sy > 8);
+      if (sticky) {
+        var past = stage ? stage.getBoundingClientRect().bottom < 0 : sy > 600;
+        var book = document.getElementById('book');
+        var r = book ? book.getBoundingClientRect() : null;
+        var at = r ? (r.top < window.innerHeight * 0.75 && r.bottom > 0) : false;
+        sticky.classList.toggle('show', past && !at);
+      }
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  onScroll();
+
+  /* scroll reveal */
+  var items = root.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduced) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.14, rootMargin: '0px 0px -50px 0px' });
+    items.forEach(function (el, i) {
+      el.style.transitionDelay = (i % 4) * 90 + 'ms';
+      io.observe(el);
+    });
+    setTimeout(function () { items.forEach(function (el) { el.classList.add('in'); }); }, 4000);
+  } else {
+    items.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* pointer-reactive hero blobs */
+  if (!reduced && window.matchMedia('(pointer:fine)').matches) {
+    var hero = root.querySelector('.hero');
+    var blobs = root.querySelectorAll('.hero .blob');
+    if (hero) hero.addEventListener('pointermove', function (e) {
+      var rc = hero.getBoundingClientRect();
+      var dx = (e.clientX - rc.left - rc.width / 2) / rc.width;
+      var dy = (e.clientY - rc.top - rc.height / 2) / rc.height;
+      blobs.forEach(function (blob, i) {
+        var d = (i + 1) * 14;
+        blob.style.translate = (dx * d).toFixed(1) + 'px ' + (dy * d).toFixed(1) + 'px';
+      });
+    }, { passive: true });
+  }
+})();
+"""
+
 
 out = f'''<!--
   ============================================================
   SOUTHLINE AGENCY — GoHighLevel embed
   ============================================================
-  Paste this whole block into a GHL "Custom JS/HTML" element on
+  Paste this whole block into a GHL Custom JS/HTML element on
   a blank funnel/website page (full width, no padding).
 
-  BEFORE IT WILL WORK:
-  1. Upload assets/vsl.mp4 and assets/vsl-poster.jpg to the GHL
-     Media Library, copy each file's URL, and paste them into
-     CONFIG.video at the bottom of this block.
-  2. Leave the page's own section padding at 0 so the design runs
-     edge to edge.
+  BEFORE IT WILL WORK — two find-and-replace edits:
+    PASTE_MP4_URL_HERE     -> your GHL Media Library URL for vsl.mp4
+    PASTE_POSTER_URL_HERE  -> your GHL Media Library URL for vsl-poster.jpg
+  Both appear once each, in the video tag near the top of the markup.
+
+  Then set the page section's padding to 0 so the design runs edge to edge.
+
+  This build needs NO JavaScript. The video, the booking calendar and every
+  section are plain HTML, so they still render even if GHL strips the
+  scripts (or only runs them on the published page, not in the editor).
+  Any script that survives adds polish only: scroll animations, the
+  progress bar and the sticky mobile button.
 
   Every style below is scoped to {ROOT}, so nothing here can
   leak out and restyle the rest of your GHL page.
