@@ -649,7 +649,7 @@ footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);fo
               <svg width="26" height="30" viewBox="0 0 26 30" fill="currentColor"><path d="M25 13.27a2 2 0 0 1 0 3.46L3 29.4A2 2 0 0 1 0 27.66V2.34A2 2 0 0 1 3 .6l22 12.67Z"/></svg>
             </span>
             <span class="poster-label">Play the video</span>
-            <span class="poster-note">Sound on — it matters</span>
+            <span class="poster-note">51 seconds — sound on</span>
           </button>
         </div>
       </div>
@@ -889,10 +889,11 @@ const CONFIG = {
      poster: optional image URL shown before play
      Leave id/src empty to keep the placeholder player.        */
   video: {
-    type:   'youtube',
-    id:     '',                 // e.g. 'dQw4w9WgXcQ'
-    src:    '',                 // e.g. 'https://cdn.example.com/vsl.mp4'
-    poster: ''                  // e.g. 'assets/vsl-thumbnail.jpg'
+    type:   'mp4',
+    id:     '',                          // only for youtube/vimeo/wistia
+    src:    'assets/vsl.mp4',            // H.264 — plays in every real browser
+    srcAlt: 'assets/vsl.webm',           // optional VP9 fallback; '' to skip
+    poster: 'assets/vsl-poster.jpg'
   },
 
   /* --- 2. GHL CALENDAR ------------------------------------
@@ -951,10 +952,21 @@ const CONFIG = {
   function playVideo() {
     if (v.type === 'mp4' && v.src) {
       const el = document.createElement('video');
-      el.src = v.src; el.controls = true; el.autoplay = true; el.playsInline = true;
+      el.controls = true; el.autoplay = true; el.playsInline = true;
+      el.preload = 'auto';
       if (v.poster) el.poster = v.poster;
+
+      /* let the browser choose: H.264 everywhere, VP9 where H.264 is absent */
+      [[v.src, 'video/mp4'], [v.srcAlt, 'video/webm']].forEach(function (pair) {
+        if (!pair[0]) return;
+        const src = document.createElement('source');
+        src.src = pair[0];
+        src.type = pair[1];
+        el.appendChild(src);
+      });
+
       player.replaceChildren(el);
-      el.play().catch(function () {});
+      el.play().catch(function () { /* controls are there if autoplay is refused */ });
       return;
     }
 

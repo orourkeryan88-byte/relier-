@@ -41,7 +41,7 @@ only once you can back them up.
 
 ## Pre-launch checklist
 
-- [ ] **Add the VSL video** (below) — the page is a VSL funnel with no video until you do
+- [x] ~~Add the VSL video~~ — done, see below
 - [ ] Confirm the trades listed in the "Who we work with" marquee
 - [ ] Confirm the three service cards describe what you actually deliver
 - [ ] Once the site has a domain, change `og:image` / `twitter:image` in the
@@ -55,21 +55,19 @@ nav/footer links reach their sections clear of the sticky header.
 
 ## What you still need to add
 
-### Your VSL video
+### The VSL video
 
-In the `CONFIG` object at the bottom of `index.html`:
+`assets/vsl.mp4` is the supplied office clip with the first and last 2 seconds
+trimmed off (55.33s → 51.33s), re-encoded for web with `faststart` so it begins
+playing before the whole file downloads. `assets/vsl.webm` is a VP9 copy and
+`assets/vsl-poster.jpg` is the still shown before play.
 
-```js
-video: {
-  type:   'youtube',   // 'youtube' | 'vimeo' | 'wistia' | 'mp4' | 'embed'
-  id:     'dQw4w9WgXcQ',
-  src:    '',          // full URL — only for 'mp4' or 'embed'
-  poster: ''           // optional thumbnail image shown before play
-}
-```
+The player emits both sources and lets the browser choose — H.264 plays
+everywhere, VP9 covers Chromium builds without proprietary codecs.
 
-The player shows a click-to-play poster first, then loads the video with autoplay —
-standard VSL behaviour, and it keeps the page fast.
+To swap the video later, change `CONFIG.video` at the bottom of `index.html`.
+It also accepts `type: 'youtube' | 'vimeo' | 'wistia'` with an `id`, if you'd
+rather host it externally.
 
 ## Editing the copy
 
