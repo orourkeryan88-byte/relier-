@@ -87,6 +87,24 @@ The workflows in `.github/workflows/` publish GitHub Pages from the **`gh-pages`
 branch. To publish this page, merge/copy `index.html` onto `gh-pages`, or point
 Pages at whichever branch you prefer in **Settings → Pages**.
 
+## Putting the page inside GoHighLevel
+
+`ghl-embed.html` is a build of the same page for a GHL **Custom JS/HTML**
+element. It differs from `index.html` in three ways:
+
+- no `<!DOCTYPE>`, `<html>`, `<head>` or `<body>` — GHL pages already have them
+- every selector is scoped to `#southline-page`, and a reset neutralises the
+  host template's bare element styles (`h1`, `p`, `section`...), which would
+  otherwise beat anything the embed merely inherits
+- the video paths are placeholders, since the files must be served from GHL's
+  Media Library rather than a relative `assets/` folder
+
+Regenerate it after editing `index.html`:
+
+```bash
+python3 tools/build-ghl-embed.py
+```
+
 ## Packaging for a host
 
 To make an upload bundle for Netlify / Vercel / Cloudflare Pages or a cPanel
