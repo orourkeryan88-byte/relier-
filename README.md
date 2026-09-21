@@ -87,6 +87,19 @@ The workflows in `.github/workflows/` publish GitHub Pages from the **`gh-pages`
 branch. To publish this page, merge/copy `index.html` onto `gh-pages`, or point
 Pages at whichever branch you prefer in **Settings → Pages**.
 
+## Packaging for a host
+
+To make an upload bundle for Netlify / Vercel / Cloudflare Pages or a cPanel
+file manager:
+
+```bash
+zip -r southline-site.zip index.html assets og-image.png
+```
+
+`index.html` references `assets/` by relative path, so keep that folder beside
+it — the HTML alone will load without the video. The zip is gitignored; the
+files inside it are tracked individually.
+
 ## Local preview
 
 ```bash

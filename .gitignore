@@ -1,0 +1,4 @@
+# Build artifact: a zip of files that are already tracked individually.
+# Regenerate any time with:
+#   zip -r southline-site.zip index.html assets og-image.png
+southline-site.zip
