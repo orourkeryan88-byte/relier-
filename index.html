@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Southline Agency — Book a Call</title>
-<meta name="description" content="Watch the video, then book a call with Southline Agency.">
+<meta name="description" content="Client acquisition for trade businesses. Watch the video, then book a call with Southline Agency.">
 
 <!-- Open Graph / social preview -->
 <meta property="og:title" content="Southline Agency — Book a Call">
@@ -342,7 +342,7 @@ h1 em{
 /* ================= trust marquee ================= */
 .trust{
   margin-top:72px;padding:24px 0;background:var(--bg-soft);
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  border-top:1px solid var(--line);
   position:relative;z-index:1;
 }
 .trust-label{
@@ -458,15 +458,20 @@ h2 em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight
 
 /* ================= booking ================= */
 .booking{
-  background:
-    radial-gradient(ellipse 70% 50% at 50% 0%,var(--blue-wash),transparent 70%),
-    var(--bg-soft);
-  border-top:1px solid var(--line);
+  background:linear-gradient(165deg,var(--navy),#123a86 58%,var(--blue-deep));
+  color:#fff;
+  border-top:0;
 }
+.booking h2{color:#fff}
+.booking h2 em{color:#9dc2ff}
+.booking .kicker{color:#9dc2ff}
+.booking .kicker::before{background:#9dc2ff}
+.booking .section-head p{color:rgba(255,255,255,.74)}
+.booking .booking-meta{color:rgba(255,255,255,.58)}
 .calendar-shell{
   background:#fff;border:1px solid var(--line);border-radius:var(--radius);
   padding:10px;overflow:hidden;
-  box-shadow:0 34px 80px -54px rgba(10,23,51,.65);
+  box-shadow:0 40px 90px -40px rgba(0,0,0,.55);
 }
 #ghl-calendar{
   width:100%;min-height:780px;border:0;border-radius:12px;background:#fff;display:block;
@@ -604,14 +609,14 @@ footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);fo
       <h1>
         <span class="word" style="animation-delay:.12s">More</span>
         <span class="word" style="animation-delay:.19s">booked</span>
-        <span class="word grad" style="animation-delay:.26s">calls.</span>
+        <span class="word grad" style="animation-delay:.26s">jobs.</span>
         <span class="word" style="animation-delay:.33s">Less</span>
         <span class="word" style="animation-delay:.40s"><em>guesswork.</em></span>
       </h1>
 
       <p class="sub rise" style="animation-delay:.5s">
-        Watch the short breakdown of how we build client acquisition for
-        service businesses — then book a call if it looks like a fit.
+        Watch the short breakdown of how we keep a tradesman's diary full of
+        quality work — then book a call if it looks like a fit.
       </p>
 
       <div class="pre-cta rise" style="animation-delay:.56s">
@@ -654,104 +659,20 @@ footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);fo
       <div class="trust-label">Who we work with</div>
       <div class="marquee">
         <div class="marquee-track" id="marquee-track">
-          <div class="trust-item">Home Services</div>
-          <div class="trust-item">Med Spa &amp; Aesthetics</div>
-          <div class="trust-item">Coaching &amp; Consulting</div>
-          <div class="trust-item">Professional Services</div>
-          <div class="trust-item">B2B SaaS</div>
-          <div class="trust-item">Real Estate</div>
+          <div class="trust-item">Electricians</div>
+          <div class="trust-item">Plumbing &amp; Heating</div>
+          <div class="trust-item">HVAC</div>
+          <div class="trust-item">Roofing</div>
+          <div class="trust-item">Builders &amp; Renovations</div>
+          <div class="trust-item">Joinery &amp; Carpentry</div>
+          <div class="trust-item">Landscaping &amp; Groundwork</div>
+          <div class="trust-item">Painting &amp; Decorating</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ 2. WHAT WE DO ============ -->
-  <section class="section" id="what-we-do">
-    <div class="wrap">
-
-
-      <div class="section-head reveal">
-        <span class="kicker">What we do</span>
-        <h2>We build the system that <em>books the calls.</em></h2>
-        <p>
-          Most businesses don't have a lead problem — they have a follow-up,
-          conversion and consistency problem. Southline builds the acquisition
-          system and runs it with you.
-        </p>
-      </div>
-
-      <div class="grid grid-3">
-        <article class="card reveal">
-          <div class="icon" aria-hidden="true">
-            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-          </div>
-          <h3>Paid acquisition</h3>
-          <p>Offer, creative and media buying built around one number: cost per booked call.</p>
-          <ul>
-            <li>Meta &amp; Google campaign build-out</li>
-            <li>Direct-response creative and angles</li>
-            <li>Weekly testing against a clear CPA target</li>
-          </ul>
-        </article>
-
-        <article class="card reveal">
-          <div class="icon" aria-hidden="true">
-            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/><path d="m9 15 2 2 4-4"/></svg>
-          </div>
-          <h3>Funnel &amp; booking systems</h3>
-          <p>Landing page, VSL and calendar wired into one path with nothing leaking in between.</p>
-          <ul>
-            <li>VSL funnel and high-intent landing pages</li>
-            <li>CRM pipelines and calendar automation</li>
-            <li>Tracking that ties spend to revenue</li>
-          </ul>
-        </article>
-
-        <article class="card reveal">
-          <div class="icon" aria-hidden="true">
-            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>
-          </div>
-          <h3>Follow-up &amp; retention</h3>
-          <p>Speed-to-lead, nurture and reactivation so the leads you already paid for still close.</p>
-          <ul>
-            <li>SMS, email and voicemail sequences</li>
-            <li>No-show recovery and rebooking</li>
-            <li>Database reactivation campaigns</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 3. HOW IT WORKS ============ -->
-  <section class="section" id="process" style="padding-top:0">
-    <div class="wrap">
-      <div class="section-head center reveal">
-        <span class="kicker">How it works</span>
-        <h2>Three steps. <em>No long onboarding.</em></h2>
-      </div>
-
-      <div class="steps">
-        <div class="step reveal">
-          <div class="step-n">1</div>
-          <h3>Strategy call</h3>
-          <p>We go through your current numbers, find where the calls are leaking, and tell you what we'd change.</p>
-        </div>
-        <div class="step reveal">
-          <div class="step-n">2</div>
-          <h3>Build &amp; install</h3>
-          <p>We build the offer, funnel, campaigns and follow-up — and connect it all to your calendar.</p>
-        </div>
-        <div class="step reveal">
-          <div class="step-n">3</div>
-          <h3>Scale on data</h3>
-          <p>Ongoing optimisation against cost per booked call and closed revenue, reported back to you.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 4. BOOKING (GHL CALENDAR) ============ -->
+  <!-- ============ 2. BOOKING (GHL CALENDAR) ============ -->
   <section class="section booking" id="book">
     <div class="wrap">
       <div class="section-head center reveal">
@@ -781,6 +702,92 @@ footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);fo
     </div>
   </section>
 
+  <!-- ============ 3. WHAT WE DO ============ -->
+  <section class="section" id="what-we-do">
+    <div class="wrap">
+
+
+      <div class="section-head reveal">
+        <span class="kicker">What we do</span>
+        <h2>We build the system that <em>fills your diary.</em></h2>
+        <p>
+          Most trade businesses don't have a lead problem — they have a
+          follow-up, quoting and consistency problem. Southline builds the
+          system that keeps the work coming in, and runs it with you.
+        </p>
+      </div>
+
+      <div class="grid grid-3">
+        <article class="card reveal">
+          <div class="icon" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+          </div>
+          <h3>Paid acquisition</h3>
+          <p>Offer, creative and media buying built around one number: cost per booked job.</p>
+          <ul>
+            <li>Meta &amp; Google campaigns built for local trade demand</li>
+            <li>Direct-response creative and angles</li>
+            <li>Weekly testing against a clear cost-per-job target</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/><path d="m9 15 2 2 4-4"/></svg>
+          </div>
+          <h3>Funnel &amp; booking systems</h3>
+          <p>Landing page, VSL and calendar wired into one path with nothing leaking in between.</p>
+          <ul>
+            <li>VSL funnel and high-intent landing pages</li>
+            <li>CRM pipelines and calendar automation</li>
+            <li>Tracking that ties spend to work won</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>
+          </div>
+          <h3>Follow-up &amp; retention</h3>
+          <p>Speed-to-lead, nurture and reactivation so the enquiries you already paid for still turn into work.</p>
+          <ul>
+            <li>SMS, email and voicemail sequences</li>
+            <li>Missed-call and no-show recovery</li>
+            <li>Past-customer reactivation campaigns</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. HOW IT WORKS ============ -->
+  <section class="section" id="process" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="kicker">How it works</span>
+        <h2>Three steps. <em>No long onboarding.</em></h2>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-n">1</div>
+          <h3>Strategy call</h3>
+          <p>We go through your current numbers, find where the enquiries are leaking, and tell you what we'd change.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-n">2</div>
+          <h3>Build &amp; install</h3>
+          <p>We build the offer, funnel, campaigns and follow-up — and connect it all to your calendar.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-n">3</div>
+          <h3>Scale on data</h3>
+          <p>Ongoing optimisation against cost per booked job and work won, reported back to you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ 5. FAQ ============ -->
   <section class="section" id="faq" style="padding-top:0">
     <div class="wrap">
@@ -792,11 +799,11 @@ footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);fo
       <div class="faq">
         <details class="reveal">
           <summary>What actually happens on the call?</summary>
-          <p>We look at your current lead flow, close rate and spend, then walk through where the booked calls are being lost. If we're a fit we'll explain how we'd approach it. If we're not, we'll tell you that too.</p>
+          <p>We look at where your enquiries come from now, how many turn into quoted work, and where they're being lost. If we're a fit we'll explain how we'd approach it. If we're not, we'll tell you that too.</p>
         </details>
         <details class="reveal">
           <summary>Who is this for?</summary>
-          <p>Service businesses and B2B teams that want a more predictable flow of booked calls, rather than one-off marketing experiments.</p>
+          <p>Tradesmen and trade businesses — electricians, plumbers, roofers, builders and the like — who want a more predictable flow of booked work instead of relying on word of mouth alone.</p>
         </details>
         <details class="reveal">
           <summary>Do I need to already be running ads?</summary>
@@ -818,7 +825,7 @@ footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);fo
   <section class="final">
     <div class="final-orbs" aria-hidden="true"><span></span><span></span></div>
     <div class="wrap">
-      <h2 class="reveal">Ready to see what your calendar <em>could look like?</em></h2>
+      <h2 class="reveal">Ready to see what your diary <em>could look like?</em></h2>
       <p class="reveal">Book a time, bring your numbers, and we'll work through it with you on the call.</p>
       <div class="cta-row reveal">
         <a href="#book" class="btn btn-primary btn-lg" data-book>

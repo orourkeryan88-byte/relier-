@@ -2,7 +2,10 @@
 
 A single-file VSL funnel landing page. No build step, no dependencies.
 
-**Page order:** VSL video → Book a Call → What we do → How it works → Calendar → FAQ → Final CTA.
+**Page order:** VSL video → Book a Call (calendar) → What we do → How it works → FAQ → Final CTA.
+
+The audience is **tradesmen / trade businesses** — copy, the industry marquee and the
+FAQ all speak to that.
 
 Blue-and-white theme with motion throughout: animated gradient background, word-by-word
 headline entrance, scroll-progress bar, scroll-reveal sections, a looping industry
@@ -27,9 +30,9 @@ result Southline hasn't verified.
 What remains is positioning and process copy. Two things are still worth checking
 against how you actually operate before launch:
 
-- **The industry marquee** ("Who we work with") lists Home Services, Med Spa &
-  Aesthetics, Coaching & Consulting, Professional Services, B2B SaaS and Real Estate.
-  Edit it to the markets you actually serve.
+- **The industry marquee** ("Who we work with") lists Electricians, Plumbing & Heating,
+  HVAC, Roofing, Builders & Renovations, Joinery & Carpentry, Landscaping & Groundwork
+  and Painting & Decorating. Edit it to the trades you actually serve.
 - **The three service cards** describe a standard acquisition scope (paid media,
   funnel/booking systems, follow-up). Confirm each line is something you deliver.
 
@@ -58,6 +61,13 @@ standard VSL behaviour, and it keeps the page fast.
 
 All headlines, service cards, steps and FAQ answers are plain HTML in `index.html` —
 edit them directly.
+
+## Calendar styling
+
+The **Book a Call** section sits on a deep navy-to-blue gradient (`.booking` in the
+stylesheet), with the calendar itself on a white card. The white area *inside* the
+calendar is rendered by GoHighLevel in a cross-origin iframe — this page can't restyle
+it. Change that in GHL under the calendar's own appearance settings.
 
 ## Deploying
 
