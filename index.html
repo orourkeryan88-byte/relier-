@@ -266,6 +266,9 @@ h1 em{
 .rise{opacity:0;transform:translateY(22px);animation:riseIn .8s var(--ease) forwards}
 @keyframes riseIn{to{opacity:1;transform:none}}
 
+/* ---- small CTA sitting just above the video ---- */
+.pre-cta{display:flex;justify-content:center;margin-top:26px}
+
 /* ================= VSL player ================= */
 .stage{margin:42px auto 0;max-width:920px;position:relative;z-index:1}
 .stage::after{
@@ -611,8 +614,15 @@ footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);fo
         service businesses — then book a call if it looks like a fit.
       </p>
 
+      <div class="pre-cta rise" style="animation-delay:.56s">
+        <a href="#book" class="btn btn-primary btn-sm" data-book>
+          <span>Book a Call</span>
+          <svg class="arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
       <!-- VSL player -->
-      <div class="stage rise" style="animation-delay:.6s">
+      <div class="stage rise" style="animation-delay:.66s">
         <div class="player" id="player">
           <button class="poster" id="poster" type="button" aria-label="Play the video">
             <span class="play" aria-hidden="true">
