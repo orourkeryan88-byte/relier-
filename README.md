@@ -31,10 +31,10 @@ result Southline hasn't verified.
 What remains is positioning and process copy. Two things are still worth checking
 against how you actually operate before launch:
 
-- **The industry marquee** ("Who we work with") lists Consumer Brands, Ecommerce,
-  Electricians, Plumbing & Heating, Roofing, Builders & Renovations, Retail &
-  Showrooms, Hospitality, Joinery & Carpentry and Landscaping & Groundwork.
-  Edit it to the markets you actually serve.
+- **The industry marquee** ("Who we work with") lists Electricians, Plumbing &
+  Heating, Roofing, Builders & Renovations, Kitchens & Bathrooms, Landscaping,
+  Clothing & Apparel, Beauty & Skincare, Supplements & Wellness and Home &
+  Interiors. Edit it to the markets you actually serve.
 - **The four service cards** describe paid acquisition, funnel/booking systems,
   follow-up & retention and email marketing. Confirm each line is something you
   deliver.
