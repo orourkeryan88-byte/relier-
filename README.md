@@ -4,8 +4,9 @@ A single-file VSL funnel landing page. No build step, no dependencies.
 
 **Page order:** VSL video → Book a Call (calendar) → What we do → How it works → FAQ → Final CTA.
 
-The audience is **tradesmen / trade businesses** — copy, the industry marquee and the
-FAQ all speak to that.
+The audience is **brands and trade businesses** — consumer/ecommerce brands
+alongside electricians, plumbers, roofers, builders and similar. Copy, the
+industry marquee and the FAQ all speak to both.
 
 Blue-and-white theme with motion throughout: animated gradient background, word-by-word
 headline entrance, scroll-progress bar, scroll-reveal sections, a looping industry
@@ -30,9 +31,10 @@ result Southline hasn't verified.
 What remains is positioning and process copy. Two things are still worth checking
 against how you actually operate before launch:
 
-- **The industry marquee** ("Who we work with") lists Electricians, Plumbing & Heating,
-  HVAC, Roofing, Builders & Renovations, Joinery & Carpentry, Landscaping & Groundwork
-  and Painting & Decorating. Edit it to the trades you actually serve.
+- **The industry marquee** ("Who we work with") lists Consumer Brands, Ecommerce,
+  Electricians, Plumbing & Heating, Roofing, Builders & Renovations, Retail &
+  Showrooms, Hospitality, Joinery & Carpentry and Landscaping & Groundwork.
+  Edit it to the markets you actually serve.
 - **The three service cards** describe a standard acquisition scope (paid media,
   funnel/booking systems, follow-up). Confirm each line is something you deliver.
 
