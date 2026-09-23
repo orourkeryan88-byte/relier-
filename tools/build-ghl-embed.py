@@ -81,6 +81,13 @@ def scope_block(css):
     """Walk the CSS, prefixing selectors but leaving @keyframes stops alone."""
     out, i, n = [], 0, len(css)
     while i < n:
+        # a comment sitting before an at-rule used to defeat the @ match below,
+        # which then swallowed the at-rule into a selector. Emit comments first.
+        cm = re.match(r'\s*/\*.*?\*/', css[i:], re.S)
+        if cm:
+            out.append(css[i:i + cm.end()])
+            i += cm.end()
+            continue
         # at-rule?
         m = re.match(r'\s*@([a-zA-Z-]+)([^{;]*)([{;])', css[i:])
         if m:

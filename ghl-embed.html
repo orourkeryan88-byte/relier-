@@ -92,8 +92,8 @@ html{scroll-behavior:smooth}
 }
 /* The page is a light blue-and-white design in both schemes; these blocks keep
    it from inheriting washed-out UA defaults under a dark system theme. */
-#southline-page @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
+@media (prefers-color-scheme: dark){
+  #southline-page:not([data-theme="light"]){
     --bg:#ffffff; --ink:#0a1733;
   }
 }
@@ -609,8 +609,8 @@ html{scroll-behavior:smooth}
 #southline-page .sticky-cta .btn{width:100%}
 @media(min-width:880px){#southline-page .sticky-cta{display:none}}
 /* the bar is fixed over the page — keep the footer from hiding underneath it */
-#southline-page @media(max-width:879px){
-  body{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+@media(max-width:879px){
+  #southline-page{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))}
 }
 
 /* ================= scroll reveal ================= */
