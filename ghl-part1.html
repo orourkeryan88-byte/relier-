@@ -415,7 +415,7 @@ html{scroll-behavior:smooth}
 /* ================= cards ================= */
 .southline-page .grid{display:grid;gap:18px;grid-template-columns:1fr}
 @media(min-width:720px){.southline-page .grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:1000px){.southline-page .grid-3{grid-template-columns:repeat(3,1fr)}}
+/* four service cards sit as a 2x2 — a 3-up row would orphan the fourth */
 .southline-page .card{
   position:relative;overflow:hidden;
   background:#fff;border:1px solid var(--line);border-radius:var(--radius);

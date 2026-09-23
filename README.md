@@ -35,8 +35,9 @@ against how you actually operate before launch:
   Electricians, Plumbing & Heating, Roofing, Builders & Renovations, Retail &
   Showrooms, Hospitality, Joinery & Carpentry and Landscaping & Groundwork.
   Edit it to the markets you actually serve.
-- **The three service cards** describe a standard acquisition scope (paid media,
-  funnel/booking systems, follow-up). Confirm each line is something you deliver.
+- **The four service cards** describe paid acquisition, funnel/booking systems,
+  follow-up & retention and email marketing. Confirm each line is something you
+  deliver.
 
 If you later want proof elements — real numbers, named clients, testimonials — add them
 only once you can back them up.

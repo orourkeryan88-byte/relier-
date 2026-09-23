@@ -406,7 +406,7 @@ h2 em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight
 /* ================= cards ================= */
 .grid{display:grid;gap:18px;grid-template-columns:1fr}
 @media(min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:1000px){.grid-3{grid-template-columns:repeat(3,1fr)}}
+/* four service cards sit as a 2x2 — a 3-up row would orphan the fourth */
 .card{
   position:relative;overflow:hidden;
   background:#fff;border:1px solid var(--line);border-radius:var(--radius);
@@ -738,7 +738,7 @@ footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);fo
         </p>
       </div>
 
-      <div class="grid grid-3">
+      <div class="grid">
         <article class="card reveal">
           <div class="icon" aria-hidden="true">
             <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
@@ -772,9 +772,22 @@ footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);fo
           <h3>Follow-up &amp; retention</h3>
           <p>Speed-to-lead, nurture and reactivation so the enquiries you already paid for still convert.</p>
           <ul>
-            <li>SMS, email and voicemail sequences</li>
+            <li>SMS and voicemail sequences</li>
             <li>Missed-call and no-show recovery</li>
             <li>Past-customer reactivation campaigns</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg>
+          </div>
+          <h3>Email marketing</h3>
+          <p>The list you already own, turned into revenue you don't have to pay for twice.</p>
+          <ul>
+            <li>Welcome, nurture and win-back flows</li>
+            <li>Campaign calendar and list segmentation</li>
+            <li>Deliverability and list health monitoring</li>
           </ul>
         </article>
       </div>
