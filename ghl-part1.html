@@ -164,7 +164,7 @@ html{scroll-behavior:smooth}
 }
 .southline-page .nav{display:flex;align-items:center;justify-content:space-between;height:70px}
 .southline-page .logo{
-  display:inline-flex;align-items:center;gap:10px;
+  display:inline-flex;align-items:center;gap:10px;min-height:44px;
   font-weight:800;font-size:18px;letter-spacing:.2em;
   text-decoration:none;text-transform:uppercase;
 }
@@ -508,7 +508,10 @@ html{scroll-behavior:smooth}
   color:var(--ink-faint);font-size:14px;margin-top:26px;
 }
 .southline-page .booking-alt{text-align:center;font-size:13.5px;margin-top:10px}
-.southline-page .booking-alt a{color:#9dc2ff;text-decoration:underline;text-underline-offset:3px}
+.southline-page .booking-alt a{
+  color:#9dc2ff;text-decoration:underline;text-underline-offset:3px;
+  display:inline-block;padding:13px 4px;
+}
 .southline-page .booking-alt a:hover{color:#fff}
 
 /* ================= faq ================= */
@@ -566,7 +569,10 @@ html{scroll-behavior:smooth}
 .southline-page footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);font-size:14px}
 .southline-page .foot{display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center}
 .southline-page .foot-links{display:flex;gap:24px;flex-wrap:wrap;justify-content:center}
-.southline-page .foot-links a{text-decoration:none;transition:color .2s var(--ease)}
+.southline-page .foot-links a{
+  text-decoration:none;transition:color .2s var(--ease);
+  display:inline-flex;align-items:center;min-height:44px;padding:0 4px;
+}
 .southline-page .foot-links a:hover{color:var(--blue)}
 @media(min-width:700px){.southline-page .foot{flex-direction:row;justify-content:space-between;text-align:left}}
 
@@ -582,6 +588,10 @@ html{scroll-behavior:smooth}
 .southline-page .sticky-cta.show{transform:translateY(0)}
 .southline-page .sticky-cta .btn{width:100%}
 @media(min-width:880px){.southline-page .sticky-cta{display:none}}
+/* the bar is fixed over the page — keep the footer from hiding underneath it */
+.southline-page @media(max-width:879px){
+  body{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+}
 
 /* ================= scroll reveal ================= */
 .southline-page.js .reveal{

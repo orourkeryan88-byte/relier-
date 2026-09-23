@@ -155,7 +155,7 @@ header.scrolled{
 }
 .nav{display:flex;align-items:center;justify-content:space-between;height:70px}
 .logo{
-  display:inline-flex;align-items:center;gap:10px;
+  display:inline-flex;align-items:center;gap:10px;min-height:44px;
   font-weight:800;font-size:18px;letter-spacing:.2em;
   text-decoration:none;text-transform:uppercase;
 }
@@ -499,7 +499,10 @@ h2 em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight
   color:var(--ink-faint);font-size:14px;margin-top:26px;
 }
 .booking-alt{text-align:center;font-size:13.5px;margin-top:10px}
-.booking-alt a{color:#9dc2ff;text-decoration:underline;text-underline-offset:3px}
+.booking-alt a{
+  color:#9dc2ff;text-decoration:underline;text-underline-offset:3px;
+  display:inline-block;padding:13px 4px;
+}
 .booking-alt a:hover{color:#fff}
 
 /* ================= faq ================= */
@@ -557,7 +560,10 @@ details p{
 footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);font-size:14px}
 .foot{display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center}
 .foot-links{display:flex;gap:24px;flex-wrap:wrap;justify-content:center}
-.foot-links a{text-decoration:none;transition:color .2s var(--ease)}
+.foot-links a{
+  text-decoration:none;transition:color .2s var(--ease);
+  display:inline-flex;align-items:center;min-height:44px;padding:0 4px;
+}
 .foot-links a:hover{color:var(--blue)}
 @media(min-width:700px){.foot{flex-direction:row;justify-content:space-between;text-align:left}}
 
@@ -573,6 +579,10 @@ footer{border-top:1px solid var(--line);padding:40px 0;color:var(--ink-faint);fo
 .sticky-cta.show{transform:translateY(0)}
 .sticky-cta .btn{width:100%}
 @media(min-width:880px){.sticky-cta{display:none}}
+/* the bar is fixed over the page — keep the footer from hiding underneath it */
+@media(max-width:879px){
+  body{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+}
 
 /* ================= scroll reveal ================= */
 .reveal{
