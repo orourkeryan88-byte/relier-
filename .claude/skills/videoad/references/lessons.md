@@ -58,9 +58,20 @@ downloads), assorted blogs. Allowed: GitHub, npm, PyPI.
   holds one idea in 2–4 big centred words, built word by word. Our 26 s cuts with 3.5–9.5 s scenes felt slow next to them.
 - Pattern that matches: 2-beat frames (≈0.86 s at 139 BPM), 3–4 beats for the open loop, the brand line and the
   payoff; all words of a frame land in the first beat; every shot lands punched in (1.07 → 1 in 0.3 s) then creeps.
-- The user then asked to "slow it down slightly": 3-beat frames (≈1.3 s) for anything with a graphic or 4+ words,
+- (Superseded by "Clarity beats speed" below.) The user then asked to "slow it down slightly": 3-beat frames (≈1.3 s) for anything with a graphic or 4+ words,
   2 beats only for punchy 2–3 word lines; ~20 s total. Treat that as the default pace.
 - Generate clip start times from a beat table (see `ads/clothing-same-buyers/gen_composition.py`) instead of hand-typing them.
+
+## Clarity beats speed (ad #8 v7)
+- After the reference-paced cut the user said: "it's too fast to process info and it doesn't really make sense."
+  Copying the references' frame rate is wrong for an ad that has to explain something; they are mood pieces.
+- What fixed it: one story in full sentences (callout → question → relate → problem that ANSWERS the question →
+  solution in plain words → payoff that echoes the question → CTA); 6–8 scenes in ~24 s, each held 2–4 s; finished
+  lines held ≥1.5 s; build one object across the relate beats (one post that gets likes, then repeat orders) instead
+  of new graphics each beat; label every metaphor (person icons + a legend, not anonymous squares).
+- Don't use fragments ("story. reel. post.", "boost it? same crowd.") unless the previous frame set them up.
+- If the end card shows a brand mark the copy doesn't name (e.g. the user's "SA" art), keep the body to "we run…"
+  rather than naming a different brand mid-video.
 
 ## Craft
 - User-supplied music (ad #7): "Secondhand extended outro" (fan edit of Don Toliver ft. Rema), screen-recorded, 16 s,

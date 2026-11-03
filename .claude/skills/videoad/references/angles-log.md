@@ -37,6 +37,8 @@ a re-edit. Folders are in the user's repo under `ads/`.
 - **Callout first, reference pacing** (ad #8 v4): "Call out instantly to start: 'clothing brands', open loop question,
   then the rest; look at the other videos I sent for the pacing." Open on the audience name, readable at frame 0;
   open-loop question by ~1 s; then a new frame every ~2 beats (0.8–1.7 s) with 2–5 big centred words. 15–18 s total.
+- **"Too fast to process, doesn't make sense"** (ad #8 v6 → v7): clarity first. One story, full sentences, 2–4 s
+  per scene, labelled visuals. Speed comes from beat-synced motion inside a scene, not from more scenes.
 - **User-supplied end card** (ad #8 v5): the user sent their own artwork (SA monogram, "Clothing brands.", Comment
   "scale", FOR MORE INFO.) and said "put this as the end". When the user supplies artwork, use it as-is (no redraw),
   on a matching background, animated in bands on the beat; the CTA keyword becomes whatever the artwork says.

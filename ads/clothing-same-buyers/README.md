@@ -1,55 +1,36 @@
-# Southline × clothing brands: "Clothing brands." fast cut (9:16, 20.7 s, no voiceover)
+# Southline × clothing brands: "Why does every drop sell to the same people?" (9:16, 24.1 s, no voiceover)
 
 Made with the `videoad` skill (OpenMontage + HyperFrames); passed all 7 check gates.
-
 **CTA keyword: SCALE** (from the owner's end-card artwork; set the comment automation to "scale").
 
-**v4 (current): reference pacing.** Opens on the callout, then the open loop, then the rest, with a new frame every
-2–3 beats (0.86–1.29 s) like the reference reels in `References/`: 2–5 big centred words per frame, words landing on the beat,
-hard cuts on the beat, two line wipes, two whips. 48 beats at 139.2 BPM = 20.69 s; the end card repeats the opening
-callout so the reel loops.
+**v7 (current): clear cut.** v4–v6 had 16 ideas in 17–21 s and the owner said it was too fast to process and didn't
+make sense. v7 tells one story in full sentences across 7 scenes, each held 2–4 s, still on the 139.2 BPM grid
+(56 beats = 14 bars). People are drawn as person icons with a legend, so the crowd metaphor explains itself.
 
-| Beats | Time (s) | Frame |
-|---|---|---|
-| 0–2 | 0–0.86 | CALLOUT: "Clothing brands." (Fraunces, white/pink), "brands." slams on beat ½, arc + flash on beat 1 |
-| 2–6 | 0.86–2.59 | OPEN LOOP: "why does every drop / sell to the same people?" |
-| 6–9 | 2.59–3.88 | "every. single. drop." Buyer grid, same cluster lit on DROP 01/02/03 |
-| 9–20 | 3.88–8.62 | RELATE: "you post the new drop." / "story. reel. post." / "and you get the same likes." / "and the orders? same faces." |
-| 20–28 | 8.62–12.07 | PROBLEM: "it's not the clothes." / "it's who sees them." / "boost it? same crowd." |
-| 28–39 | 12.07–16.81 | SOLUTION: "here's what we do. Southline" (Facebook + Instagram ads for clothing brands) / "new ads every week." / "shown to new buyers." / "+ reminders for anyone who looked." |
-| 39–42 | 16.81–18.10 | PAYOFF: "so your next drop reaches new people." Grid goes all pink after a half-beat drop-out |
-| 42–48 | 18.10–20.69 | CTA end card: the owner's artwork (`composition/assets/endcard.jpg`: SA monogram, "Clothing brands.", Comment "scale", FOR MORE INFO.), built in four bands on the beat |
+| Beats | Time (s) | Scene | On screen |
+|---|---|---|---|
+| 0–4 | 0–1.7 | Callout | "Clothing brands." (Fraunces, white/pink) + arc, then "quick question…" |
+| 4–12 | 1.7–5.2 | Open loop | "Why does every drop sell to the same people?" |
+| 12–24 | 5.2–10.3 | Relate | One post that grows: "You post the drop." (post) → "Your followers like it." (41 likes, AM/JK/RB) → "The same few people buy." (orders from AM and JK: "bought your last drop too") |
+| 24–32 | 10.3–13.8 | Problem | "Because only your followers ever see it." Crowd of people, followers in pink; legend: YOUR FOLLOWERS / EVERYONE ELSE · NEVER SEEN YOUR BRAND |
+| 32–42 | 13.8–18.1 | Solution | "We run Facebook & Instagram ads" / "that show your drop to new buyers." New people light up outward; legend: NEW BUYERS, FROM YOUR ADS |
+| 42–48 | 18.1–20.7 | Payoff | "So your next drop sells to new people." Whole crowd lit after a half-beat drop-out |
+| 48–56 | 20.7–24.1 | End card | Owner's artwork (`composition/assets/endcard.jpg`): SA monogram, "Clothing brands.", Comment "scale", FOR MORE INFO. |
 
-v6 slowed the cut slightly: the busiest frames went from 2 to 3 beats (word reveals spread by the same ratio),
-40 → 48 beats (17.2 → 20.7 s, 12 bars, so the music loops twice exactly). The generator keeps the original
-edit-beat table (`OLD`) and stretches it with `NEW`; change `NEW` to re-pace without touching the animation code.
+Names, likes and orders are illustrative.
 
-`gen_composition.py` generates `composition/index.html` and `cues.json` from that beat table:
+**Versions**
+- `southline_clothing_same_buyers_music.mp4`: the user's sound ("Secondhand extended outro", prod. codax, fan edit
+  of Don Toliver ft. Rema), looped on bars 4.8271–15.1719 s. Commercial music: organic posts only, not licensed for
+  paid Meta ads.
+- `southline_clothing_same_buyers_sfx_only.mp4`: SFX only, for adding the sound in-app or licensed music.
+
+Re-build (music file not committed; supply it at music/track_full.wav):
 ```bash
 python3 gen_composition.py composition cues.json
+python3 ../../.claude/skills/videoad/scripts/build_audio.py cues.json --music music/track_full.wav --music-in 4.8271 --music-out 15.1719 -o composition/assets/audio.wav
+cd composition && npx hyperframes render --quality high --output ../southline_clothing_same_buyers_music.mp4
 ```
-
----
-## Earlier version (v2/v3, 26.7 s)
-
-**Angle:** every drop sells to the same people (your followers); boosting reaches the same crowd and your best ad
-dies in a week. Southline runs Meta ads for clothing brands: new ads every week, shown to people who've never seen
-you, reminders for anyone who looked but didn't buy, so the next drop reaches new people. CTA: Comment DROP.
-
-**Hook (v2):** opens *inside* one buyer's square ("your buyer." / ONE OF 200 · DROP 01), drifting, then on the
-first beat the camera rips back (flash + shake) to reveal the whole 200-square audience with only that small pink
-cluster lit. The same cluster pulses on beats 4, 6, 8 as DROP 01 → 02 → 03 sell to it again.
-
-**Beat-locked edit:** the track is 139.2 BPM (beat = 0.43103 s; `beat.txt`: bpm, beat, downbeat-in-track, loop-out).
-The loop is cut on whole bars (4.8271–15.1719 s, 6 bars) and repeated exactly, so the grid never drifts. In the
-timeline every scene change, caption word, pulse, flash and SFX sits on `B(n) = n × 0.43103` (beats or eighths);
-cuts at beats 12, 24, 32, 48, 54; payoff hit on beat 52 after a half-beat music drop-out. 62 beats = 26.72 s.
-
-**End card (v3):** monogram layout after the user's reference: serif "S" with a pink arc (South-*line*), small
-"SOUTHLINE · FACEBOOK + INSTAGRAM ADS", big Fraunces "Clothing / brands." (white / pink), an outlined pill with a
-comment icon and Comment "DROP", then "FOR MORE INFO." Built on beats 54–62: S lands 54, arc 54.5, title 55.5/56
-(hit + flash), pill draws 57, DROP types 58–58.75, sign-off 59.5, pill pulses 60–61. Fraunces is SIL OFL
-(`composition/assets/fonts/Fraunces-OFL.txt`).
 
 **Palette:** Concrete #D9D8D3, Jet #111111, Graphite #5C5C5A, Fog #BEBDB8, accent Signal Pink #FF3D8B / #D81B6A.
 

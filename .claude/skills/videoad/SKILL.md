@@ -116,9 +116,10 @@ If it isn't installed: `git clone --depth 1 https://github.com/calesthio/OpenMon
    `drift()`, `punch()`, plus the gold line wipe and whip. `assets/examples/leads-ireland.html` is a complete,
    passing 25.6 s ad to copy patterns from (VO-timed captions, lead cards fanning to vans, path line → checks → phone,
    CTA end card).
-3. Time every caption word to the VO word timings (or the beat grid). **Pace like the references:** open on the
-   audience callout ("Clothing brands." / "Electricians in Ireland.") readable at frame 0, then the open-loop question by
-   ~1 s, then a new frame every ~0.8–1.7 s with 2–5 big centred words (15–18 s total). Something moves every ~0.5 s;
+3. Time every caption word to the VO word timings (or the beat grid). Open on the audience callout ("Clothing
+   brands." / "Electricians in Ireland.") readable at frame 0 and the open-loop question by ~2 s, then **tell one story
+   in full sentences**: 6–8 scenes in ~22–26 s, each held 2–4 s, finished lines held ≥1.5 s. Fast reference-style
+   cutting (a frame per second) was too fast to follow: see lessons.md → "Clarity beats speed". Something moves every ~0.5 s;
    each shot lands punched in and creeps 3–6 %. See lessons.md → "Reference pacing".
 4. **Make the visuals new each time.** The template is a starting kit, not a look to reuse: invent new graphics and
    motion for the angle while staying inside the brand sheet. Check angles-log.md for what's been done.
