@@ -7,6 +7,7 @@ Style references for the Southline Edit Style (`brand/edit-style.md`). Screen re
 |---|---|---|
 | `ref1_screenrec_20-29-26.mp4` | @buksedits: concept ad for Apple widgets | 18.5 s (12 s reel, looped) |
 | `ref2_screenrec_20-29-54.mp4` | @miraclestudios_: "minimalist design is one of the best ways to…" | 16.3 s |
+| `ref3_screenrec_20-28-59.mp4` | @stepan.straufvfx: PayPal motion concept | 14.5 s (12 s reel) |
 
-Still pending (links supplied, not yet downloaded): reels DcwC2_BMcNV and DcJqUPhOO1N.
+Still pending (link supplied, no recording yet): one of the four reels.
 These are for study only. Edits follow the originality rules in `brand/edit-style.md` §8.
