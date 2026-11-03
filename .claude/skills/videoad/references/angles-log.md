@@ -13,7 +13,7 @@ a re-edit. Folders are in the user's repo under `ads/`.
 | 6 | `electrician-leads-ireland/` | Shared leads: one lead copied to four other lads, cheapest wins; big grant-era jobs go to whoever's found first | "Sparks… people all over Ireland need an electrician right now." | LEADS | Southline Edit Style v2 (Pine/Cloud/Gold, Instrument Sans/Serif, measure marks), Irish VO |
 
 | 7 | `electrician-business-check/` | Be obvious: electrician's test-record sheet stamps their pains FAIL; real problem is people can't find them (empty slot in the homeowner's feed); plain offer, enquiry form lands on phone | "Electricians in Ireland, this one's for you." | WORK | Aubergine/Lilac + Mint accent, Instrument Sans/Serif + Plex Mono, no VO |
-| 8 | `clothing-same-buyers/` | **Clothing brands** (new vertical): every drop sells to the same followers; boosting = same crowd; best ad dead in a week; Southline: new ads weekly, new buyers, reminders | "Clothing brands, same buyers. every drop." (buyer grid) | DROP | Concrete/Jet + Signal Pink, buyer grid, stock boxes, no VO, user's track |
+| 8 | `clothing-same-buyers/` | **Clothing brands** (new vertical): every drop sells to the same followers; boosting = same crowd; best ad dead in a week; Southline: new ads weekly, new buyers, reminders | "Clothing brands, same buyers. every drop." (buyer grid) | DROP → SCALE (v5, user's end card) | Concrete/Jet + Signal Pink, buyer grid, stock boxes, no VO, user's track |
 
 ## Rejected / feedback to respect
 - **No voiceovers** (ad #7): text-led with music + SFX by default.
@@ -37,6 +37,9 @@ a re-edit. Folders are in the user's repo under `ads/`.
 - **Callout first, reference pacing** (ad #8 v4): "Call out instantly to start: 'clothing brands', open loop question,
   then the rest; look at the other videos I sent for the pacing." Open on the audience name, readable at frame 0;
   open-loop question by ~1 s; then a new frame every ~2 beats (0.8–1.7 s) with 2–5 big centred words. 15–18 s total.
+- **User-supplied end card** (ad #8 v5): the user sent their own artwork (SA monogram, "Clothing brands.", Comment
+  "scale", FOR MORE INFO.) and said "put this as the end". When the user supplies artwork, use it as-is (no redraw),
+  on a matching background, animated in bands on the beat; the CTA keyword becomes whatever the artwork says.
 - Brand sheet (Southline Edit Style v2) is the house style from ad #6 onward; it was learned from three reference
   reels (Apple widgets concept, minimalist-design editorial, PayPal motion concept) and must stay original.
 

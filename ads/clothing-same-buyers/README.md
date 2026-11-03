@@ -2,6 +2,8 @@
 
 Made with the `videoad` skill (OpenMontage + HyperFrames); passed all 7 check gates.
 
+**CTA keyword: SCALE** (from the owner's end-card artwork; set the comment automation to "scale").
+
 **v4 (current): reference pacing.** Opens on the callout, then the open loop, then the rest, with a new frame every
 2 beats (0.86 s) like the reference reels in `References/`: 2–5 big centred words per frame, words landing on the beat,
 hard cuts on the beat, two line wipes, two whips. 40 beats at 139.2 BPM = 17.24 s; the end card repeats the opening
@@ -16,7 +18,7 @@ callout so the reel loops.
 | 16–22 | 6.90–9.48 | PROBLEM: "it's not the clothes." / "it's who sees them." / "boost it? same crowd." |
 | 22–31 | 9.48–13.36 | SOLUTION: "here's what we do. Southline" (Facebook + Instagram ads for clothing brands) / "new ads every week." / "shown to new buyers." / "+ reminders for anyone who looked." |
 | 31–34 | 13.36–14.66 | PAYOFF: "so your next drop reaches new people." Grid goes all pink on beat 32 after a half-beat drop-out |
-| 34–40 | 14.66–17.24 | CTA end card: S monogram + arc, "Clothing brands.", Comment "DROP" pill, FOR MORE INFO. |
+| 34–40 | 14.66–17.24 | CTA end card: the owner's artwork (`composition/assets/endcard.jpg`: SA monogram, "Clothing brands.", Comment "scale", FOR MORE INFO.), built in four bands on the beat |
 
 `gen_composition.py` generates `composition/index.html` and `cues.json` from that beat table:
 ```bash

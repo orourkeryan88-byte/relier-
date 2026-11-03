@@ -88,21 +88,15 @@ F.append(("f14", 29, 31, "light", f'''
 F.append(("f15", 31, 34, "light", f'''
       {cap("c15", "so your next drop", "reaches *new people.", 470)}
       <div class="grid" id="g15" style="top:1030px"></div>'''))
-F.append(("f16", 34, 40, "dark", '''
-      <div class="ctr" id="mono">S</div>
-      <svg class="arc" id="arc" style="top:468px" viewBox="0 0 840 84" data-layout-ignore><path d="M0 74 Q420 -14 840 74 Q420 4 0 74 Z" fill="#ff3d8b"/></svg>
-      <div class="ctr mono" id="sl" style="top:628px;letter-spacing:.22em;color:#a8a7a2">SOUTHLINE · FACEBOOK + INSTAGRAM ADS</div>
-      <div class="ttl" id="title" style="top:690px"><span class="mask" id="cl"><span class="in e">Clothing</span></span><span class="mask" id="br"><span class="in e pk">brands.</span></span></div>
-      <div id="pill">
-        <svg class="ol" viewBox="0 0 780 132" data-layout-ignore><rect id="pillR" x="2" y="2" width="776" height="128" rx="64" fill="none" stroke="#ff3d8b" stroke-width="4"/></svg>
-        <div class="row">
-          <svg class="ico" viewBox="0 0 74 74"><path d="M14 12 H60 Q66 12 66 18 V46 Q66 52 60 52 H32 L18 64 V52 H14 Q8 52 8 46 V18 Q8 12 14 12 Z" fill="none" stroke="#f4f3ef" stroke-width="4.5" stroke-linejoin="round"/><circle cx="25" cy="32" r="4" fill="#f4f3ef"/><circle cx="37" cy="32" r="4" fill="#f4f3ef"/><circle cx="49" cy="32" r="4" fill="#f4f3ef"/></svg>
-          <span class="div"></span>
-          <span class="tx"><span class="cm">Comment</span> <span class="q"><span class="c">“D</span><span class="c">R</span><span class="c">O</span><span class="c">P”</span></span></span>
-        </div>
-      </div>
-      <div class="ctr mono" id="fmi" style="top:1292px;font-size:30px;letter-spacing:.3em;color:#d8d7d2">FOR MORE INFO.</div>'''))
-
+# end card = the user's own artwork (assets/endcard.jpg, 1170x1735, pure black bg), cut into 4 bands that land on the beat
+SC = 1080 / 1170; TOP = -43                        # image scaled to full width; content centred around y~800
+BANDS = [(441, 802), (832, 1150), (1184, 1326), (1337, 1386)]   # monogram+arc / Clothing brands. / pill / FOR MORE INFO.
+def band(i, t0, t1):
+    top, bot = round(t0 * SC), round(1735 * SC - t1 * SC)
+    cy = round(TOP + (t0 + t1) / 2 * SC)
+    return (f'<div class="eb" id="eb{i}" style="clip-path: inset({top}px 0 {bot}px 0); transform-origin: 540px {cy + 43}px">'
+            f'<img src="assets/endcard.jpg" alt="" width="1080" height="{round(1735 * SC)}"></div>')
+F.append(("f16", 34, 40, "black", "\n      " + "\n      ".join(band(i + 1, *b) for i, b in enumerate(BANDS))))
 clips = "\n".join(
     f'''  <section id="{i}" class="clip scene {tone}" data-start="{B(b0)}" data-duration="{round(B(b1) - B(b0), 4)}" data-track-index="1">
     <div class="glow" data-layout-ignore></div>
@@ -184,15 +178,10 @@ CSS = '''
   .wk .h { font-size: 20px; color: #9d9c97; } .wk:not(#wk3) { background: #262626; } .wk .t { font-weight: 700; font-size: 52px; margin-top: 22px; letter-spacing: -0.02em; }
   #remind { position: absolute; left: 140px; top: 1010px; width: 800px; padding: 28px 30px; border-radius: 24px; background: var(--paper); border: 2px solid #c4c3be; color: var(--jet); box-sizing: border-box; }
   #remind .h { font-size: 20px; color: var(--gra); } #remind .t { font-weight: 700; font-size: 44px; margin-top: 12px; line-height: 1.1; }
-  /* end card */
-  #mono { top: 268px; font: 700 340px/1 "Fraunces", serif; color: var(--wh); letter-spacing: -0.02em; }
-  #pill { position: absolute; left: 150px; top: 1104px; width: 780px; height: 132px; }
-  #pill svg.ol { position: absolute; inset: 0; overflow: visible; }
-  #pill .row { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 30px; }
-  #pill .ico { width: 74px; height: 74px; flex: none; }
-  #pill .div { width: 4px; height: 66px; background: var(--pink); border-radius: 2px; flex: none; }
-  #pill .tx { font: 700 58px/1 "Instrument Sans", sans-serif; color: var(--wh); letter-spacing: -0.01em; white-space: nowrap; }
-  #pill .q { color: var(--pink); } #pill .q .c { display: inline-block; }
+  /* end card: the user's artwork */
+  .scene.black { background: #000; color: var(--con); } .black .glow { display: none; }
+  .eb { position: absolute; left: 0; top: -43px; width: 1080px; }
+  .eb img { display: block; width: 1080px; height: auto; }
   /* overlays */
   #flash { position: absolute; inset: 0; z-index: 70; background: #ffffff; opacity: 0; }
   #wipe { position: absolute; top: 0; bottom: 0; width: 1200px; left: -1200px; z-index: 60; background: var(--con); }
@@ -331,32 +320,17 @@ JS = r'''
   flash(32, 0.5); punch("#c15", 32);
   pulse("#g15", 32, 34, 0.04);
 
-  // ---------- 16 CTA end card (beats 34–40): loops back to the opening callout ----------
-  tl.set("#mono", { opacity: 0, y: 40, scale: 1.18 }, 0);
-  tl.to("#mono", { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "expo.out" }, B(34));
-  tl.set("#arc", { scaleX: 0 }, 0);
-  tl.to("#arc", { scaleX: 1, duration: 0.5, ease: "expo.out" }, B(34.25));
-  fadeUp("#sl", 34.5);
-  tl.set("#cl .in", { yPercent: 115 }, 0);
-  tl.to("#cl .in", { yPercent: 0, duration: 0.35, ease: "expo.out" }, B(34.75));
-  tl.set("#br .in", { yPercent: 115 }, 0);
-  tl.to("#br .in", { yPercent: 0, duration: 0.35, ease: "expo.out" }, B(35));
-  punch("#title", 35); flash(35, 0.3);
-  const PL = 2 * (776 - 128) + Math.PI * 128;
-  tl.set("#pillR", { strokeDasharray: PL, strokeDashoffset: PL }, 0);
-  tl.to("#pillR", { strokeDashoffset: 0, duration: 0.45, ease: "power2.inOut" }, B(35.5));
-  tl.set("#pill .ico", { opacity: 0, scale: 0.3 }, 0);
-  tl.set("#pill .ico", { opacity: 1 }, B(35.75));
-  tl.to("#pill .ico", { scale: 1, duration: 0.3, ease: "back.out(2.5)" }, B(35.75));
-  tl.set("#pill .div", { scaleY: 0 }, 0);
-  tl.to("#pill .div", { scaleY: 1, duration: 0.2, ease: E.in }, B(36));
-  tl.set("#pill .cm", { opacity: 0, x: -14 }, 0);
-  tl.to("#pill .cm", { opacity: 1, x: 0, duration: 0.22, ease: E.in }, B(36));
-  tl.set("#pill .q .c", { opacity: 0 }, 0);
-  [0, 1, 2, 3].forEach(i => tl.set("#pill .q .c:nth-child(" + (i + 1) + ")", { opacity: 1 }, B(36.5 + i * 0.25)));
-  fadeUp("#fmi", 37.5);
-  pulse("#pill", 38, 40, 0.025);
-
+  // ---------- 16 CTA end card (beats 34–40): the user's artwork, built band by band on the beat ----------
+  tl.set("#eb1", { opacity: 0, scale: 1.18 }, 0);
+  tl.to("#eb1", { opacity: 1, scale: 1, duration: 0.45, ease: "expo.out" }, B(34));
+  tl.set("#eb2", { opacity: 0, y: 70 }, 0);
+  tl.to("#eb2", { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, B(34.75));
+  punch("#eb2", 35, 1.08); flash(35, 0.25);
+  tl.set("#eb3", { opacity: 0, scale: 0.85 }, 0);
+  tl.to("#eb3", { opacity: 1, scale: 1, duration: 0.35, ease: E.ui }, B(35.5));
+  pulse("#eb3", 36.5, 40, 0.03);
+  tl.set("#eb4", { opacity: 0, y: 16 }, 0);
+  tl.to("#eb4", { opacity: 1, y: 0, duration: 0.25, ease: E.in }, B(36));
   window.__timelines["main"] = tl;
 '''.replace("__TOTAL__", str(TOTAL))
 
@@ -402,7 +376,7 @@ ev += [[B(20.25), "click", 0.45], [B(20.5), "swish", 0.3]] + [[B(b), "glitch", 0
 ev += [[B(23), "shimmer", 0.35], [B(23), "click", 0.3]] + [[B(b), "pop", 0.3] for b in (25, 25.5, 26)]
 ev += [[B(b), "pop", 0.2] for b in (27.5, 28, 28.5, 28.75)] + [[B(29.5), "ping", 0.35]]
 ev += [[B(32) - 0.62, "riser", 0.45], [B(32), "hit", 0.8]]
-ev += [[B(34) - 0.1, "whoosh", 0.35], [B(34.25), "shimmer", 0.3], [B(35), "hit", 0.65], [B(35.5), "swish", 0.25], [B(35.75), "pop", 0.35]]
-ev += [[B(36.5 + i * 0.25), "tick", 0.3] for i in range(4)] + [[B(37.5), "ping", 0.3]]
+ev += [[B(34) - 0.1, "whoosh", 0.35], [B(34), "shimmer", 0.3], [B(35), "hit", 0.65], [B(35.5), "pop", 0.4]]
+ev += [[B(36), "tick", 0.3], [B(36.5), "ping", 0.3]]
 json.dump({"duration": DUR, "bpm": 139.2, "dropouts": [[B(31.5), B(32)]], "events": sorted(ev)}, open(CUES, "w"))
 print("wrote", HF + "/index.html", DUR, "s,", len(ev), "cues")
