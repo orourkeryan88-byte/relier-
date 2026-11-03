@@ -4,7 +4,16 @@ Every clip starts on the 139.2 BPM beat grid. Writes index.html + cues.json."""
 import json, sys
 
 P = 0.43103
-B = lambda n: round(n * P, 4)
+# Timeline is authored in "edit beats" (frame table OLD); REMAP stretches chosen frames (2 -> 3 beats) so the cut
+# breathes a little more. Every result is still on the music's beat grid (quarter-beat resolution).
+OLD = [0, 2, 6, 8, 10, 12, 14, 16, 18, 20, 22, 25, 27, 29, 31, 34, 40]
+NEW = [0, 2, 6, 9, 12, 14, 17, 20, 22, 25, 28, 31, 34, 36, 39, 42, 48]
+import math
+def remap(n):
+    i = max(j for j in range(len(OLD) - 1) if OLD[j] <= n) if n >= 0 else 0
+    k = (NEW[i + 1] - NEW[i]) / (OLD[i + 1] - OLD[i])
+    return NEW[i] + math.floor((n - OLD[i]) * k * 4 + 0.5) / 4      # floor(x+.5) == JS Math.round
+B = lambda n: round(remap(n) * P, 4)
 HF = sys.argv[1]          # hyperframes dir
 CUES = sys.argv[2]
 TOTAL = 40
@@ -194,7 +203,10 @@ JS = r'''
   window.__timelines = window.__timelines || {};
   const tl = gsap.timeline({ paused: true });
   // Beat grid of the music: 139.2 BPM; the loop starts on a downbeat, so beat n is at n * P seconds.
-  const P = 0.43103, B = n => +(n * P).toFixed(4), DUR = B(__TOTAL__);
+  const OLD = [0, 2, 6, 8, 10, 12, 14, 16, 18, 20, 22, 25, 27, 29, 31, 34, 40], NEW = [0, 2, 6, 9, 12, 14, 17, 20, 22, 25, 28, 31, 34, 36, 39, 42, 48];
+  const remap = n => { let i = 0; for (let j = 0; j < OLD.length - 1; j++) if (OLD[j] <= n) i = j;
+    const k = (NEW[i + 1] - NEW[i]) / (OLD[i + 1] - OLD[i]); return NEW[i] + Math.round((n - OLD[i]) * k * 4) / 4; };
+  const P = 0.43103, B = n => +(remap(n) * P).toFixed(4), DUR = B(__TOTAL__);
   const E = { in: "expo.out", ui: "back.out(1.6)" };
   function wordsAt(capSel, beats) {
     const ws = document.querySelectorAll(capSel + " .w");

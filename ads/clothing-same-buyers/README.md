@@ -1,4 +1,4 @@
-# Southline × clothing brands: "Clothing brands." fast cut (9:16, 17.2 s, no voiceover)
+# Southline × clothing brands: "Clothing brands." fast cut (9:16, 20.7 s, no voiceover)
 
 Made with the `videoad` skill (OpenMontage + HyperFrames); passed all 7 check gates.
 
@@ -6,19 +6,23 @@ Made with the `videoad` skill (OpenMontage + HyperFrames); passed all 7 check ga
 
 **v4 (current): reference pacing.** Opens on the callout, then the open loop, then the rest, with a new frame every
 2 beats (0.86 s) like the reference reels in `References/`: 2–5 big centred words per frame, words landing on the beat,
-hard cuts on the beat, two line wipes, two whips. 40 beats at 139.2 BPM = 17.24 s; the end card repeats the opening
+hard cuts on the beat, two line wipes, two whips. 48 beats at 139.2 BPM = 20.69 s; the end card repeats the opening
 callout so the reel loops.
 
 | Beats | Time (s) | Frame |
 |---|---|---|
 | 0–2 | 0–0.86 | CALLOUT: "Clothing brands." (Fraunces, white/pink), "brands." slams on beat ½, arc + flash on beat 1 |
 | 2–6 | 0.86–2.59 | OPEN LOOP: "why does every drop / sell to the same people?" |
-| 6–8 | 2.59–3.45 | "every. single. drop." Buyer grid, same cluster lit on DROP 01/02/03 |
-| 8–16 | 3.45–6.90 | RELATE: "you post the new drop." / "story. reel. post." / "and you get the same likes." / "and the orders? same faces." |
-| 16–22 | 6.90–9.48 | PROBLEM: "it's not the clothes." / "it's who sees them." / "boost it? same crowd." |
-| 22–31 | 9.48–13.36 | SOLUTION: "here's what we do. Southline" (Facebook + Instagram ads for clothing brands) / "new ads every week." / "shown to new buyers." / "+ reminders for anyone who looked." |
-| 31–34 | 13.36–14.66 | PAYOFF: "so your next drop reaches new people." Grid goes all pink on beat 32 after a half-beat drop-out |
-| 34–40 | 14.66–17.24 | CTA end card: the owner's artwork (`composition/assets/endcard.jpg`: SA monogram, "Clothing brands.", Comment "scale", FOR MORE INFO.), built in four bands on the beat |
+| 6–9 | 2.59–3.88 | "every. single. drop." Buyer grid, same cluster lit on DROP 01/02/03 |
+| 9–20 | 3.88–8.62 | RELATE: "you post the new drop." / "story. reel. post." / "and you get the same likes." / "and the orders? same faces." |
+| 20–28 | 8.62–12.07 | PROBLEM: "it's not the clothes." / "it's who sees them." / "boost it? same crowd." |
+| 28–39 | 12.07–16.81 | SOLUTION: "here's what we do. Southline" (Facebook + Instagram ads for clothing brands) / "new ads every week." / "shown to new buyers." / "+ reminders for anyone who looked." |
+| 39–42 | 16.81–18.10 | PAYOFF: "so your next drop reaches new people." Grid goes all pink after a half-beat drop-out |
+| 42–48 | 18.10–20.69 | CTA end card: the owner's artwork (`composition/assets/endcard.jpg`: SA monogram, "Clothing brands.", Comment "scale", FOR MORE INFO.), built in four bands on the beat |
+
+v6 slowed the cut slightly: the busiest frames went from 2 to 3 beats (word reveals spread by the same ratio),
+40 → 48 beats (17.2 → 20.7 s, 12 bars, so the music loops twice exactly). The generator keeps the original
+edit-beat table (`OLD`) and stretches it with `NEW`; change `NEW` to re-pace without touching the animation code.
 
 `gen_composition.py` generates `composition/index.html` and `cues.json` from that beat table:
 ```bash
