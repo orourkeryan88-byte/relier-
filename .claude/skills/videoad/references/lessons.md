@@ -37,6 +37,8 @@ downloads), assorted blogs. Allowed: GitHub, npm, PyPI.
 - Snapshots land in `.hyperframes/artifacts/snapshots/<id>/` with a `contact-sheet*.jpg`; Read it.
 
 ## Craft
+- User-supplied music (ad #7): "Secondhand extended outro" (fan edit of Don Toliver ft. Rema), screen-recorded, 16 s,
+  ~136 BPM, band-limited, first 3.5 s was another clip. Looped 3.6–15.95 s with crossfades. Delivered with-music + SFX-only cuts.
 - Single-pass `loudnorm` undershoots music-only mixes (got −16.8 instead of −14); `build_audio.py` now measures and corrects.
 - Without a VO, every caption must read as a full thought; check each line for words that only existed in the voice.
 - Two-line key lines push into graphics below; leave ~360 px under the caption band or move graphics down.

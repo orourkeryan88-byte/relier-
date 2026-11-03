@@ -125,6 +125,15 @@ If it isn't installed: `git clone --depth 1 https://github.com/calesthio/OpenMon
 
 ## 6. Score
 
+**If the user supplies a track** (often a screen recording of a TikTok/Instagram sound): extract it with ffmpeg, find the
+steady section (skip any other clip at the start; check a spectrogram), cut the loop on bar lines from its tempo, and run
+`build_audio.py cues.json --music track.wav --music-in <s> --music-out <s>`; drop word ticks under a real song.
+Name the track and warn plainly: commercial songs are not licensed for paid Meta ads (expect rejection or muting); the
+legitimate route is an organic post with the in-app sound. Also render a `--no-bed` SFX-only cut so they can add the
+sound in-app or swap in licensed music.
+
+Otherwise:
+
 `python3 scripts/build_audio.py cues.json [vo.mp3] -o <slug>/hyperframes/assets/audio.wav`
 - `cues.json`: `{"duration": 25.6, "bpm": 124, "dropouts": [[19.19, 19.44]], "events": [[t, "whoosh", 0.55], …]}`.
   Voices: ping pop click tick coin whoosh swish hit shimmer glitch riser.

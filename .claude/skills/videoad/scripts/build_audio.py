@@ -2,6 +2,8 @@
 """Score builder for Southline video ads (Southline Edit Style §7).
 
     python3 build_audio.py cues.json [vo.mp3] -o out.wav
+    python3 build_audio.py cues.json --music track.wav --music-in 3.6 --music-out 15.95 -o out.wav   # user's track as the bed (looped)
+    python3 build_audio.py cues.json --no-bed -o out.wav                                              # SFX only (add music in-app)
 
 cues.json:
     {"duration": 25.6, "bpm": 124, "dropouts": [[19.19, 19.44]],
@@ -56,6 +58,11 @@ def synth():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cues"); ap.add_argument("vo", nargs="?"); ap.add_argument("-o", "--out", required=True)
+    ap.add_argument("--music", help="use this audio file as the bed instead of the synth beat")
+    ap.add_argument("--music-in", type=float, default=0.0, help="loop region start (s)")
+    ap.add_argument("--music-out", type=float, default=None, help="loop region end (s); cut on a bar line for clean loops")
+    ap.add_argument("--music-gain", type=float, default=1.0)
+    ap.add_argument("--no-bed", action="store_true", help="SFX only")
     a = ap.parse_args()
     cue = json.load(open(a.cues))
     D = float(cue["duration"]); bpm = float(cue.get("bpm", 124)); B = 60 / bpm
@@ -68,13 +75,30 @@ def main():
 
     roots = [55.0, 43.65, 65.41, 49.0]
     b, i = 0.0, 0
+    if a.music or a.no_bed:
+        b = D   # skip the synth bed
     while b < D - 0.3:
         add(music, V["kick"], b, 0.42); add(music, V["hat"], b + B / 2, 0.38)
         if i % 2 == 0:
             f = roots[(i // 4) % 4]; n = int(B * 0.95 * SR); x = np.arange(n) / SR
             add(music, (np.sin(2 * np.pi * f * x) + 0.25 * np.sin(4 * np.pi * f * x)) * np.exp(-x * 2.2) * 0.32, b, 1.0)
         b += B; i += 1
-    music[:N] += sum(np.sin(2 * np.pi * f * t) for f in (220.0, 261.63, 329.63)) * 0.012 * np.clip(t / 2, 0, 1) * np.clip((D - t) / 1.5, 0, 1)
+    if not (a.music or a.no_bed):
+        music[:N] += sum(np.sin(2 * np.pi * f * t) for f in (220.0, 261.63, 329.63)) * 0.012 * np.clip(t / 2, 0, 1) * np.clip((D - t) / 1.5, 0, 1)
+    if a.music:
+        raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", a.music, "-ac", "1", "-ar", str(SR), "-f", "f32le", "-"],
+                             capture_output=True, check=True).stdout
+        tr = np.frombuffer(raw, np.float32).copy()
+        seg = tr[int(a.music_in * SR): int(a.music_out * SR) if a.music_out else len(tr)]
+        seg = seg / max(1e-6, np.sqrt((seg ** 2).mean())) * 0.12 * a.music_gain      # level-match before mixing
+        xf = int(0.08 * SR); bed = np.zeros(N + SR, np.float32); pos = 0
+        ramp = np.linspace(0, 1, xf, dtype=np.float32)
+        while pos < N:
+            piece = seg.copy()
+            if pos > 0: piece[:xf] *= ramp; bed[pos:pos + xf] *= ramp[::-1]
+            e = min(len(bed), pos + len(piece)); bed[pos:e] += piece[:e - pos]; pos += len(seg) - xf
+        fade = np.ones(N + SR, np.float32); fade[:int(0.3 * SR)] = np.linspace(0, 1, int(0.3 * SR))
+        fo = int(1.2 * SR); fade[N - fo:N] = np.linspace(1, 0, fo); music += bed * fade
     for d0, d1 in cue.get("dropouts", []):
         music[int(d0 * SR):int(d1 * SR)] *= 0.05
     for at, name, g in cue.get("events", []):

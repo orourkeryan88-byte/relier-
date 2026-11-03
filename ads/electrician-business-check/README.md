@@ -15,3 +15,12 @@ Re-render:
 python3 ../../.claude/skills/videoad/scripts/build_audio.py cues.json -o composition/assets/audio.wav
 cd composition && npx hyperframes render --quality high --output ../southline_business_check.mp4
 ```
+
+## Music versions
+- `southline_business_check_music.mp4`: the user's track ("Secondhand extended outro", prod. codax, a fan edit of Don Toliver
+  ft. Rema, supplied as a screen recording), looped 3.6–15.95 s under the SFX. Commercial music: fine for organic tests,
+  **not licensed for paid Meta ads**.
+- `southline_business_check_sfx_only.mp4`: SFX only, for adding the sound in-app (Instagram/TikTok "Use sound") or licensed music.
+```bash
+python3 ../../.claude/skills/videoad/scripts/build_audio.py cues_music.json --music music/track_full.wav --music-in 3.6 --music-out 15.95 -o composition/assets/audio.wav
+```
