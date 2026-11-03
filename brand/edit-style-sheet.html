@@ -1,0 +1,333 @@
+<title>Southline Edit Style</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a single editorial column; each rule section pairs a written spec with a live 9:16 demo frame. */
+:root {
+  --paper: #eceef1; --surface: #f7f8fa; --ink: #101216; --graphite: #5a5f69; --fog: #c7cbd2; --line: #d9dce2;
+  --cobalt: #2b2fff; --cobalt-soft: rgba(43,47,255,.12); --ok: #12804a; --no: #b4232c;
+  --f-display: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-lead: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  /* the video palette itself: fixed, theme-independent */
+  --v-cloud: #e9ebee; --v-carbon: #0f1115; --v-graphite: #5a5f69; --v-fog: #c9ccd2; --v-cobalt: #2b2fff; --v-cobalt-night: #6c70ff;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0d0f13; --surface: #15181e; --ink: #e9ebef; --graphite: #9aa0ab; --fog: #3a3f48; --line: #252931;
+  --cobalt: #7c80ff; --cobalt-soft: rgba(124,128,255,.16); --ok: #4cc488; --no: #ff6b73; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #0d0f13; --surface: #15181e; --ink: #e9ebef; --graphite: #9aa0ab; --fog: #3a3f48; --line: #252931;
+  --cobalt: #7c80ff; --cobalt-soft: rgba(124,128,255,.16); --ok: #4cc488; --no: #ff6b73; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font: 16px/1.6 var(--f-display); -webkit-font-smoothing: antialiased; margin: 0; }
+.page { max-width: 1040px; margin: 0 auto; padding-block: 48px 96px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 72px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; letter-spacing: -0.03em; }
+p { margin: 0; max-width: 65ch; }
+.mono { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--graphite); }
+.lead { font-family: var(--f-lead); font-style: italic; font-weight: 400; }
+em.k { font-style: normal; box-shadow: inset 0 -0.32em 0 var(--cobalt-soft); }
+
+/* header */
+header { display: grid; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 40px; }
+.status { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.chip { font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 6px 10px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface); }
+.chip.draft { border-color: var(--cobalt); color: var(--cobalt); }
+header h1 { font-size: clamp(44px, 8vw, 92px); line-height: .95; font-weight: 700; }
+header h1 .lead { font-size: .62em; letter-spacing: -0.01em; display: block; color: var(--graphite); font-weight: 400; margin-bottom: 4px; }
+header p { font-size: 18px; color: var(--graphite); }
+
+/* sections */
+section { display: grid; gap: 28px; }
+.sec-head { display: grid; gap: 8px; }
+.sec-head h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 40px; align-items: start; }
+@media (max-width: 760px) { .split { grid-template-columns: minmax(0, 1fr); } }
+.rules { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.rules li { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.rules li b { font-weight: 700; }
+@media (max-width: 560px) { .rules li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+.num { font-variant-numeric: tabular-nums; }
+
+/* learned-from table */
+.learn { width: 100%; border-collapse: collapse; font-size: 15px; }
+.learn th, .learn td { text-align: left; vertical-align: top; padding: 12px 14px 12px 0; border-bottom: 1px solid var(--line); }
+.learn th { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--graphite); font-weight: 500; }
+.learn td:last-child { color: var(--ink); }
+.tablewrap { overflow-x: auto; }
+
+/* palette */
+.swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.sw { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--surface); }
+.sw .c { height: 96px; }
+.sw .t { padding: 10px 12px; display: grid; gap: 2px; font-size: 14px; }
+.ratio { display: flex; height: 18px; border-radius: 3px; overflow: hidden; border: 1px solid var(--line); }
+
+/* type specimen */
+.spec { display: grid; gap: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 28px; }
+.spec .s1 { font-size: clamp(40px, 7vw, 76px); font-weight: 700; letter-spacing: -0.035em; line-height: 1; }
+.spec .s2 { font-family: var(--f-lead); font-style: italic; font-size: clamp(26px, 4vw, 36px); line-height: 1.1; color: var(--graphite); }
+
+/* 9:16 demo frames */
+.frame { width: 240px; max-width: 100%; aspect-ratio: 9 / 16; border-radius: 14px; position: relative; overflow: hidden; background: var(--v-cloud); color: var(--v-carbon); box-shadow: 0 0 0 1px var(--line); justify-self: center; }
+.frame.dark { background: var(--v-carbon); color: var(--v-cloud); }
+.frame .cap { position: absolute; left: 18px; right: 18px; top: 34%; }
+.frame .ld { font-family: var(--f-lead); font-style: italic; font-size: 19px; line-height: 1; opacity: .75; display: block; margin-bottom: 4px; }
+.frame .kw { font-weight: 700; font-size: 40px; letter-spacing: -0.04em; line-height: .95; display: inline-block; position: relative; }
+.frame .bar { position: absolute; left: 0; right: 0; bottom: -6px; height: 5px; background: var(--v-cobalt); transform-origin: 0 50%; }
+.frame.dark .bar { background: var(--v-cobalt-night); }
+.frame .w { display: inline-block; }
+.frame .tag { position: absolute; left: 14px; top: 14px; font: 500 8px var(--f-mono); letter-spacing: .12em; opacity: .7; }
+.frame .safe { position: absolute; left: 0; right: 0; bottom: 0; height: 20%; background: repeating-linear-gradient(135deg, rgba(180,35,44,.14) 0 6px, transparent 6px 12px); border-top: 1px dashed rgba(180,35,44,.6); }
+.frame .safe span { position: absolute; right: 8px; top: 6px; font: 500 7px var(--f-mono); letter-spacing: .1em; color: #b4232c; }
+.crop { position: absolute; width: 14px; height: 14px; border-color: currentColor; opacity: .55; }
+.crop.tl { left: 12px; top: 30px; border-left: 1px solid; border-top: 1px solid; }
+.crop.br { right: 12px; bottom: 26%; border-right: 1px solid; border-bottom: 1px solid; }
+.ruler { position: absolute; left: 14px; right: 14px; bottom: 23%; height: 8px; background: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 10px); opacity: .35; }
+.ghost { position: absolute; left: -10px; bottom: 25%; font-weight: 700; font-size: 92px; letter-spacing: -0.05em; color: transparent; -webkit-text-stroke: 1px currentColor; opacity: .12; white-space: nowrap; }
+.figcap { font-size: 13px; color: var(--graphite); text-align: center; margin-top: 10px; }
+
+/* demo animations (loop) */
+@keyframes rise { 0%, 8% { opacity: 0; transform: translateY(14px); filter: blur(6px); } 18%, 100% { opacity: 1; transform: none; filter: none; } }
+@keyframes sweep { 0%, 40% { transform: scaleX(0); } 52%, 100% { transform: scaleX(1); } }
+@keyframes push { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
+@keyframes ghost { 0% { transform: translateX(0); } 100% { transform: translateX(-60px); } }
+@keyframes wipe { 0%, 30% { transform: translateX(-110%); } 62%, 100% { transform: translateX(110%); } }
+@keyframes reveal { 0%, 46% { opacity: 0; } 47%, 100% { opacity: 1; } }
+@keyframes hide { 0%, 46% { opacity: 1; } 47%, 100% { opacity: 0; } }
+.anim .zoom { position: absolute; inset: 0; animation: push 3.2s cubic-bezier(.45,0,.55,1) infinite alternate; }
+.anim .w { animation: rise 3.2s cubic-bezier(.16,1,.3,1) infinite; }
+.anim .w:nth-child(2) { animation-delay: .16s; } .anim .w:nth-child(3) { animation-delay: .32s; }
+.anim .bar { animation: sweep 3.2s cubic-bezier(.16,1,.3,1) infinite; }
+.anim .ghost { animation: ghost 6s linear infinite alternate; }
+.anim .wipeline { position: absolute; top: 0; bottom: 0; width: 120%; left: -10%; animation: wipe 2.8s cubic-bezier(.65,0,.35,1) infinite; }
+.wipeline i { position: absolute; top: 0; bottom: 0; right: 0; width: 6px; background: var(--v-cobalt); box-shadow: 0 0 18px var(--v-cobalt); }
+.anim .sceneA { animation: hide 2.8s steps(1) infinite; }
+.anim .sceneB { animation: reveal 2.8s steps(1) infinite; }
+@media (prefers-reduced-motion: reduce) { .anim *, .anim .zoom { animation: none !important; } }
+
+/* pacing ruler */
+.pace { display: grid; gap: 10px; }
+.track { display: flex; gap: 3px; height: 54px; }
+.shot { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; display: grid; place-items: center; font: 500 11px var(--f-mono); color: var(--graphite); min-width: 0; overflow: hidden; }
+.shot.hook { border-color: var(--cobalt); color: var(--cobalt); }
+.shot.end { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.beats { height: 10px; background: repeating-linear-gradient(90deg, var(--graphite) 0 1px, transparent 1px calc(100% / 44)); opacity: .5; }
+
+/* do / don't */
+.dd { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.dd > div { border: 1px solid var(--line); border-radius: 6px; padding: 20px; background: var(--surface); display: grid; gap: 10px; align-content: start; }
+.dd h3 { font-size: 18px; }
+.dd ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.dd .yes h3 { color: var(--ok); } .dd .no h3 { color: var(--no); }
+
+/* checklist + approval */
+.check { counter-reset: c; display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.check li { counter-increment: c; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; }
+.check li::before { content: counter(c, decimal-leading-zero); font: 500 12px var(--f-mono); color: var(--cobalt); padding-top: 4px; }
+.approve { border: 1px solid var(--cobalt); border-radius: 6px; padding: 24px; display: grid; gap: 8px; background: var(--surface); }
+.approve h2 { font-size: 26px; }
+footer { color: var(--graphite); font-size: 13px; border-top: 1px solid var(--line); padding-top: 20px; }
+</style>
+
+<div class="page">
+  <header>
+    <div class="status"><span class="chip draft">Draft v1 · awaiting approval</span><span class="chip">Vertical 9:16 · 1080×1920</span><span class="chip">Applies to every edit</span></div>
+    <h1><span class="lead">the</span>Southline Edit Style</h1>
+    <p>The house rules for every video I edit for you: typography, colour, captions, cuts, zooms, pacing, motion graphics and sound. It is learned from two reference reels and deliberately built on its own choices, so the edits feel related to them without copying either one.</p>
+  </header>
+
+  <!-- ===================== LEARNED FROM ===================== -->
+  <section>
+    <div class="sec-head"><span class="mono">00 · Source study</span><h2>What the references share, and what we change</h2>
+      <p>Studied from your two screen recordings (saved in <code>References/</code>), frame by frame at 4–5 fps, with scene-cut detection and audio analysis.</p></div>
+    <div class="tablewrap"><table class="learn">
+      <thead><tr><th>Element</th><th>Ref 1 · Apple widgets concept</th><th>Ref 2 · Minimalist design</th><th>Our version</th></tr></thead>
+      <tbody>
+        <tr><td><b>Look</b></td><td>White, soft colour glows, lots of air</td><td>Grey/black, one red accent, poster collage</td><td>Cool cloud grey and carbon, one cobalt accent</td></tr>
+        <tr><td><b>Type</b></td><td>Neo-grotesk, sentence case</td><td>Lowercase grotesk, light lead word + bold key word</td><td>Serif-italic lead word + tight bold grotesk key word</td></tr>
+        <tr><td><b>Captions</b></td><td>Letter-by-letter blur reveal</td><td>Word-synced; upcoming words grey, spoken words white</td><td>Word rise from blur; cobalt underline sweeps the stressed word</td></tr>
+        <tr><td><b>Cuts</b></td><td><span class="num">1</span> hard cut in 12 s; everything morphs</td><td><span class="num">~10</span> cuts in 15 s (a shot every ~1.5–2.5 s)</td><td>Shots of 1.2–2.2 s; morphs for objects, cuts for ideas</td></tr>
+        <tr><td><b>Zoom</b></td><td>Camera drift, push-through into the next object</td><td>Slow push-ins; zoom-through into a caption</td><td>3–6 % push on every shot; 12 % punch on the key word</td></tr>
+        <tr><td><b>Graphics</b></td><td>UI cards, counters, particles, 3D tilt</td><td>Red circle, dotted rings, QR/barcode micro-text, giant ghost word</td><td>Measure marks: rules, crop corners, mono labels, outlined ghost word</td></tr>
+        <tr><td><b>Sound</b></td><td>Music-led, about <span class="num">123</span> BPM, busy 8th-note hits</td><td>Voiceover over a soft pad, hits on cuts</td><td>VO-led, 118–128 BPM bed, ducked, hits on cuts only</td></tr>
+        <tr><td><b>Loudness</b></td><td><span class="num">−17.9</span> LUFS (as recorded)</td><td><span class="num">−17.3</span> LUFS (as recorded)</td><td>Deliver at −14 LUFS, true peak −1 dB</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ===================== PALETTE ===================== -->
+  <section>
+    <div class="sec-head"><span class="mono">01 · Colour</span><h2>Two neutrals, one accent</h2>
+      <p>Every frame is mostly neutral. Cobalt appears on one element per frame at most: the stressed word's underline, a line, a single shape. Footage and photos are graded close to monochrome so the accent always wins.</p></div>
+    <div class="swatches">
+      <div class="sw"><div class="c" style="background:var(--v-cloud)"></div><div class="t"><b>Cloud</b><span class="mono">#E9EBEE · light base</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--v-carbon)"></div><div class="t"><b>Carbon</b><span class="mono">#0F1115 · dark base, text</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--v-graphite)"></div><div class="t"><b>Graphite</b><span class="mono">#5A5F69 · secondary text</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--v-fog)"></div><div class="t"><b>Fog</b><span class="mono">#C9CCD2 · rules, marks</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--v-cobalt)"></div><div class="t"><b>Cobalt</b><span class="mono">#2B2FFF · accent on Cloud</span></div></div>
+      <div class="sw"><div class="c" style="background:var(--v-cobalt-night)"></div><div class="t"><b>Cobalt Night</b><span class="mono">#6C70FF · accent on Carbon</span></div></div>
+    </div>
+    <div class="pace"><span class="mono">Share of a typical frame</span>
+      <div class="ratio" role="img" aria-label="70 percent base, 25 percent text and footage, 5 percent accent"><span style="width:70%;background:var(--v-cloud)"></span><span style="width:25%;background:var(--v-carbon)"></span><span style="width:5%;background:var(--v-cobalt)"></span></div>
+      <span class="mono">Base 70 % · Text and footage 25 % · Accent 5 %</span></div>
+    <ul class="rules">
+      <li><b>Grade</b><span>Photos and footage: saturation 0–20 %, contrast +15, blacks lifted to Carbon (never pure #000). Skin may keep 20 % saturation on talking heads.</span></li>
+      <li><b>Scenes</b><span>Alternate Cloud and Carbon scenes to mark shifts in the story (problem on Carbon, solution on Cloud, end card on Carbon).</span></li>
+      <li><b>Light</b><span>One soft cobalt haze per scene at 8–12 % opacity, drifting slowly. Never multi-colour glow blobs.</span></li>
+    </ul>
+  </section>
+
+  <!-- ===================== TYPE ===================== -->
+  <section>
+    <div class="sec-head"><span class="mono">02 · Typography</span><h2>A whispered lead, a loud key word</h2>
+      <p>Two voices in every caption: a small serif-italic lead-in that sets up the thought, and a tight bold grotesk key word that lands it. A mono face handles labels and annotations only.</p></div>
+    <div class="spec">
+      <div class="s2">it's not about</div>
+      <div class="s1">the skills.</div>
+      <span class="mono">Annotation · 01 — Hook · 00:01.20</span>
+    </div>
+    <ul class="rules">
+      <li><b>Key word</b><span>Instrument Sans Bold, tracking −4 %, line-height 0.95, lowercase or sentence case. 150–190 px at 1080 wide.</span></li>
+      <li><b>Lead-in</b><span>Instrument Serif Italic at 0.42× the key word (64–80 px), 75 % opacity, sits directly above the key word, left-aligned with it.</span></li>
+      <li><b>Body / UI</b><span>Instrument Sans Medium 40–48 px for lists, cards and lower thirds.</span></li>
+      <li><b>Annotation</b><span>IBM Plex Mono 22–26 px, uppercase, +12 % tracking, Graphite. Scene numbers, timecodes, labels.</span></li>
+      <li><b>Never</b><span>All-caps headlines, drop shadows, outlines on readable text, more than two weights in one frame.</span></li>
+    </ul>
+  </section>
+
+  <!-- ===================== CAPTIONS ===================== -->
+  <section>
+    <div class="sec-head"><span class="mono">03 · Captions</span><h2>Word by word, on the voice</h2></div>
+    <div class="split">
+      <ul class="rules">
+        <li><b>Sync</b><span>Each word appears on its spoken syllable, transcribed with Whisper. Words rise 24 px from an 8 px blur in 180 ms, expo-out.</span></li>
+        <li><b>Highlight</b><span>The stressed word gets a cobalt underline that sweeps in left to right (220 ms) as it is spoken. One highlight per caption.</span></li>
+        <li><b>Chunking</b><span>Max 3 words in the key line, max 4 in the lead-in. Break on meaning, never mid-phrase.</span></li>
+        <li><b>Position</b><span>Upper-middle band, 30–45 % down the frame, 72 px side margins, left-aligned. Never in the bottom 20 % (platform UI).</span></li>
+        <li><b>Exit</b><span>Previous caption leaves in 120 ms (fade + 12 px up) as the next lead-in starts. No overlap of two captions.</span></li>
+      </ul>
+      <div><div class="frame anim" aria-label="Animated caption demo">
+        <div class="zoom">
+          <span class="tag">01 — HOOK</span><span class="crop tl"></span><span class="crop br"></span>
+          <div class="ghost">skills</div>
+          <div class="cap"><span class="ld">it's not about</span><span class="kw"><span class="w">the</span> <span class="w">skills.</span><span class="bar"></span></span></div>
+          <div class="ruler"></div>
+        </div>
+        <div class="safe"><span>PLATFORM UI · KEEP CLEAR</span></div>
+      </div><p class="figcap">Caption system with safe zone</p></div>
+    </div>
+  </section>
+
+  <!-- ===================== CUTS & PACING ===================== -->
+  <section>
+    <div class="sec-head"><span class="mono">04 · Cuts and pacing</span><h2>Something changes every half second</h2>
+      <p>Reference 2 averaged a new shot about every 1.8 s; reference 1 never stood still. Our edits keep a shot 1.2–2.2 s and add a smaller change (a word, a push, a mark) on every eighth note of the music.</p></div>
+    <div class="pace">
+      <div class="track" role="img" aria-label="Example 20 second timeline">
+        <div class="shot hook" style="flex:1.1">HOOK</div><div class="shot" style="flex:1.8">1.8</div><div class="shot" style="flex:1.6">1.6</div><div class="shot" style="flex:2.0">2.0</div><div class="shot" style="flex:1.4">1.4</div><div class="shot" style="flex:1.9">1.9</div><div class="shot" style="flex:1.5">1.5</div><div class="shot" style="flex:2.2">2.2</div><div class="shot" style="flex:1.7">1.7</div><div class="shot" style="flex:2.0">2.0</div><div class="shot end" style="flex:1.8">END</div>
+      </div>
+      <div class="beats" aria-hidden="true"></div>
+      <span class="mono">Example 20 s edit · ticks = eighth notes at 124 BPM</span>
+    </div>
+    <ul class="rules">
+      <li><b>Hook</b><span>Motion in the very first frame; the core claim is readable by 1.0 s. No logo, no slow fade-in.</span></li>
+      <li><b>Cut points</b><span>Cut on a beat or on the first syllable of a new phrase. Hard cuts for new ideas; morphs when the same object continues.</span></li>
+      <li><b>Length</b><span>12–25 s for ads and reels. Last 1.5–2 s is a calm end card that loops cleanly back to frame one.</span></li>
+      <li><b>Breathers</b><span>One slower beat (2–2.5 s, single element, no new text) before the payoff.</span></li>
+    </ul>
+  </section>
+
+  <!-- ===================== CAMERA & TRANSITIONS ===================== -->
+  <section>
+    <div class="sec-head"><span class="mono">05 · Camera, zoom and transitions</span><h2>Always drifting, never shaking</h2></div>
+    <div class="split">
+      <ul class="rules">
+        <li><b>Drift</b><span>Every shot pushes in 3–6 % over its length (ease in-out). Static frames are not allowed.</span></li>
+        <li><b>Punch-in</b><span>12 % scale punch in 250 ms on the key word or reveal, expo-out, then continue drifting.</span></li>
+        <li><b>Signature</b><span><b>Cobalt line wipe:</b> a 6 px cobalt line crosses the frame (400 ms, ease in-out) and the next scene follows behind it. Use at most twice per edit.</span></li>
+        <li><b>Morph</b><span>Same-object continuity: a word becomes a bar, a bar becomes a card, a card becomes the end card. 450 ms, back-out 1.4.</span></li>
+        <li><b>Zoom-through</b><span>Push into a dark letter counter or a negative space to enter the next scene (300 ms ease-in, then 400 ms expo-out).</span></li>
+        <li><b>Easing</b><span>Entrances expo-out 0.5 s · exits power-in 0.25 s · camera ease in-out · UI cards back-out 1.4 · never linear except particles and grain.</span></li>
+        <li><b>Shake</b><span>Only on an impact (a stamp, a slam): max 8 px, 200 ms.</span></li>
+      </ul>
+      <div><div class="frame dark anim" aria-label="Animated cobalt line wipe demo">
+        <div class="sceneA" style="position:absolute;inset:0"><div class="cap"><span class="ld">busy till</span><span class="kw">december.</span></div></div>
+        <div class="sceneB" style="position:absolute;inset:0;background:var(--v-cloud);color:var(--v-carbon)"><div class="cap"><span class="ld">then it goes</span><span class="kw">quiet.</span></div></div>
+        <div class="wipeline"><i></i></div>
+      </div><p class="figcap">Signature transition: cobalt line wipe</p></div>
+    </div>
+  </section>
+
+  <!-- ===================== MOTION GRAPHICS ===================== -->
+  <section>
+    <div class="sec-head"><span class="mono">06 · Motion graphics</span><h2>Measure marks, not stickers</h2>
+      <p>Our graphic language comes from technical drawings and tape measures: thin rules, crop corners, tick rulers and small mono labels that frame the subject. It replaces the circles, rings and sticker clutter of the references.</p></div>
+    <ul class="rules">
+      <li><b>Marks</b><span>Crop corners (14 px arms, 1.5 px Fog or Graphite), tick rulers, hairline rules. They draw on in 300 ms when a scene opens.</span></li>
+      <li><b>Labels</b><span>Mono annotations in corners: scene number and role ("02 — PROBLEM"), a timecode, or a measured fact.</span></li>
+      <li><b>Ghost word</b><span>The key idea set huge (600–900 px) as a 1 px outline at 10–12 % opacity behind the subject, sliding 60 px across the shot.</span></li>
+      <li><b>Shapes</b><span>Cobalt bars and rectangles only (radius 4–8 px). No circles, suns, rings or stars.</span></li>
+      <li><b>Cutouts</b><span>Monochrome subject cut-outs on Cloud with a soft contact shadow; one cobalt bar behind them for depth.</span></li>
+      <li><b>Data</b><span>Numbers count up (power-out, 0.8–1.2 s) in tabular figures; one hero number per frame.</span></li>
+      <li><b>UI cards</b><span>Carbon cards, 32 px radius, a single cobalt detail; tilt up to 8° in 3D when they enter, settle flat.</span></li>
+    </ul>
+  </section>
+
+  <!-- ===================== SOUND ===================== -->
+  <section>
+    <div class="sec-head"><span class="mono">07 · Music and sound</span><h2>The voice leads, the beat keeps time</h2></div>
+    <ul class="rules">
+      <li><b>Music</b><span>Minimal electronic or tech-house, 118–128 BPM, warm sub, sparse top end, no vocals under the voiceover. Licensed or royalty-free only.</span></li>
+      <li><b>Voiceover</b><span>Close, dry, conversational. Cleaned (de-noise, light compression), centred.</span></li>
+      <li><b>Mix</b><span>Final −14 LUFS integrated, true peak −1 dBTP. Music ducks 8–10 dB under speech with a 150 ms release.</span></li>
+      <li><b>SFX palette</b><span>Air whoosh on transitions · soft sub-thump on the hook and impacts · faint tick on word reveals (−28 dB) · short riser into the end card · one resolved hit to finish.</span></li>
+      <li><b>Sync</b><span>Cuts and punch-ins land on beats; caption words land on syllables. If they disagree, the voice wins.</span></li>
+    </ul>
+  </section>
+
+  <!-- ===================== ORIGINALITY ===================== -->
+  <section>
+    <div class="sec-head"><span class="mono">08 · Inspired, not copied</span><h2>Originality rules</h2>
+      <p>The references taught the principles: restraint, one accent, two-voice captions, continuous motion, and voice-led pacing. Everything you see in our edits must be our own.</p></div>
+    <div class="dd">
+      <div class="yes"><h3>Always</h3><ul>
+        <li>Our palette, our three typefaces, our measure-mark graphics</li>
+        <li>Your own footage, licensed stock, or graphics we build</li>
+        <li>Original copy written for your audience</li>
+        <li>A side-by-side check against the references before each render: if a frame could pass for theirs, change it</li>
+      </ul></div>
+      <div class="no"><h3>Never</h3><ul>
+        <li>The red circle or sun motif, dotted rings, QR or barcode decoration</li>
+        <li>Apple or any other brand's logo, UI or product imagery</li>
+        <li>Film or TV stills, celebrities or animated characters we don't have rights to</li>
+        <li>The references' exact layouts, caption wording, music or sequence of shots</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- ===================== CHECKLIST ===================== -->
+  <section>
+    <div class="sec-head"><span class="mono">09 · Before every render</span><h2>Pre-flight checklist</h2></div>
+    <ol class="check">
+      <li>Hook moves in frame one and reads by 1.0 s.</li>
+      <li>Only Cloud, Carbon, Graphite, Fog and one Cobalt element per frame.</li>
+      <li>Captions: serif-italic lead, bold key line of 3 words max, one cobalt underline, synced to the voice.</li>
+      <li>No text or key visual in the bottom 20 % of the frame.</li>
+      <li>Every shot drifts; shots run 1.2–2.2 s; something changes every half second.</li>
+      <li>Cobalt line wipe used no more than twice.</li>
+      <li>Mix at −14 LUFS, true peak −1 dBTP, music ducked under speech.</li>
+      <li>Originality check against the references passed.</li>
+      <li>End card 1.5–2 s, loops back cleanly to the first frame.</li>
+    </ol>
+  </section>
+
+  <div class="approve">
+    <span class="mono">Status</span>
+    <h2>Draft v1, waiting for your approval</h2>
+    <p>Tell me "approved", or name what to change (a colour, a typeface, the pacing, the transition). Once approved, I read this sheet before every edit and run the checklist before every render.</p>
+  </div>
+
+  <footer>Learned from two reference reels supplied as screen recordings (Ref 1: @buksedits, Apple widgets concept ad · Ref 2: @miraclestudios_, "minimalist design…"). Measurements: scene detection threshold 0.3, EBU R128 loudness and onset tempo estimate taken from the screen-recorded audio, so absolute levels include recording loss.</footer>
+</div>
