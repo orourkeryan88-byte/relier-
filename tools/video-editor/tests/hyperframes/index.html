@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=1080, height=1920" />
+<script src="gsap.min.js"></script>
+<style>
+  body { margin: 0; background: #0a1024; font-family: sans-serif; }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+  .fill { position: absolute; inset: 0; background: linear-gradient(160deg, #0a1024, #1b2d5c); }
+  .clip { position: absolute; inset: 0; display: grid; place-items: center; }
+  h1 { margin: 0; color: #ffd21f; font-size: 130px; }
+</style></head>
+<body>
+<div id="root" data-composition-id="main" data-width="1080" data-height="1920" data-duration="3">
+  <div class="fill"></div>
+  <section id="card" class="clip" data-start="0" data-duration="3" data-track-index="1"><h1 id="t">HYPERFRAMES OK</h1></section>
+</div>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  tl.fromTo("#t", { y: 120, opacity: 0, scale: 0.8 }, { y: 0, opacity: 1, scale: 1, duration: 0.7, ease: "back.out(2)" }, 0.2);
+  window.__timelines["main"] = tl;
+</script>
+</body></html>
