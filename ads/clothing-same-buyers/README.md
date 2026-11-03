@@ -15,6 +15,12 @@ The loop is cut on whole bars (4.8271–15.1719 s, 6 bars) and repeated exactly,
 timeline every scene change, caption word, pulse, flash and SFX sits on `B(n) = n × 0.43103` (beats or eighths);
 cuts at beats 12, 24, 32, 48, 54; payoff hit on beat 52 after a half-beat music drop-out. 62 beats = 26.72 s.
 
+**End card (v3):** monogram layout after the user's reference: serif "S" with a pink arc (South-*line*), small
+"SOUTHLINE · FACEBOOK + INSTAGRAM ADS", big Fraunces "Clothing / brands." (white / pink), an outlined pill with a
+comment icon and Comment "DROP", then "FOR MORE INFO." Built on beats 54–62: S lands 54, arc 54.5, title 55.5/56
+(hit + flash), pill draws 57, DROP types 58–58.75, sign-off 59.5, pill pulses 60–61. Fraunces is SIL OFL
+(`composition/assets/fonts/Fraunces-OFL.txt`).
+
 **Palette:** Concrete #D9D8D3, Jet #111111, Graphite #5C5C5A, Fog #BEBDB8, accent Signal Pink #FF3D8B / #D81B6A.
 
 **Versions**

@@ -11,6 +11,8 @@
   @font-face { font-family: "Instrument Sans"; src: url(assets/fonts/is-500.woff2) format("woff2"); font-weight: 500; }
   @font-face { font-family: "Instrument Sans"; src: url(assets/fonts/is-700.woff2) format("woff2"); font-weight: 700; }
   @font-face { font-family: "Instrument Serif"; src: url(assets/fonts/iserif-italic.woff2) format("woff2"); font-style: italic; font-weight: 400; }
+  @font-face { font-family: "Fraunces"; src: url(assets/fonts/fr-700.woff2) format("woff2"); font-weight: 700; }
+  @font-face { font-family: "Fraunces"; src: url(assets/fonts/fr-900.woff2) format("woff2"); font-weight: 900; }
   @font-face { font-family: "IBM Plex Mono"; src: url(assets/fonts/plex-500.woff2) format("woff2"); font-weight: 500; }
   :root { --con: #d9d8d3; --jet: #111111; --gra: #5c5c5a; --fog: #bebdb8; --pink: #ff3d8b; --pinkd: #d81b6a; --paper: #efeee9; --jet2: #1d1d1d; }
   html, body { margin: 0; background: var(--jet); }
@@ -83,18 +85,24 @@
   #remind .h { font: 500 20px "IBM Plex Mono", monospace; letter-spacing: .12em; color: var(--gra); }
   #remind .t { font-weight: 700; font-size: 36px; margin-top: 8px; line-height: 1.1; }
 
-  /* CTA */
-  #kw { display: inline-block; background: var(--pink); color: var(--jet); border-radius: 18px; padding: 6px 28px 2px; }
-  #cbox { position: absolute; left: 72px; top: 1000px; width: 936px; height: 126px; border-radius: 63px; background: var(--con); display: flex; align-items: center; padding: 0 40px 0 22px; box-sizing: border-box; gap: 24px; }
-  #cbox .av { width: 82px; height: 82px; border-radius: 50%; background: var(--fog); flex: none; }
-  #typed { flex: 1; font-weight: 700; font-size: 48px; color: var(--jet); display: flex; align-items: center; }
-  #typed .c { display: inline-block; }
-  #caret { display: inline-block; width: 5px; height: 52px; background: var(--jet); margin-left: 6px; }
-  #postb { font-weight: 700; font-size: 38px; color: var(--gra); }
-  #det { position: absolute; left: 72px; top: 1160px; font: 500 26px "IBM Plex Mono", monospace; letter-spacing: .12em; color: #c9c8c3; }
-  #brand { position: absolute; left: 72px; top: 1260px; }
-  #brand .b1 { font-weight: 700; font-size: 92px; letter-spacing: -0.03em; color: var(--con); }
-  #brand .b2 { font: 500 24px "IBM Plex Mono", monospace; letter-spacing: .12em; color: #9d9c97; margin-top: 10px; line-height: 1.5; }
+  /* CTA: monogram end card */
+  #s7 .ctr { position: absolute; left: 0; width: 1080px; text-align: center; }
+  #vig { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 55% at 50% 42%, rgba(255,61,139,.10) 0%, rgba(17,17,17,0) 60%), radial-gradient(ellipse 120% 90% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%); }
+  #mono { top: 268px; font: 700 340px/1 "Fraunces", serif; color: #f4f3ef; letter-spacing: -0.02em; }
+  #arc { position: absolute; left: 120px; top: 468px; width: 840px; height: 84px; transform-origin: 50% 50%; }
+  #sl { top: 628px; font: 500 24px "IBM Plex Mono", monospace; letter-spacing: .22em; color: #a8a7a2; }
+  #title { position: absolute; left: 0; top: 690px; width: 1080px; transform-origin: 50% 50%; }
+  #title .mask { display: block; overflow: hidden; padding: 0 0 26px; margin-bottom: -26px; text-align: center; }
+  #title .in { display: inline-block; font: 900 184px/1.0 "Fraunces", serif; letter-spacing: -0.035em; }
+  #cl .in { color: #f4f3ef; } #br .in { color: var(--pink); }
+  #pill { position: absolute; left: 150px; top: 1104px; width: 780px; height: 132px; }
+  #pill svg.ol { position: absolute; inset: 0; overflow: visible; }
+  #pill .row { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 30px; }
+  #pill .ico { width: 74px; height: 74px; flex: none; }
+  #pill .div { width: 4px; height: 66px; background: var(--pink); border-radius: 2px; flex: none; }
+  #pill .tx { font: 700 58px/1 "Instrument Sans", sans-serif; color: #f4f3ef; letter-spacing: -0.01em; white-space: nowrap; }
+  #pill .q { color: var(--pink); } #pill .q .c { display: inline-block; }
+  #fmi { top: 1292px; font: 500 30px "IBM Plex Mono", monospace; letter-spacing: .3em; color: #d8d7d2; }
 
   #wipe { position: absolute; top: 0; bottom: 0; width: 1200px; left: -1200px; z-index: 60; background: var(--con); }
   #wipe i { position: absolute; right: 0; top: 0; bottom: 0; width: 10px; background: var(--pink); }
@@ -191,17 +199,26 @@
     </div>
   </section>
 
-  <!-- 07 CTA (Jet end card) 23.38–26.5 -->
+  <!-- 07 CTA: monogram end card (beats 54–62) -->
   <section id="s7" class="clip scene dark" data-start="23.2756" data-duration="3.4483" data-track-index="1">
+    <div id="vig" data-layout-ignore></div>
     <div class="cam" id="cam7">
-      <div class="ghost" data-layout-ignore>drop</div>
-      <span class="corner tl"></span><span class="corner br"></span>
-      <div class="label">05 — Next step</div>
-      <div class="cap" id="c7"><span class="ld"><span class="w">want</span> <span class="w">that?</span></span>
-        <span class="kw"><span class="w">comment</span> <span class="w" id="kw">DROP</span></span></div>
-      <div id="cbox"><div class="av"></div><div id="typed"></div><div id="postb">Post</div></div>
-      <div id="det">WE'LL SHOW YOU HOW IT WORKS FOR YOUR BRAND</div>
-      <div id="brand"><div class="b1">Southline</div><div class="b2">FACEBOOK + INSTAGRAM ADS<br>FOR CLOTHING BRANDS</div></div>
+      <div class="ctr" id="mono">S</div>
+      <svg id="arc" viewBox="0 0 840 84" data-layout-ignore><path d="M0 74 Q420 -14 840 74 Q420 4 0 74 Z" fill="#ff3d8b"/></svg>
+      <div class="ctr" id="sl">SOUTHLINE · FACEBOOK + INSTAGRAM ADS</div>
+      <div id="title">
+        <span class="mask" id="cl"><span class="in">Clothing</span></span>
+        <span class="mask" id="br"><span class="in">brands.</span></span>
+      </div>
+      <div id="pill">
+        <svg class="ol" viewBox="0 0 780 132" data-layout-ignore><rect id="pillR" x="2" y="2" width="776" height="128" rx="64" fill="none" stroke="#ff3d8b" stroke-width="4"/></svg>
+        <div class="row">
+          <svg class="ico" viewBox="0 0 74 74"><path d="M14 12 H60 Q66 12 66 18 V46 Q66 52 60 52 H32 L18 64 V52 H14 Q8 52 8 46 V18 Q8 12 14 12 Z" fill="none" stroke="#f4f3ef" stroke-width="4.5" stroke-linejoin="round"/><circle cx="25" cy="32" r="4" fill="#f4f3ef"/><circle cx="37" cy="32" r="4" fill="#f4f3ef"/><circle cx="49" cy="32" r="4" fill="#f4f3ef"/></svg>
+          <span class="div"></span>
+          <span class="tx"><span class="cm">Comment</span> <span class="q"><span class="c">“D</span><span class="c">R</span><span class="c">O</span><span class="c">P”</span></span></span>
+        </div>
+      </div>
+      <div class="ctr" id="fmi">FOR MORE INFO.</div>
     </div>
   </section>
 
@@ -348,18 +365,34 @@
   flash(52, 0.5); punch("#c6", 52);
   pulse("#g5", 52, 54, 0.04);
 
-  // ---------- 07 CTA (beats 54–62) ----------
-  drift("#cam7", 54, 62, 0.04);
-  wordsAt("#c7", [54, 54.5, 55, 56]); punch("#c7", 56); flash(56, 0.35);
-  tl.fromTo("#cbox", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: E.in }, B(55.5));
-  const typed = document.getElementById("typed"); const word = "DROP";
-  typed.innerHTML = word.split("").map(c => `<span class="c">${c}</span>`).join("") + '<span id="caret"></span>';
-  tl.set("#typed .c", { opacity: 0 }, B(54));
-  word.split("").forEach((_, i) => tl.set(`#typed .c:nth-child(${i + 1})`, { opacity: 1 }, B(56.5 + i * 0.25)));
-  tl.fromTo("#caret", { opacity: 1 }, { opacity: 0, duration: P / 2, repeat: 11, yoyo: true, ease: "steps(1)" }, B(55.5));
-  tl.fromTo("#postb", { scale: 1 }, { scale: 0.86, duration: 0.08, yoyo: true, repeat: 1 }, B(58));
-  tl.fromTo("#det", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, ease: E.in }, B(58));
-  tl.fromTo("#brand", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: E.in }, B(59));
+  // ---------- 07 CTA (beats 54–62): monogram end card ----------
+  drift("#cam7", 54, 62, 0.035);
+  tl.set("#mono", { opacity: 0, y: 40, scale: 1.18 }, 0);
+  tl.to("#mono", { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "expo.out" }, B(54));
+  tl.set("#arc", { scaleX: 0 }, 0);
+  tl.to("#arc", { scaleX: 1, duration: 0.55, ease: "expo.out" }, B(54.5));
+  tl.set("#sl", { opacity: 0, y: 14 }, 0);
+  tl.to("#sl", { opacity: 1, y: 0, duration: 0.3, ease: E.in }, B(55));
+  tl.set("#cl .in", { yPercent: 115 }, 0);
+  tl.to("#cl .in", { yPercent: 0, duration: 0.42, ease: "expo.out" }, B(55.5));
+  tl.set("#br .in", { yPercent: 115 }, 0);
+  tl.to("#br .in", { yPercent: 0, duration: 0.42, ease: "expo.out" }, B(56));
+  punch("#title", 56); flash(56, 0.3);
+  const PL = 2 * (776 - 128) + Math.PI * 128;                       // pill outline length
+  tl.set("#pillR", { strokeDasharray: PL, strokeDashoffset: PL }, 0);
+  tl.to("#pillR", { strokeDashoffset: 0, duration: 0.5, ease: "power2.inOut" }, B(57));
+  tl.set("#pill .ico", { opacity: 0, scale: 0.3 }, 0);
+  tl.set("#pill .ico", { opacity: 1 }, B(57.25));
+  tl.to("#pill .ico", { scale: 1, duration: 0.35, ease: "back.out(2.5)" }, B(57.25));
+  tl.set("#pill .div", { scaleY: 0 }, 0);
+  tl.to("#pill .div", { scaleY: 1, duration: 0.2, ease: E.in }, B(57.5));
+  tl.set("#pill .cm", { opacity: 0, x: -14 }, 0);
+  tl.to("#pill .cm", { opacity: 1, x: 0, duration: 0.25, ease: E.in }, B(57.5));
+  tl.set("#pill .q .c", { opacity: 0 }, 0);
+  [0, 1, 2, 3].forEach(i => tl.set(`#pill .q .c:nth-child(${i + 1})`, { opacity: 1 }, B(58 + i * 0.25)));
+  tl.set("#fmi", { opacity: 0, y: 14 }, 0);
+  tl.to("#fmi", { opacity: 1, y: 0, duration: 0.3, ease: E.in }, B(59.5));
+  pulse("#pill", 60, 62, 0.025);
 
   window.__timelines["main"] = tl;
 </script>

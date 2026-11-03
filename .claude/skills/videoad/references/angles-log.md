@@ -31,6 +31,9 @@ a re-edit. Folders are in the user's repo under `ads/`.
   *inside* one element ("your buyer.") and rips back on beat 1 with a flash + shake; every cut/word/pulse sits on the
   song's beat grid. Default for music edits from now on: beat-locked timeline, and a frame-1 visual that is already
   big, saturated and moving.
+- **End card the user likes** (ad #8 v3, from their reference image): centred monogram with an arc through it, big
+  heavy serif audience name in two colours ("Clothing / brands."), outlined pill with a comment icon, divider and
+  Comment "KEYWORD", small letter-spaced "FOR MORE INFO." underneath. Reuse this structure (new colours each ad).
 - Brand sheet (Southline Edit Style v2) is the house style from ad #6 onward; it was learned from three reference
   reels (Apple widgets concept, minimalist-design editorial, PayPal motion concept) and must stay original.
 
