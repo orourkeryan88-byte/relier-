@@ -75,7 +75,14 @@ Use `references/script-framework.md`. In short:
 - If the user only asked for a *prompt*, deliver the research summary + script + shot list + AI B-roll prompts as text
   (see script-framework.md for the prompt template) and offer to produce it.
 
-## 4. Voiceover + word timings (ElevenLabs MCP)
+## 4. Voiceover (only if asked) + timings
+
+**Default: no voiceover.** The user said "dont need voiceovers": ads are text-led with music and SFX, so the captions
+must carry the whole message on their own (full sentences, no line that only made sense with a voice). Time caption
+words from a reading pace instead: ~0.15–0.3 s between words, hold each finished line ≥ 0.4 s + 0.3 s per word,
+scene changes on phrase ends. Skip the ElevenLabs steps below unless the user asks for a voice.
+
+ElevenLabs steps (when a VO is wanted):
 
 1. `creative_create_flow` (one flow per ad) → `creative_list_voices` (language en, accent irish). Default voice:
    **"Sean – Laid Back & Friendly" `kU1Fu9pyfEvPnMpoV67R`** (natural, not stage-Irish). Say which voice you used.
@@ -90,6 +97,11 @@ Use `references/script-framework.md`. In short:
    take. Then run step 7 with the VO and re-render.
 5. Images: only generate if the edit needs photos, and price first with `estimate_only` (~7¢/image). The image models
    return 16:9 by default; set a 9:16 aspect explicitly or the crop will be soft. Graphics-led edits don't need them.
+
+### Colours
+Change the palette for every new ad unless the user asks to keep one: keep the brand sheet's *structure* (two
+neutrals + one accent, roles, one accent element per frame, contrast) and pick a new palette not in the angles log
+(no red or blue accents: those belong to the references). Record it in the log.
 
 ## 5. Build the composition (HyperFrames via OpenMontage)
 

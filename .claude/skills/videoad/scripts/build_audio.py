@@ -98,7 +98,21 @@ def main():
         wf.setnchannels(1); wf.setsampwidth(2); wf.setframerate(SR)
         wf.writeframes((np.clip(mix / max(1e-6, np.abs(mix).max()) * 0.9, -1, 1) * 32767).astype(np.int16).tobytes())
     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", tmp, "-af", "loudnorm=I=-14:TP=-1:LRA=9", "-ar", str(SR), "-ac", "2", a.out], check=True)
-    print(f"wrote {a.out} ({D}s, VO: {'yes' if a.vo else 'no'})")
+    # single-pass loudnorm undershoots on music-only mixes: measure, then correct the gain under a -1 dBTP limiter
+    I = measure_lufs(a.out)
+    if I is not None and abs(I + 14) > 0.4:
+        tmp2 = tempfile.mktemp(suffix=".wav")
+        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", a.out, "-af",
+                        f"volume={-14 - I:.2f}dB,alimiter=limit=0.89:level=false", "-ar", str(SR), tmp2], check=True)
+        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", tmp2, "-c", "copy", a.out], check=True)
+        I = measure_lufs(a.out)
+    print(f"wrote {a.out} ({D}s, VO: {'yes' if a.vo else 'no'}, {I:.1f} LUFS)")
+
+
+def measure_lufs(path):
+    r = subprocess.run(["ffmpeg", "-i", path, "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True)
+    vals = [l.split("I:")[1].split("LUFS")[0] for l in r.stderr.splitlines() if l.strip().startswith("I:")]
+    return float(vals[-1]) if vals else None
 
 
 if __name__ == "__main__":

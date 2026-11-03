@@ -37,6 +37,9 @@ downloads), assorted blogs. Allowed: GitHub, npm, PyPI.
 - Snapshots land in `.hyperframes/artifacts/snapshots/<id>/` with a `contact-sheet*.jpg`; Read it.
 
 ## Craft
+- Single-pass `loudnorm` undershoots music-only mixes (got −16.8 instead of −14); `build_audio.py` now measures and corrects.
+- Without a VO, every caption must read as a full thought; check each line for words that only existed in the voice.
+- Two-line key lines push into graphics below; leave ~360 px under the caption band or move graphics down.
 - Count VO words before generating: 3 words/s. A 125-word script ≈ 45 s; 75 words ≈ 24 s.
 - Build-on captions (a line growing word by word) wrap fast at 136 px; keep the key line ≤3 short words or let it wrap
   to two lines deliberately.

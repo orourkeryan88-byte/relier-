@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Southline: Business Check</title>
+<script src="assets/vendor/gsap.min.js"></script>
+<style>
+  /* Palette: Aubergine #22152F / Lilac #EFECF5 / Ink #16101D / Mint accent #34E0A1 (dark) #0E8C63 (light) · Southline Edit Style v2 rules · ad #7 "business check": clear audience, problem self-diagnosis, plain offer */
+  @font-face { font-family: "Instrument Sans"; src: url(assets/fonts/is-500.woff2) format("woff2"); font-weight: 500; }
+  @font-face { font-family: "Instrument Sans"; src: url(assets/fonts/is-700.woff2) format("woff2"); font-weight: 700; }
+  @font-face { font-family: "Instrument Serif"; src: url(assets/fonts/iserif-italic.woff2) format("woff2"); font-style: italic; font-weight: 400; }
+  @font-face { font-family: "IBM Plex Mono"; src: url(assets/fonts/plex-500.woff2) format("woff2"); font-weight: 500; }
+  :root { --cloud: #efecf5; --pine: #22152f; --ink: #16101d; --graphite: #5e566b; --fog: #cfc9da; --gold: #0e8c63; --goldb: #34e0a1; --paper: #faf9fd; --pine2: #33224a; }
+  html, body { margin: 0; background: var(--pine); }
+  body { font-family: "Instrument Sans", sans-serif; -webkit-font-smoothing: antialiased; }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+  .full { position: absolute; inset: 0; }
+  #bg { z-index: 0; background: var(--pine); }
+  #haze { position: absolute; left: 540px; top: 760px; width: 1300px; height: 1300px; margin: -650px 0 0 -650px; border-radius: 50%; z-index: 1;
+    background: radial-gradient(circle, rgba(52,224,161,.10) 0%, rgba(52,224,161,0) 62%); }
+  #grain { z-index: 90; opacity: .06; mix-blend-mode: overlay; inset: -200px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+  .scene { position: absolute; inset: 0; z-index: 10; }
+  .cam { position: absolute; inset: 0; transform-origin: 50% 40%; }
+  .light { color: var(--ink); } .dark { color: var(--cloud); }
+  .label { position: absolute; left: 72px; top: 470px; font: 500 24px "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+  .dark .label { color: #b3a8c4; } .light .label { color: var(--graphite); }
+  .corner { position: absolute; width: 28px; height: 28px; border-color: currentColor; opacity: .5; }
+  .corner.tl { left: 56px; top: 420px; border-left: 2px solid; border-top: 2px solid; }
+  .corner.br { right: 56px; top: 1480px; border-right: 2px solid; border-bottom: 2px solid; }
+  .ruler { position: absolute; left: 72px; width: 936px; top: 1500px; height: 18px; transform-origin: 0 50%;
+    background: repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 24px); opacity: .35; }
+  .ghost { position: absolute; left: -40px; top: 1000px; font-weight: 700; font-size: 560px; letter-spacing: -0.06em; line-height: 1; white-space: nowrap;
+    color: transparent; -webkit-text-stroke: 2px currentColor; opacity: .11; }
+  .cap { position: absolute; left: 72px; width: 936px; top: 560px; transform-origin: 0% 50%; }
+  .cap .ld { font-family: "Instrument Serif", serif; font-style: italic; font-size: 66px; line-height: 1.05; opacity: .78; display: block; margin-bottom: 10px; }
+  .cap .kw { font-weight: 700; font-size: 136px; letter-spacing: -0.04em; line-height: .95; display: block; }
+  .cap .tail { font-family: "Instrument Serif", serif; font-style: italic; font-size: 80px; line-height: 1.05; display: block; margin-top: 26px; }
+  .cap .w { display: inline-block; position: relative; }
+  .ul { position: absolute; left: 0; right: 0; bottom: -10px; height: 12px; border-radius: 3px; transform-origin: 0 50%; display: block; }
+  .light .ul { background: var(--gold); } .dark .ul { background: var(--goldb); }
+
+  /* S1 who */
+  #who { position: absolute; left: 72px; top: 1120px; display: flex; gap: 14px; flex-wrap: wrap; width: 936px; }
+  .tag { font: 500 28px "IBM Plex Mono", monospace; letter-spacing: .1em; border: 2px solid #4d3a66; color: #d6cde3; border-radius: 10px; padding: 14px 20px 12px; }
+
+  /* S2-3 the test-record sheet */
+  #sheet { position: absolute; left: 72px; top: 940px; width: 936px; background: var(--paper); border: 2px solid var(--fog); border-radius: 20px;
+    box-shadow: 0 40px 80px -40px rgba(22,16,29,.45); padding: 34px 40px 30px; box-sizing: border-box; }
+  .sh1 { display: flex; justify-content: space-between; align-items: baseline; }
+  .sh1 .t { font-weight: 700; font-size: 46px; letter-spacing: -0.02em; }
+  .sh1 .n { font: 500 22px "IBM Plex Mono", monospace; letter-spacing: .1em; color: var(--graphite); }
+  .sh2 { font: 500 22px "IBM Plex Mono", monospace; letter-spacing: .1em; color: var(--graphite); margin-top: 6px; }
+  .cols { display: flex; justify-content: space-between; font: 500 22px "IBM Plex Mono", monospace; letter-spacing: .12em; color: var(--graphite);
+    border-bottom: 2px solid var(--ink); padding: 24px 0 10px; margin-top: 10px; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 24px; border-bottom: 1px solid var(--fog); min-height: 150px; }
+  .row .rt { font-weight: 700; font-size: 48px; letter-spacing: -0.025em; line-height: 1.05; flex: 1; }
+  .row .rt .w { display: inline-block; }
+  .res { width: 170px; height: 78px; border: 3px dashed var(--fog); border-radius: 10px; position: relative; flex: none; }
+  .fail { position: absolute; inset: -3px; border-radius: 10px; background: var(--ink); color: var(--cloud); font: 500 32px "IBM Plex Mono", monospace;
+    letter-spacing: .14em; display: flex; align-items: center; justify-content: center; }
+  .sumr { font: 500 24px "IBM Plex Mono", monospace; letter-spacing: .12em; padding-top: 22px; display: flex; justify-content: space-between; }
+
+  /* S4 feed: they're not in it */
+  .phone { position: absolute; border-radius: 52px; box-sizing: border-box; overflow: hidden; }
+  #ph4 { left: 300px; top: 1010px; width: 480px; height: 510px; border: 4px solid var(--cloud); }
+  .fhead { font: 500 20px "IBM Plex Mono", monospace; letter-spacing: .12em; padding: 34px 30px 14px; }
+  .dark .fhead { color: #b3a8c4; } .light .fhead { color: var(--graphite); }
+  .fcard { margin: 0 24px 16px; height: 118px; border-radius: 18px; padding: 18px 20px; box-sizing: border-box; }
+  .dark .fcard { background: var(--pine2); }
+  .fcard .a { font-weight: 700; font-size: 30px; } .fcard .b { font: 500 18px "IBM Plex Mono", monospace; letter-spacing: .1em; margin-top: 8px; opacity: .7; }
+  .slot { margin: 0 24px 16px; height: 118px; border-radius: 18px; border: 3px dashed #6f5a8c; display: flex; align-items: center; justify-content: center;
+    font: 500 22px "IBM Plex Mono", monospace; letter-spacing: .12em; color: #b3a8c4; box-sizing: border-box; }
+
+  /* S5 solution */
+  #ph5 { left: 600px; top: 940px; width: 408px; height: 560px; border: 4px solid var(--ink); background: var(--paper); }
+  .light .fcard { background: #e6e1ef; }
+  #yours { background: var(--pine) !important; color: var(--cloud); position: relative; }
+  #yours .btn { position: absolute; right: 16px; bottom: 16px; font: 500 16px "IBM Plex Mono", monospace; letter-spacing: .08em; background: var(--cloud); color: var(--ink); border-radius: 8px; padding: 6px 10px; }
+  #form { position: absolute; left: 72px; top: 980px; width: 470px; background: var(--paper); border: 2px solid var(--fog); border-radius: 20px; padding: 28px 30px; box-sizing: border-box;
+    box-shadow: 0 30px 60px -30px rgba(22,16,29,.4); }
+  #form .ft { font-weight: 700; font-size: 38px; letter-spacing: -0.02em; }
+  #form .fl { font: 500 20px "IBM Plex Mono", monospace; letter-spacing: .12em; color: var(--graphite); margin-top: 22px; }
+  #form .fv { font-weight: 700; font-size: 40px; border-bottom: 2px solid var(--ink); padding: 6px 0 8px; min-height: 52px; }
+  #notif { position: absolute; left: 616px; top: 1010px; width: 376px; background: var(--ink); color: var(--cloud); border-radius: 22px; padding: 22px 24px; box-sizing: border-box; z-index: 5; }
+  #notif .n1 { font: 500 18px "IBM Plex Mono", monospace; letter-spacing: .12em; color: #b3a8c4; }
+  #notif .n2 { font-weight: 700; font-size: 34px; margin-top: 8px; line-height: 1.05; }
+
+  /* S7 CTA */
+  #kw { display: inline-block; background: var(--goldb); color: var(--ink); border-radius: 18px; padding: 6px 28px 2px; }
+  #det { position: absolute; left: 72px; top: 1000px; font: 500 30px "IBM Plex Mono", monospace; letter-spacing: .12em; color: #d6cde3; }
+  #brand { position: absolute; left: 72px; top: 1180px; }
+  #brand .b1 { font-weight: 700; font-size: 96px; letter-spacing: -0.03em; color: var(--cloud); }
+  #brand .b2 { font: 500 26px "IBM Plex Mono", monospace; letter-spacing: .12em; color: #b3a8c4; margin-top: 10px; line-height: 1.5; }
+
+  #wipe { position: absolute; top: 0; bottom: 0; width: 1200px; left: -1200px; z-index: 60; background: var(--cloud); }
+  #wipe i { position: absolute; right: 0; top: 0; bottom: 0; width: 10px; background: var(--goldb); }
+  #streak { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 60; opacity: 0;
+    background: repeating-linear-gradient(0deg, rgba(207,201,218,.18) 0 3px, transparent 3px 22px); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-width="1080" data-height="1920" data-duration="27.3">
+  <div id="bg" class="full" data-layout-ignore></div>
+  <div id="haze" data-layout-ignore></div>
+
+  <!-- 01 WHO (Pine) 0–2.6 -->
+  <section id="s1" class="clip scene dark" data-start="0" data-duration="2.6" data-track-index="1">
+    <div class="cam" id="cam1">
+      <div class="ghost" id="g1" data-layout-ignore>ireland</div>
+      <span class="corner tl"></span><span class="corner br"></span>
+      <div class="label">01 — For</div>
+      <div class="ruler" id="r1"></div>
+      <div class="cap" id="c1"><span class="kw"><span class="w">electricians</span> <span class="w">in</span> <span class="w">ireland,<span class="ul" id="u1"></span></span></span>
+        <span class="tail"><span class="w">this</span> <span class="w">one's</span> <span class="w">for</span> <span class="w">you.</span></span></div>
+      <div id="who"><span class="tag" id="t0">SELF-EMPLOYED</span><span class="tag" id="t1">1–5 VANS</span><span class="tag" id="t2">SAFE ELECTRIC REGISTERED</span></div>
+    </div>
+  </section>
+
+  <!-- 02-03 REALISE (Cloud) 2.6–12.6: the business check sheet -->
+  <section id="s2" class="clip scene light" data-start="2.6" data-duration="10.0" data-track-index="1">
+    <div class="full" style="background:var(--cloud)"></div>
+    <div class="cam" id="cam2">
+      <span class="corner tl"></span><span class="corner br"></span>
+      <div class="label" id="l2">02 — Be honest</div>
+      <div class="cap" id="c2"><span class="ld"><span class="w">be</span> <span class="w">honest…</span> <span class="w">any</span> <span class="w">of</span> <span class="w">these</span></span>
+        <span class="kw"><span class="w">sound</span> <span class="w">like</span> <span class="w">you?<span class="ul" id="u2"></span></span></span></div>
+      <div id="sheet">
+        <div class="sh1"><span class="t">Business check</span><span class="n">SHEET 01</span></div>
+        <div class="sh2">TEST RECORD · ELECTRICAL CONTRACTOR · IRELAND</div>
+        <div class="cols"><span>CHECK</span><span>RESULT</span></div>
+        <div class="row"><span class="rt" id="rw0"><span class="w">Waiting</span> <span class="w">on</span> <span class="w">word</span> <span class="w">of</span> <span class="w">mouth</span></span>
+          <span class="res"><span class="fail" id="f0">FAIL</span></span></div>
+        <div class="row"><span class="rt" id="rw1"><span class="w">Paying</span> <span class="w">for</span> <span class="w">leads</span> <span class="w">that</span> <span class="w">go</span> <span class="w">to</span> <span class="w">other</span> <span class="w">lads</span> <span class="w">too</span></span>
+          <span class="res"><span class="fail" id="f1">FAIL</span></span></div>
+        <div class="row"><span class="rt" id="rw2"><span class="w">Evenings</span> <span class="w">pricing</span> <span class="w">jobs</span> <span class="w">that</span> <span class="w">never</span> <span class="w">book</span></span>
+          <span class="res"><span class="fail" id="f2">FAIL</span></span></div>
+        <div class="sumr" id="sumr"><span>OVERALL</span><span>NEEDS ATTENTION</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 THE REAL PROBLEM (Pine) 12.6–15.7: you're not in the feed -->
+  <section id="s4" class="clip scene dark" data-start="12.6" data-duration="3.1" data-track-index="1">
+    <div class="cam" id="cam4">
+      <div class="ghost" id="g4" data-layout-ignore>find you</div>
+      <span class="corner tl"></span><span class="corner br"></span>
+      <div class="label">03 — The real problem</div>
+      <div class="cap" id="c4"><span class="ld"><span class="w">you're</span> <span class="w">good</span> <span class="w">at</span> <span class="w">the</span> <span class="w">work.</span></span>
+        <span class="kw"><span class="w">people</span> <span class="w">can't</span> <span class="w">find<span class="ul" id="u4"></span></span> <span class="w">you.</span></span></div>
+      <div class="phone" id="ph4"><div id="feed4">
+        <div class="fhead">HOMEOWNER'S FEED · YOUR AREA</div>
+        <div class="fcard"><div class="a">Another spark</div><div class="b">SPONSORED</div></div>
+        <div class="fcard"><div class="a">Another spark</div><div class="b">SPONSORED</div></div>
+        <div class="slot" id="slot4">YOU · NOT SHOWING</div>
+        <div class="fcard"><div class="a">Another spark</div><div class="b">SPONSORED</div></div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 05 SOLUTION (Cloud) 15.7–24.0 -->
+  <section id="s5" class="clip scene light" data-start="15.7" data-duration="8.3" data-track-index="1">
+    <div class="full" style="background:var(--cloud)"></div>
+    <div class="cam" id="cam5">
+      <span class="corner tl"></span><span class="corner br"></span>
+      <div class="label" id="l5">04 — What we do</div>
+      <div class="cap" id="c5a"><span class="ld"><span class="w">here's</span> <span class="w">what</span> <span class="w">we</span> <span class="w">do.</span></span>
+        <span class="kw"><span class="w">southline<span class="ul" id="u5a"></span></span></span></div>
+      <div class="cap" id="c5b"><span class="ld"><span class="w">facebook</span> <span class="w">+</span> <span class="w">instagram</span> <span class="w">ads</span></span>
+        <span class="kw"><span class="w">for</span> <span class="w">your<span class="ul" id="u5b"></span></span> <span class="w">business.</span></span></div>
+      <div class="cap" id="c5c"><span class="ld"><span class="w">homeowners</span> <span class="w">near</span> <span class="w">you</span></span>
+        <span class="kw"><span class="w">send</span> <span class="w">you</span> <span class="w">the</span> <span class="w">job.<span class="ul" id="u5c"></span></span></span></div>
+      <div class="cap" id="c5d"><span class="ld"><span class="w">straight</span> <span class="w">to</span></span>
+        <span class="kw"><span class="w">your</span> <span class="w">phone.<span class="ul" id="u5d"></span></span></span></div>
+      <div class="phone" id="ph5">
+        <div class="fhead">HOMEOWNER'S FEED · NAAS</div>
+        <div class="fcard"><div class="a">Another spark</div><div class="b">SPONSORED</div></div>
+        <div class="fcard" id="yours"><div class="a">Your business</div><div class="b">ELECTRICIAN</div><span class="btn">GET A QUOTE</span></div>
+        <div class="fcard"><div class="a">Another spark</div><div class="b">SPONSORED</div></div>
+      </div>
+      <div id="form">
+        <div class="ft">Get a quote</div>
+        <div class="fl">WHAT'S THE JOB?</div><div class="fv" id="fv1">Rewire, 3-bed</div>
+        <div class="fl">WHAT AREA?</div><div class="fv" id="fv2">Naas</div>
+      </div>
+      <div id="notif"><div class="n1">NEW ENQUIRY · JUST NOW</div><div class="n2">Rewire, 3-bed · Naas</div></div>
+    </div>
+  </section>
+
+  <!-- 07 CTA (Pine end card) 24.0–27.3 -->
+  <section id="s7" class="clip scene dark" data-start="24.0" data-duration="3.3" data-track-index="1">
+    <div class="cam" id="cam7">
+      <div class="ghost" id="g7" data-layout-ignore>work</div>
+      <span class="corner tl"></span><span class="corner br"></span>
+      <div class="label">05 — Next step</div>
+      <div class="cap" id="c7"><span class="ld"><span class="w">comment</span></span><span class="kw"><span class="w" id="kw">WORK</span></span></div>
+      <div id="det">WE'LL SEND YOU THE DETAILS</div>
+      <div id="brand"><div class="b1">Southline</div><div class="b2">FACEBOOK + INSTAGRAM ADS<br>FOR ELECTRICIANS IN IRELAND</div></div>
+    </div>
+  </section>
+
+  <div id="wipe" data-layout-ignore><i></i></div>
+  <div id="streak" data-layout-ignore></div>
+  <div id="grain" class="full" data-layout-ignore></div>
+  <audio id="score" src="assets/audio.wav" data-start="0" data-duration="27.3" data-track-index="10" data-volume="1"></audio>
+</div>
+
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  const DUR = 27.3;
+  const E = { in: "expo.out", cam: "sine.inOut", ui: "back.out(1.4)" };
+  function words(capSel, times) {
+    const ws = document.querySelectorAll(capSel + " .w");
+    ws.forEach((w, i) => tl.fromTo(w, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.18, ease: E.in }, times[i]));
+  }
+  const under = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.22, ease: E.in }, t);
+  const exit = (sel, t) => tl.to(sel, { opacity: 0, y: -12, duration: 0.12, ease: "power2.in" }, t);
+  const drift = (sel, t0, t1, amt = 0.05) => tl.fromTo(sel, { scale: 1 }, { scale: 1 + amt, duration: t1 - t0, ease: E.cam }, t0);
+  const punch = (sel, t) => tl.fromTo(sel, { scale: 1.12 }, { scale: 1, duration: 0.35, ease: "expo.out" }, t);
+  const lineWipe = t => tl.fromTo("#wipe", { x: 0 }, { x: 2400, duration: 0.42, ease: "power2.inOut" }, t - 0.22);
+  const whip = (outCam, inCam, t) => {
+    tl.fromTo("#streak", { opacity: 0, x: 0 }, { keyframes: { opacity: [0, 1, 0], x: [0, -220, -440] }, duration: 0.3, ease: "power2.inOut" }, t - 0.15);
+    tl.to(outCam, { x: -300, duration: 0.15, ease: "power3.in" }, t - 0.15);
+    tl.fromTo(inCam, { x: 300 }, { x: 0, duration: 0.25, ease: E.in }, t);
+  };
+  tl.fromTo("#haze", { x: -120, y: 0 }, { x: 140, y: 120, duration: DUR, ease: "sine.inOut" }, 0);
+  tl.fromTo("#grain", { x: 0, y: 0 }, { x: 140, y: -120, duration: DUR, ease: `steps(${Math.floor(DUR * 12)})` }, 0);
+
+  // ---------- 01 WHO 0–2.6 ----------
+  drift("#cam1", 0, 2.6, 0.05);
+  tl.fromTo("#g1", { x: 0 }, { x: -60, duration: 2.6, ease: "none" }, 0);
+  tl.fromTo("#r1", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: E.in }, 0);
+  words("#c1", [0.09, 0.69, 0.77, 1.53, 1.69, 1.93, 2.13]); under("#u1", 0.77); punch("#c1", 0.77);
+  ["#t0", "#t1", "#t2"].forEach((s, i) => tl.fromTo(s, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: E.ui }, 1.2 + i * 0.12));
+
+  // ---------- 02-03 REALISE 2.6–12.6 ----------
+  lineWipe(2.6);
+  drift("#cam2", 2.6, 12.6, 0.04);
+  words("#c2", [2.73, 2.89, 3.77, 3.93, 4.13, 4.37, 4.57, 4.81]); under("#u2", 4.81);
+  tl.fromTo("#sheet", { y: 260, opacity: 0, rotation: 2 }, { y: 0, opacity: 1, rotation: 0, duration: 0.6, ease: E.in }, 3.0);
+  exit("#c2", 5.5); tl.to("#l2", { opacity: 0, duration: 0.2 }, 5.5);
+  tl.to("#sheet", { y: -420, duration: 0.6, ease: "power3.inOut" }, 5.45);      // sheet rises into the caption band: the rows are now the captions
+  words("#rw0", [5.69, 6.09, 6.25, 6.49, 6.73]);
+  words("#rw1", [7.45, 7.77, 7.93, 8.33, 8.49, 8.65, 8.81, 9.05, 9.37]);
+  words("#rw2", [10.17, 10.65, 11.13, 11.45, 11.77, 12.13]);
+  [[0, 7.05], [1, 9.75], [2, 12.3]].forEach(([i, t]) => {
+    tl.fromTo("#f" + i, { scale: 1.7, opacity: 0, rotation: -10 }, { scale: 1, opacity: 1, rotation: -4, duration: 0.22, ease: "power4.in" }, t);
+    tl.to("#sheet", { keyframes: { x: [0, -8, 6, -3, 0] }, duration: 0.2, ease: "none" }, t + 0.22);
+  });
+  tl.fromTo("#sumr", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 12.35);
+
+  // ---------- 04 REAL PROBLEM 12.6–15.7 ----------
+  whip("#cam2", "#cam4", 12.6);
+  drift("#cam4", 12.6, 15.7, 0.05);
+  tl.fromTo("#g4", { x: 0 }, { x: -60, duration: 3.1, ease: "none" }, 12.6);
+  words("#c4", [12.73, 13.05, 13.17, 13.29, 13.45, 14.09, 14.57, 14.89, 15.21]); under("#u4", 14.89); punch("#c4", 14.89);
+  tl.fromTo("#ph4", { y: 120, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: E.in }, 12.8);
+  tl.fromTo("#feed4", { y: 0 }, { y: -40, duration: 2.6, ease: "sine.inOut" }, 13.0);       // the feed scrolls; you're not in it
+  tl.fromTo("#slot4", { opacity: 1 }, { opacity: 0.35, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut" }, 14.4);
+
+  // ---------- 05 SOLUTION 15.7–24.0 ----------
+  lineWipe(15.75);
+  drift("#cam5", 15.7, 24.0, 0.05);
+  words("#c5a", [15.85, 16.09, 16.33, 16.49, 17.05]); under("#u5a", 17.05); punch("#c5a", 17.05); exit("#c5a", 17.6);
+  words("#c5b", [17.85, 18.33, 18.65, 19.01, 19.21, 19.37, 19.73]); under("#u5b", 19.37); exit("#c5b", 20.25);
+  words("#c5c", [20.33, 20.93, 21.13, 21.41, 21.6, 21.75, 21.85]); under("#u5c", 21.85); exit("#c5c", 22.85);
+  words("#c5d", [22.97, 23.17, 23.29, 23.49]); under("#u5d", 23.49);
+  tl.fromTo("#ph5", { y: 120, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: E.in }, 16.0);
+  tl.fromTo("#yours", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: E.ui }, 18.65);   // your ad fills the slot
+  tl.fromTo("#form", { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: E.ui }, 20.33);
+  tl.fromTo("#fv1", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.25, ease: E.in }, 21.85);
+  tl.fromTo("#fv2", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.25, ease: E.in }, 22.33);
+  tl.to("#form", { x: 560, y: -20, scale: 0.35, opacity: 0, duration: 0.45, ease: "power3.in" }, 22.9);   // sent straight to the phone
+  tl.fromTo("#notif", { y: -140, opacity: 0, scale: 0.92 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: E.ui }, 23.49);
+
+  // ---------- 07 CTA 24.0–27.3 ----------
+  drift("#cam7", 24.0, 27.3, 0.04);
+  tl.fromTo("#g7", { x: 0 }, { x: -50, duration: 3.3, ease: "none" }, 24.0);
+  words("#c7", [24.17, 24.41]); punch("#c7", 24.41);
+  tl.fromTo("#det", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: E.in }, 25.05);
+  tl.fromTo("#brand", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: E.in }, 25.4);
+
+  window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
