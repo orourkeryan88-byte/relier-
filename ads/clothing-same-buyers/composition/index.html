@@ -39,6 +39,11 @@
   .ul { position: absolute; left: 0; right: 0; bottom: -10px; height: 12px; border-radius: 3px; transform-origin: 0 50%; display: block; }
   .light .ul { background: var(--pinkd); } .dark .ul { background: var(--pink); }
 
+  /* hook: one buyer, then everyone */
+  #hookTxt { position: absolute; left: 0; right: 0; top: 860px; text-align: center; font-weight: 700; font-size: 170px; letter-spacing: -0.05em; color: var(--jet); z-index: 5; }
+  #hookLbl { position: absolute; left: 0; right: 0; top: 1060px; text-align: center; font: 500 30px "IBM Plex Mono", monospace; letter-spacing: .16em; color: var(--jet); z-index: 5; }
+  #flash { position: absolute; inset: 0; z-index: 70; background: #ffffff; opacity: 0; }
+  #ring1 { position: absolute; left: 268px; top: 1134px; width: 202px; height: 164px; border: 4px solid var(--pink); border-radius: 18px; opacity: 0; }
   /* buyer grid */
   .grid { position: absolute; left: 164px; top: 1030px; width: 752px; height: 372px; }
   .sq { position: absolute; width: 30px; height: 30px; border-radius: 6px; }
@@ -98,12 +103,12 @@
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-width="1080" data-height="1920" data-duration="26.5">
+<div id="root" data-composition-id="main" data-width="1080" data-height="1920" data-duration="26.7239">
   <div id="bg" class="full" data-layout-ignore></div>
   <div id="haze" data-layout-ignore></div>
 
   <!-- 01 HOOK + 02 OPEN LOOP (Jet) 0–5.29 -->
-  <section id="s1" class="clip scene dark" data-start="0" data-duration="5.29" data-track-index="1">
+  <section id="s1" class="clip scene dark" data-start="0" data-duration="5.1724" data-track-index="1">
     <div class="cam" id="cam1">
       <span class="corner tl"></span><span class="corner br"></span>
       <div class="label" id="l1">01 — Who bought</div>
@@ -112,13 +117,14 @@
       <div class="cap" id="c2"><span class="ld"><span class="w">why</span> <span class="w">does</span> <span class="w">every</span> <span class="w">drop</span></span>
         <span class="kw"><span class="w">stop</span> <span class="w">at</span> <span class="w">your</span> <span class="w">followers?</span></span></div>
       <div class="tagStack" data-layout-ignore><span id="d1">DROP 01 · SOLD TO</span><span id="d2">DROP 02 · SOLD TO</span><span id="d3">DROP 03 · SOLD TO</span></div>
-      <div class="grid" id="g1"></div>
+      <div class="grid" id="g1"></div><div id="ring1" data-layout-ignore></div>
+      <div id="hookTxt">your buyer.</div><div id="hookLbl">ONE OF 200 · DROP 01</div>
       <div id="fBox" data-layout-ignore></div><div id="fLbl">YOUR FOLLOWERS</div>
     </div>
   </section>
 
   <!-- 03 RELATE (Concrete) 5.29–10.59 -->
-  <section id="s3" class="clip scene light" data-start="5.29" data-duration="5.3" data-track-index="1">
+  <section id="s3" class="clip scene light" data-start="5.1724" data-duration="5.1723" data-track-index="1">
     <div class="full" style="background:var(--con)"></div>
     <div class="cam" id="cam3">
       <span class="corner tl"></span><span class="corner br"></span>
@@ -143,7 +149,7 @@
   </section>
 
   <!-- 04 PROBLEM (Jet) 10.59–14.56 -->
-  <section id="s4" class="clip scene dark" data-start="10.59" data-duration="3.97" data-track-index="1">
+  <section id="s4" class="clip scene dark" data-start="10.3447" data-duration="3.4483" data-track-index="1">
     <div class="cam" id="cam4">
       <span class="corner tl"></span><span class="corner br"></span>
       <div class="label">03 — The problem</div>
@@ -158,7 +164,7 @@
   </section>
 
   <!-- 05 SOLUTION + 06 PAYOFF (Concrete) 14.56–23.38 -->
-  <section id="s5" class="clip scene light" data-start="14.56" data-duration="8.82" data-track-index="1">
+  <section id="s5" class="clip scene light" data-start="13.793" data-duration="9.4826" data-track-index="1">
     <div class="full" style="background:var(--con)"></div>
     <div class="cam" id="cam5">
       <span class="corner tl"></span><span class="corner br"></span>
@@ -186,7 +192,7 @@
   </section>
 
   <!-- 07 CTA (Jet end card) 23.38–26.5 -->
-  <section id="s7" class="clip scene dark" data-start="23.38" data-duration="3.12" data-track-index="1">
+  <section id="s7" class="clip scene dark" data-start="23.2756" data-duration="3.4483" data-track-index="1">
     <div class="cam" id="cam7">
       <div class="ghost" data-layout-ignore>drop</div>
       <span class="corner tl"></span><span class="corner br"></span>
@@ -199,31 +205,38 @@
     </div>
   </section>
 
+  <div id="flash" data-layout-ignore></div>
   <div id="wipe" data-layout-ignore><i></i></div>
   <div id="streak" data-layout-ignore></div>
   <div id="grain" class="full" data-layout-ignore></div>
-  <audio id="score" src="assets/audio.wav" data-start="0" data-duration="26.5" data-track-index="10" data-volume="1"></audio>
+  <audio id="score" src="assets/audio.wav" data-start="0" data-duration="26.7239" data-track-index="10" data-volume="1"></audio>
 </div>
 
 <script>
   window.__timelines = window.__timelines || {};
   const tl = gsap.timeline({ paused: true });
-  const DUR = 26.5;
+  // Beat grid of the music bed: 139.2 BPM, loop starts on a downbeat, so beat n is at n * P seconds.
+  const P = 0.43103, B = n => +(n * P).toFixed(4), DUR = B(62);
   const E = { in: "expo.out", cam: "sine.inOut", ui: "back.out(1.4)" };
   let seed = 9; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-  function words(capSel, times) {
+  // words land on the given beats (eighths allowed), key words on whole beats
+  function wordsAt(capSel, beats) {
     const ws = document.querySelectorAll(capSel + " .w");
-    ws.forEach((w, i) => tl.fromTo(w, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.18, ease: E.in }, times[i]));
+    ws.forEach((w, i) => tl.fromTo(w, { y: 28, opacity: 0, scale: 1.08 }, { y: 0, opacity: 1, scale: 1, duration: 0.16, ease: E.in }, B(beats[i])));
   }
-  const under = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.22, ease: E.in }, t);
-  const exit = (sel, t) => tl.to(sel, { opacity: 0, y: -12, duration: 0.12, ease: "power2.in" }, t);
-  const drift = (sel, t0, t1, amt = 0.05) => tl.fromTo(sel, { scale: 1 }, { scale: 1 + amt, duration: t1 - t0, ease: E.cam }, t0);
-  const punch = (sel, t) => tl.fromTo(sel, { scale: 1.12 }, { scale: 1, duration: 0.35, ease: "expo.out" }, t);
-  const lineWipe = t => tl.fromTo("#wipe", { x: 0 }, { x: 2400, duration: 0.42, ease: "power2.inOut" }, t - 0.22);
-  const whip = (outCam, inCam, t) => {
-    tl.fromTo("#streak", { opacity: 0, x: 0 }, { keyframes: { opacity: [0, 1, 0], x: [0, -220, -440] }, duration: 0.3, ease: "power2.inOut" }, t - 0.15);
-    tl.to(outCam, { x: -300, duration: 0.15, ease: "power3.in" }, t - 0.15);
-    tl.fromTo(inCam, { x: 300 }, { x: 0, duration: 0.25, ease: E.in }, t);
+  const under = (sel, b) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.2, ease: E.in }, B(b));
+  const exit = (sel, b) => tl.to(sel, { opacity: 0, y: -12, duration: 0.1, ease: "power2.in" }, B(b));
+  const drift = (sel, b0, b1, amt = 0.05) => tl.fromTo(sel, { scale: 1 }, { scale: 1 + amt, duration: B(b1) - B(b0), ease: E.cam }, B(b0));
+  const punch = (sel, b) => tl.to(sel, { keyframes: { scale: [1.14, 1] }, duration: 0.32, ease: "expo.out" }, B(b));   // .to: no pre-applied start state
+  const flash = (b, a = 0.55) => { tl.set("#flash", { opacity: a }, B(b)); tl.to("#flash", { opacity: 0, duration: 0.35, ease: "power2.out" }, B(b) + 0.001); };
+  const shake = (sel, b) => tl.to(sel, { keyframes: { x: [0, -10, 8, -4, 0], y: [0, 6, -5, 2, 0] }, duration: 0.2, ease: "none" }, B(b));
+  // a small bump on every beat (on an element that has no other scale tween at that time)
+  const pulse = (sel, b0, b1, amt = 0.035) => { for (let b = b0; b < b1; b++) tl.to(sel, { keyframes: { scale: [1 + amt, 1] }, duration: 0.28, ease: "power2.out" }, B(b)); };
+  const lineWipe = b => tl.fromTo("#wipe", { x: 0 }, { x: 2400, duration: 0.42, ease: "power2.inOut" }, B(b) - 0.22);
+  const whip = (outCam, inCam, b) => {
+    tl.fromTo("#streak", { opacity: 0, x: 0 }, { keyframes: { opacity: [0, 1, 0], x: [0, -220, -440] }, duration: 0.3, ease: "power2.inOut" }, B(b) - 0.15);
+    tl.to(outCam, { x: -300, duration: 0.15, ease: "power3.in" }, B(b) - 0.15);
+    tl.fromTo(inCam, { x: 300 }, { x: 0, duration: 0.25, ease: E.in }, B(b));
   };
   tl.fromTo("#haze", { x: -120, y: 0 }, { x: 140, y: 120, duration: DUR, ease: "sine.inOut" }, 0);
   tl.fromTo("#grain", { x: 0, y: 0 }, { x: 140, y: -120, duration: DUR, ease: `steps(${Math.floor(DUR * 12)})` }, 0);
@@ -241,92 +254,112 @@
   }
   const G1 = grid("g1"), G4 = grid("g4"), G5 = grid("g5");
 
-  // ---------- 01 HOOK 0–2.65 + 02 OPEN LOOP 2.65–5.29 ----------
-  drift("#cam1", 0, 5.29, 0.05);
-  tl.fromTo(G1.all, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.3, stagger: { each: 0.002, from: "center" }, ease: E.in }, 0);
-  words("#c1", [0.15, 0.3, 0.5, 0.75, 1.4, 1.75]); punch("#c1", 1.75); exit("#c1", 2.6);
-  [[0.4, "#d1"], [1.2, "#d2"], [2.0, "#d3"]].forEach(([t, d], i) => {
-    tl.fromTo(G1.cl, { backgroundColor: "#2b2b2b" }, { backgroundColor: "#ff3d8b", duration: 0.15, stagger: 0.01 }, t);
-    if (i < 2) tl.to(G1.cl, { backgroundColor: "#2b2b2b", duration: 0.25 }, t + 0.5);
-    tl.set(d, { opacity: 1 }, t); if (i < 2) tl.set(d, { opacity: 0 }, t + 0.78);
+  // ---------- 01 HOOK (beats 0–8): one buyer fills the screen, then rip back to the whole grid ----------
+  // frame 1: we're inside a single pink square (row 4, col 5), scaled to fill the frame
+  tl.set(G1.cl, { backgroundColor: "#ff3d8b" }, 0);
+  tl.set("#g1", { transformOrigin: "205px 167px" }, 0);
+  tl.fromTo("#g1", { scale: 34, x: 171, y: -237, rotation: -6 }, { scale: 34.6, rotation: -4, duration: B(1), ease: "none" }, 0);   // alive from frame 1
+  tl.fromTo("#hookTxt", { scale: 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.14, ease: "power4.out" }, 0);
+  tl.fromTo("#hookLbl", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.18, ease: E.in }, 0.08);
+  // beat 1: the pull-back reveal
+  tl.to("#g1", { scale: 1, x: 0, y: 0, rotation: 0, duration: 0.62, ease: "expo.out" }, B(1));
+  tl.to(["#hookTxt", "#hookLbl"], { opacity: 0, scale: 0.6, duration: 0.12, ease: "power2.in" }, B(1));
+  flash(1, 0.7); shake("#cam1", 1);
+  drift("#cam1", 1, 12, 0.05);
+  tl.fromTo("#cam1 .corner", { opacity: 0 }, { opacity: 0.5, duration: 0.2 }, B(1.5));
+  tl.fromTo("#l1", { opacity: 0 }, { opacity: 1, duration: 0.2 }, B(1.5));
+  // caption on the grid: "clothing brands," on eighths, key words on the beat
+  wordsAt("#c1", [2, 2.5, 3, 4, 5, 6]); punch("#c1", 3); exit("#c1", 7.8);
+  // the same cluster flashes on every drop (beats 4, 6, 8) + ring + beat pulse on the grid
+  [[4, "#d1"], [6, "#d2"], [8, "#d3"]].forEach(([b, d], i) => {
+    tl.to(G1.cl, { keyframes: { scale: [1.35, 1] }, duration: 0.3, ease: "power2.out", stagger: 0.008 }, B(b));
+    tl.set("#ring1", { opacity: 0.9, scale: 1 }, B(b));
+    tl.to("#ring1", { opacity: 0, scale: 1.7, duration: 0.5, ease: "power2.out" }, B(b) + 0.001);
+    tl.set(d, { opacity: 1 }, B(b)); if (i < 2) tl.set(d, { opacity: 0 }, B(b + 2) - 0.02);
   });
-  words("#c2", [2.75, 2.9, 3.05, 3.2, 3.5, 3.65, 3.8, 3.95]); punch("#c2", 3.95);
-  // boundary around the cluster
+  pulse("#g1", 3, 12, 0.025);
+  // open loop (beats 8–12)
+  wordsAt("#c2", [8, 8.5, 9, 9.5, 10, 10.5, 10.75, 11]); punch("#c2", 11);
   tl.set("#fBox", { left: 164 + 3 * CELL - 10, top: 1030 + 3 * CELL - 10, width: 5 * CELL + 12, height: 4 * CELL + 12 }, 0);
   tl.set("#fLbl", { left: 164 + 3 * CELL - 10, top: 1030 + 7 * CELL + 14 }, 0);
-  tl.fromTo("#fBox", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: E.in }, 3.95);
-  tl.fromTo("#fLbl", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: E.in }, 4.1);
-  tl.to(G1.rest, { opacity: 0.35, duration: 0.4 }, 4.1);
+  tl.fromTo("#fBox", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: E.in }, B(11));
+  tl.fromTo("#fLbl", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: E.in }, B(11.5));
+  tl.to(G1.rest, { opacity: 0.3, duration: 0.3 }, B(11.5));
 
-  // ---------- 03 RELATE 5.29–10.59 ----------
-  lineWipe(5.29);
-  drift("#cam3", 5.29, 10.59, 0.05);
-  words("#c3a", [5.4, 5.55, 5.7, 6.05, 6.25, 6.5]); exit("#c3a", 7.85);
-  tl.fromTo("#post", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: E.in }, 5.45);
-  ["#o0", "#o1", "#o2"].forEach((o, i) => tl.fromTo(o, { x: 60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: E.ui }, 6.3 + i * 0.32));
-  tl.to(["#o0", "#o1", "#o2"], { opacity: 0, duration: 0.25 }, 7.75);
-  words("#c3b", [7.95, 8.1, 8.25, 8.4, 8.9, 9.05, 9.2, 9.35]); under("#u3", 9.35);
-  tl.fromTo("#quiet", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 8.1);
-  tl.to("#quiet", { opacity: 0, duration: 0.2 }, 8.75);
-  ["#bx0", "#bx1", "#bx2", "#bx3"].forEach((b, i) => tl.fromTo(b, { y: -300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "bounce.out" }, 8.85 + i * 0.12));
-  tl.fromTo("#still", { scale: 1.6, opacity: 0, rotation: -12 }, { scale: 1, opacity: 1, rotation: -5, duration: 0.22, ease: "power4.in" }, 9.7);
-  tl.to("#cam3", { keyframes: { x: [0, -8, 6, -3, 0] }, duration: 0.2, ease: "none" }, 9.92);
+  // ---------- 03 RELATE (beats 12–24) ----------
+  lineWipe(12);
+  drift("#cam3", 12, 24, 0.05);
+  wordsAt("#c3a", [12, 12.5, 13, 14, 14.5, 15]); exit("#c3a", 17.7);
+  tl.fromTo("#post", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: E.in }, B(12.5));
+  ["#o0", "#o1", "#o2"].forEach((o, i) => tl.fromTo(o, { x: 60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.25, ease: E.ui }, B(15 + i * 0.5)));
+  tl.to(["#o0", "#o1", "#o2"], { opacity: 0, duration: 0.2 }, B(17.7));
+  wordsAt("#c3b", [18, 18.25, 18.5, 19, 20, 20.5, 21, 21.5]); under("#u3", 21.5);
+  tl.fromTo("#quiet", { opacity: 0 }, { opacity: 1, duration: 0.2 }, B(19));
+  tl.to("#quiet", { opacity: 0, duration: 0.15 }, B(19.8));
+  ["#bx0", "#bx1", "#bx2", "#bx3"].forEach((bx, i) => tl.fromTo(bx, { y: -300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "bounce.out" }, B(20 + i * 0.5)));
+  tl.fromTo("#still", { scale: 1.7, opacity: 0, rotation: -12 }, { scale: 1, opacity: 1, rotation: -5, duration: 0.18, ease: "power4.in" }, B(22) - 0.18);
+  shake("#cam3", 22);
 
-  // ---------- 04 PROBLEM 10.59–14.56 ----------
-  whip("#cam3", "#cam4", 10.59);
-  drift("#cam4", 10.59, 14.56, 0.05);
-  tl.set("#g4", { scale: 0.8, y: -40 }, 10.59);
-  tl.fromTo(G4.all, { opacity: 0 }, { opacity: 1, duration: 0.25, stagger: { each: 0.001, from: "center" } }, 10.6);
-  words("#c4a", [10.75, 10.9, 11.05, 11.45, 11.7]); punch("#c4a", 11.7);
-  tl.fromTo(G4.cl, { backgroundColor: "#2b2b2b" }, { backgroundColor: "#ff3d8b", duration: 0.15, stagger: 0.01 }, 11.45);
-  exit("#c4a", 12.35); tl.to("#g4", { opacity: 0, duration: 0.25 }, 12.3);
-  words("#c4b", [12.45, 12.6, 12.75, 13.1, 13.3, 13.4, 13.55]); under("#u4", 13.55);
-  tl.fromTo("#adc", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: E.in }, 12.4);
+  // ---------- 04 PROBLEM (beats 24–32) ----------
+  whip("#cam3", "#cam4", 24);
+  drift("#cam4", 24, 32, 0.05);
+  tl.set("#g4", { scale: 0.8, y: -40 }, B(24));
+  tl.fromTo(G4.all, { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: { each: 0.001, from: "center" } }, B(24));
+  wordsAt("#c4a", [24.25, 24.5, 24.75, 25.5, 26]); punch("#c4a", 26);
+  tl.fromTo(G4.cl, { backgroundColor: "#2b2b2b" }, { backgroundColor: "#ff3d8b", duration: 0.12, stagger: 0.008 }, B(25.5));
+  exit("#c4a", 27.6); tl.to("#g4", { opacity: 0, duration: 0.2 }, B(27.6));
+  wordsAt("#c4b", [28, 28.25, 28.5, 29, 29.5, 29.75, 30]); under("#u4", 30);
+  tl.fromTo("#adc", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: E.in }, B(27.8));
   const dayObj = { v: 1 };
-  tl.fromTo(dayObj, { v: 1 }, { v: 7, duration: 1.5, ease: "none", onUpdate: () => { document.getElementById("days").textContent = Math.round(dayObj.v); } }, 12.7);
-  tl.fromTo("#fill", { scaleX: 1, backgroundColor: "#d9d8d3" }, { scaleX: 0.12, backgroundColor: "#5c5c5a", duration: 1.5, ease: "power2.in" }, 12.7);
+  tl.fromTo(dayObj, { v: 1 }, { v: 7, duration: B(31) - B(28), ease: "steps(6)", onUpdate: () => { document.getElementById("days").textContent = Math.round(dayObj.v); } }, B(28));
+  tl.fromTo("#fill", { scaleX: 1, backgroundColor: "#d9d8d3" }, { scaleX: 0.12, backgroundColor: "#5c5c5a", duration: B(31) - B(28), ease: "steps(6)" }, B(28));
 
-  // ---------- 05 SOLUTION 14.56–21.18 + 06 PAYOFF 21.18–23.38 ----------
-  lineWipe(14.56);
-  drift("#cam5", 14.56, 23.38, 0.06);
-  words("#c5a", [14.7, 14.85, 15.0, 15.15, 15.45]); under("#u5a", 15.45); punch("#c5a", 15.45); exit("#c5a", 15.95);
-  words("#c5b", [16.05, 16.2, 16.35, 16.6, 16.85]); under("#u5b", 16.85); exit("#c5b", 17.3);
-  words("#c5c", [17.4, 17.55, 17.75, 17.95]); under("#u5c", 17.95); exit("#c5c", 18.75);
-  // one new ad per week: each card pushes the last one out
+  // ---------- 05 SOLUTION (beats 32–48) ----------
+  lineWipe(32);
+  drift("#cam5", 32, 54, 0.06);
+  wordsAt("#c5a", [32.25, 32.5, 32.75, 33, 34]); under("#u5a", 34); punch("#c5a", 34); exit("#c5a", 35.4);
+  wordsAt("#c5b", [35.5, 35.75, 36, 36.5, 37]); under("#u5b", 37); exit("#c5b", 37.9);
+  wordsAt("#c5c", [38, 38.25, 38.5, 39]); under("#u5c", 39); exit("#c5c", 40.9);
   ["#w1", "#w2", "#w3"].forEach((w, i) => {
-    const t = 17.45 + i * 0.42;
-    tl.fromTo(w, { x: 260, opacity: 0, rotation: 4 }, { x: 0, opacity: 1, rotation: 0, duration: 0.3, ease: E.ui }, t);
-    if (i < 2) tl.to(w, { x: -260, opacity: 0, rotation: -4, duration: 0.25, ease: "power3.in" }, t + 0.36);
+    tl.fromTo(w, { x: 260, opacity: 0, rotation: 4 }, { x: 0, opacity: 1, rotation: 0, duration: 0.26, ease: E.ui }, B(38 + i));
+    if (i < 2) tl.to(w, { x: -260, opacity: 0, rotation: -4, duration: 0.2, ease: "power3.in" }, B(39 + i) - 0.12);
   });
-  tl.to("#weeks", { opacity: 0, y: -30, duration: 0.3 }, 18.75);
-  words("#c5d", [18.85, 19.0, 19.15, 19.45, 19.65, 19.85, 20.0]); under("#u5d", 19.65);
-  tl.set("#g5", { y: -30 }, 14.56);
-  tl.fromTo(G5.all, { opacity: 0 }, { opacity: 1, duration: 0.25, stagger: { each: 0.001, from: "center" } }, 18.85);
-  tl.fromTo(G5.cl, { backgroundColor: "#c4c3be" }, { backgroundColor: "#5c5c5a", duration: 0.2 }, 18.9);
+  tl.to("#weeks", { opacity: 0, y: -30, duration: 0.25 }, B(40.9));
+  wordsAt("#c5d", [41, 41.25, 41.5, 42, 42.5, 43, 43.5]); under("#u5d", 42.5);
+  tl.set("#g5", { y: -30 }, B(32));
+  tl.fromTo(G5.all, { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: { each: 0.001, from: "center" } }, B(41));
+  tl.fromTo(G5.cl, { backgroundColor: "#c4c3be" }, { backgroundColor: "#5c5c5a", duration: 0.15 }, B(41.25));
   const fresh = G5.rest.filter(() => rnd() < 0.55);
-  tl.fromTo(fresh, { backgroundColor: "#c4c3be" }, { backgroundColor: "#111111", duration: 0.12, stagger: { each: 0.006, from: "random" } }, 19.3);
-  exit("#c5d", 20.4);
-  tl.to("#g5", { opacity: 0, duration: 0.25 }, 20.35);
-  words("#c5e", [20.5, 20.65, 20.8, 21.0, 21.15, 21.3]); under("#u5e", 21.15); exit("#c5e", 21.9);
-  tl.fromTo("#remind", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: E.ui }, 20.55);
-  tl.to("#remind", { opacity: 0, duration: 0.25 }, 21.85);
-  // payoff: everyone lights up, the music drops out and comes back on "new"
-  tl.to("#g5", { opacity: 1, duration: 0.3 }, 21.9);
-  words("#c6", [22.0, 22.15, 22.3, 22.55, 22.75, 22.95]);
-  tl.to(G5.all, { backgroundColor: "#d81b6a", duration: 0.1, stagger: { each: 0.0025, from: "center" } }, 22.75);
+  // new buyers light up in four waves, one per beat
+  const waves = [[], [], [], []]; fresh.forEach((d, i) => waves[i % 4].push(d));
+  waves.forEach((w, i) => {
+    tl.to(w, { backgroundColor: "#111111", duration: 0.12 }, B(42.5 + i * 0.5));
+    tl.to(w, { keyframes: { scale: [1.3, 1] }, duration: 0.25, ease: "power2.out" }, B(42.5 + i * 0.5));
+  });
+  exit("#c5d", 44.4); tl.to("#g5", { opacity: 0, duration: 0.2 }, B(44.4));
+  wordsAt("#c5e", [44.5, 44.75, 45, 45.5, 46, 46.5]); under("#u5e", 46); exit("#c5e", 47.8);
+  tl.fromTo("#remind", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: E.ui }, B(44.75));
+  tl.to("#remind", { opacity: 0, duration: 0.2 }, B(47.8));
 
-  // ---------- 07 CTA 23.38–26.5 ----------
-  drift("#cam7", 23.38, 26.5, 0.04);
-  words("#c7", [23.5, 23.65, 23.9, 24.15]); punch("#c7", 24.15);
-  tl.fromTo("#cbox", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: E.in }, 24.0);
+  // ---------- 06 PAYOFF (beats 48–54): music drops out on 51.5, everything lights on 52 ----------
+  tl.to("#g5", { opacity: 1, duration: 0.25 }, B(48));
+  wordsAt("#c6", [48.5, 48.75, 49, 50, 50.5, 51]);
+  tl.to(G5.all, { backgroundColor: "#d81b6a", duration: 0.08, stagger: { each: 0.0018, from: "center" } }, B(52));
+  flash(52, 0.5); punch("#c6", 52);
+  pulse("#g5", 52, 54, 0.04);
+
+  // ---------- 07 CTA (beats 54–62) ----------
+  drift("#cam7", 54, 62, 0.04);
+  wordsAt("#c7", [54, 54.5, 55, 56]); punch("#c7", 56); flash(56, 0.35);
+  tl.fromTo("#cbox", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: E.in }, B(55.5));
   const typed = document.getElementById("typed"); const word = "DROP";
   typed.innerHTML = word.split("").map(c => `<span class="c">${c}</span>`).join("") + '<span id="caret"></span>';
-  tl.set("#typed .c", { opacity: 0 }, 23.38);
-  word.split("").forEach((_, i) => tl.set(`#typed .c:nth-child(${i + 1})`, { opacity: 1 }, 24.4 + i * 0.1));
-  tl.fromTo("#caret", { opacity: 1 }, { opacity: 0, duration: 0.25, repeat: 7, yoyo: true, ease: "steps(1)" }, 24.0);
-  tl.fromTo("#postb", { scale: 1 }, { scale: 0.86, duration: 0.08, yoyo: true, repeat: 1 }, 24.95);
-  tl.fromTo("#det", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: E.in }, 25.0);
-  tl.fromTo("#brand", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: E.in }, 25.3);
+  tl.set("#typed .c", { opacity: 0 }, B(54));
+  word.split("").forEach((_, i) => tl.set(`#typed .c:nth-child(${i + 1})`, { opacity: 1 }, B(56.5 + i * 0.25)));
+  tl.fromTo("#caret", { opacity: 1 }, { opacity: 0, duration: P / 2, repeat: 11, yoyo: true, ease: "steps(1)" }, B(55.5));
+  tl.fromTo("#postb", { scale: 1 }, { scale: 0.86, duration: 0.08, yoyo: true, repeat: 1 }, B(58));
+  tl.fromTo("#det", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, ease: E.in }, B(58));
+  tl.fromTo("#brand", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: E.in }, B(59));
 
   window.__timelines["main"] = tl;
 </script>

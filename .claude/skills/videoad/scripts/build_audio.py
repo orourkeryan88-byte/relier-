@@ -60,7 +60,7 @@ def main():
     ap.add_argument("cues"); ap.add_argument("vo", nargs="?"); ap.add_argument("-o", "--out", required=True)
     ap.add_argument("--music", help="use this audio file as the bed instead of the synth beat")
     ap.add_argument("--music-in", type=float, default=0.0, help="loop region start (s)")
-    ap.add_argument("--music-out", type=float, default=None, help="loop region end (s); cut on a bar line for clean loops")
+    ap.add_argument("--music-out", type=float, default=None, help="loop region end (s); start and end on downbeats (whole bars) so the beat grid stays locked")
     ap.add_argument("--music-gain", type=float, default=1.0)
     ap.add_argument("--no-bed", action="store_true", help="SFX only")
     a = ap.parse_args()
@@ -89,14 +89,20 @@ def main():
         raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", a.music, "-ac", "1", "-ar", str(SR), "-f", "f32le", "-"],
                              capture_output=True, check=True).stdout
         tr = np.frombuffer(raw, np.float32).copy()
-        seg = tr[int(a.music_in * SR): int(a.music_out * SR) if a.music_out else len(tr)]
-        seg = seg / max(1e-6, np.sqrt((seg ** 2).mean())) * 0.12 * a.music_gain      # level-match before mixing
-        xf = int(0.08 * SR); bed = np.zeros(N + SR, np.float32); pos = 0
+        i0 = int(a.music_in * SR); i1 = int(a.music_out * SR) if a.music_out else len(tr)
+        xf = int(0.08 * SR); loop = i1 - i0
+        seg = tr[i0: min(len(tr), i1 + xf)].copy()                                       # loop + a short tail for the crossfade
+        if len(seg) < loop + xf: seg = np.concatenate([seg, np.zeros(loop + xf - len(seg), np.float32)])
+        seg = seg / max(1e-6, np.sqrt((seg[:loop] ** 2).mean())) * 0.12 * a.music_gain  # level-match before mixing
+        bed = np.zeros(N + SR + len(seg), np.float32); pos = 0
         ramp = np.linspace(0, 1, xf, dtype=np.float32)
         while pos < N:
             piece = seg.copy()
-            if pos > 0: piece[:xf] *= ramp; bed[pos:pos + xf] *= ramp[::-1]
-            e = min(len(bed), pos + len(piece)); bed[pos:e] += piece[:e - pos]; pos += len(seg) - xf
+            if pos > 0: piece[:xf] *= ramp                                                # fade the new loop in…
+            piece[loop:] *= ramp[::-1]                                                    # …over the old loop's tail
+            bed[pos:pos + len(piece)] += piece
+            pos += loop                                                                    # advance exactly one loop: the beat grid never drifts
+        bed = bed[:N + SR]
         fade = np.ones(N + SR, np.float32); fade[:int(0.3 * SR)] = np.linspace(0, 1, int(0.3 * SR))
         fo = int(1.2 * SR); fade[N - fo:N] = np.linspace(1, 0, fo); music += bed * fade
     for d0, d1 in cue.get("dropouts", []):

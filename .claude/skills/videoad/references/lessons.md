@@ -34,11 +34,28 @@ downloads), assorted blogs. Allowed: GitHub, npm, PyPI.
 - Render through OpenMontage: `HyperFramesCompose().execute({"operation": "render_existing", ...})` runs the check
   then renders at high quality (~2 min for 25 s). `check` must pass with 0 errors in lint, runtime, layout, motion,
   contrast, craft and audio.
+- GSAP `fromTo` renders its from-values immediately at creation (`immediateRender`), so a later `fromTo` on the same
+  property overwrites earlier states at seek time (flashes stuck on, rings visible at t=0, scale jumps). For repeated
+  hits on one element use `tl.set(el, from, t)` + `tl.to(el, to, t)` or a single `.to` with `keyframes`.
 - Snapshots land in `.hyperframes/artifacts/snapshots/<id>/` with a `contact-sheet*.jpg`; Read it.
+
+## Beat-locked edits (ad #8 v2)
+- `scripts/beat_grid.py track.wav --start <skip> --bars N` gives bpm, beat length, a downbeat and a bar-aligned loop.
+  It can be off by a fraction of a BPM or pick a downbeat two beats out: confirm on a spectrogram/onset plot (the
+  hats should sit on the grid lines) before building. Ad #8's verified grid: 139.2 BPM, P = 0.43103 s, downbeat
+  4.8271 s, 6-bar loop to 15.1719 s.
+- The old music loop overlapped repeats by the crossfade length, so the beat drifted ~80 ms per loop. `build_audio.py`
+  now advances exactly one loop each repeat; keep `--music-in/--music-out` on whole bars.
+- In the timeline: `const P = <beat>, B = n => +(n * P).toFixed(4)`. Put every scene start, caption word (beats or
+  eighths), pulse, flash and cue on `B(n)`; set clip `data-start`/`data-duration` and the root duration to `B(n)` too.
+  Total length = whole bars (ad #8: 62 beats = 26.72 s).
+- Hook pattern that works: frame 1 is already full-bleed accent colour + big type, drifting; on beat 1 a fast
+  `expo.out` pull-back (~0.6 s) reveals the context, with a white flash (0.7 → 0) and a small shake. Things that
+  repeat (drops, waves) pulse on the beat, not on a reading pace.
 
 ## Craft
 - User-supplied music (ad #7): "Secondhand extended outro" (fan edit of Don Toliver ft. Rema), screen-recorded, 16 s,
-  ~136 BPM, band-limited, first 3.5 s was another clip. Looped 3.6–15.95 s with crossfades. Delivered with-music + SFX-only cuts.
+  139.2 BPM, band-limited, first 3.5 s was another clip. Looped 4.8271–15.1719 s (6 bars). Delivered with-music + SFX-only cuts.
 - Single-pass `loudnorm` undershoots music-only mixes (got −16.8 instead of −14); `build_audio.py` now measures and corrects.
 - Without a VO, every caption must read as a full thought; check each line for words that only existed in the voice.
 - Two-line key lines push into graphics below; leave ~360 px under the caption band or move graphics down.

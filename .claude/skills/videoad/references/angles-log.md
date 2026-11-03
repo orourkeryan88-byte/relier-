@@ -26,6 +26,11 @@ a re-edit. Folders are in the user's repo under `ads/`.
 - **AI receptionist (missed calls) is a different product**: the user's Meta-ads offer is quality leads.
 - The user asks for different visuals, hooks, angles, copy and colours each time; repeating a look reads as lazy.
 - Motion should feel premium: smooth eased motion, word-level reveals, real transitions, not static slides.
+- **Hook must catch the eye in frame 1, and the edit must hit the beat** (ad #8 v1 → v2): "the animation doesn't
+  catch the eye, also match the beat of the song to the edit." A fade-up grid wasn't enough. v2 opens full-bleed
+  *inside* one element ("your buyer.") and rips back on beat 1 with a flash + shake; every cut/word/pulse sits on the
+  song's beat grid. Default for music edits from now on: beat-locked timeline, and a frame-1 visual that is already
+  big, saturated and moving.
 - Brand sheet (Southline Edit Style v2) is the house style from ad #6 onward; it was learned from three reference
   reels (Apple widgets concept, minimalist-design editorial, PayPal motion concept) and must stay original.
 
