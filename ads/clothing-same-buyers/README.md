@@ -5,7 +5,7 @@ Made with the `videoad` skill (OpenMontage + HyperFrames); passed all 7 check ga
 **CTA keyword: SCALE** (from the owner's end-card artwork; set the comment automation to "scale").
 
 **v4 (current): reference pacing.** Opens on the callout, then the open loop, then the rest, with a new frame every
-2 beats (0.86 s) like the reference reels in `References/`: 2–5 big centred words per frame, words landing on the beat,
+2–3 beats (0.86–1.29 s) like the reference reels in `References/`: 2–5 big centred words per frame, words landing on the beat,
 hard cuts on the beat, two line wipes, two whips. 48 beats at 139.2 BPM = 20.69 s; the end card repeats the opening
 callout so the reel loops.
 
