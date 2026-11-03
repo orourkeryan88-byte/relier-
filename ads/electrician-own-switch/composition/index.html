@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Southline: Own The Switch</title>
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/MotionPathPlugin.min.js"></script>
+<style>
+  @font-face { font-family: "Space Grotesk"; src: url(assets/fonts/sg-500.woff2) format("woff2"); font-weight: 500; }
+  @font-face { font-family: "Space Grotesk"; src: url(assets/fonts/sg-700.woff2) format("woff2"); font-weight: 700; }
+  @font-face { font-family: "JetBrains Mono"; src: url(assets/fonts/jb-500.woff2) format("woff2"); font-weight: 500; }
+  @font-face { font-family: "JetBrains Mono"; src: url(assets/fonts/jb-800.woff2) format("woff2"); font-weight: 800; }
+  :root { --navy: #0a1024; --navy2: #121a33; --cyan: #3de3ff; --green: #39f28c; --red: #ff4d5e; --ink: #eaf2ff; --mute: #8fa0c8; }
+  html, body { margin: 0; background: var(--navy); }
+  body { font-family: "Space Grotesk", sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+  .full { position: absolute; inset: 0; }
+  #bg { z-index: 0; background: radial-gradient(900px 700px at 70% 22%, #1b2d5c 0%, transparent 70%), radial-gradient(900px 900px at 15% 85%, #10294a 0%, transparent 70%), linear-gradient(180deg, #0c1430, #070b1a); }
+  #grid { z-index: 1; inset: -120px; opacity: .55;
+    background-image: linear-gradient(rgba(61,227,255,.07) 2px, transparent 2px), linear-gradient(90deg, rgba(61,227,255,.07) 2px, transparent 2px);
+    background-size: 120px 120px; }
+  #dim { z-index: 50; background: #02040a; opacity: 0; pointer-events: none; }
+  #flash { z-index: 80; background: radial-gradient(circle at 50% 45%, rgba(200,250,255,.9), rgba(61,227,255,.25) 60%, transparent 80%); opacity: 0; }
+  #scan { position: absolute; left: 0; width: 1080px; height: 260px; top: 0; z-index: 85; opacity: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(61,227,255,.0) 40%, rgba(61,227,255,.35) 88%, #e9fdff 97%, transparent 100%); }
+  #grain { z-index: 90; opacity: .07; mix-blend-mode: overlay; inset: -200px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+  .scene { position: absolute; inset: 0; z-index: 10; }
+  .wrap { position: absolute; inset: 0; }
+  .center { position: absolute; left: 0; right: 0; text-align: center; }
+  .mono { font-family: "JetBrains Mono", monospace; }
+  .ch { display: inline-block; }
+  .cy { color: var(--cyan); }
+
+  /* ---------- board (shared by S2 + S4) ---------- */
+  .board { position: absolute; width: 900px; height: 640px; border-radius: 34px;
+    background: linear-gradient(180deg, #e6ebf1, #c5ced9); box-shadow: 0 60px 120px -50px rgba(0,0,0,.9), inset 0 2px 0 #fff; }
+  .strip { position: absolute; left: 40px; right: 40px; top: 34px; height: 58px; border-radius: 12px; background: var(--navy);
+    color: var(--cyan); font: 800 24px "JetBrains Mono", monospace; letter-spacing: .14em; display: flex; align-items: center; justify-content: center; }
+  .rail { position: absolute; left: 30px; right: 30px; top: 158px; height: 22px; background: #9aa5b4; border-radius: 4px; }
+  .mod { position: absolute; top: 118px; width: 150px; height: 330px; border-radius: 16px; background: linear-gradient(180deg, #343b49, #1d222c);
+    box-shadow: 0 14px 24px -10px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.12); }
+  .mod.spare { background: transparent; box-shadow: none; border: 4px dashed #8c97a8; box-sizing: border-box; }
+  .led { position: absolute; left: 59px; top: 26px; width: 32px; height: 32px; border-radius: 50%; }
+  .led.g { background: var(--green); box-shadow: 0 0 22px var(--green); }
+  .led.r { background: var(--red); box-shadow: 0 0 22px var(--red); opacity: 0; }
+  .led.c { background: var(--cyan); box-shadow: 0 0 26px var(--cyan); opacity: 0; }
+  .led.off { background: #4a5263; }
+  .slot { position: absolute; left: 40px; top: 92px; width: 70px; height: 170px; border-radius: 12px; background: #0b0e15; box-shadow: inset 0 3px 8px rgba(0,0,0,.8); }
+  .lever { position: absolute; left: 45px; top: 98px; width: 60px; height: 76px; border-radius: 10px; background: linear-gradient(180deg, #ffffff, #c4ccd8);
+    box-shadow: 0 6px 10px rgba(0,0,0,.5); }
+  .amp { position: absolute; left: 0; right: 0; top: 282px; text-align: center; font: 500 24px "JetBrains Mono", monospace; color: #8fa0c8; }
+  .lab { position: absolute; top: 462px; width: 150px; height: 76px; border-radius: 8px; background: #fff; color: var(--navy);
+    font: 800 21px "JetBrains Mono", monospace; line-height: 1.15; display: flex; align-items: center; justify-content: center; text-align: center;
+    box-sizing: border-box; padding: 4px 8px; }
+  .lab.spare { background: transparent; border: 3px dashed #8c97a8; color: #5d6779; }
+  .lab.new { background: var(--cyan); color: var(--navy); box-shadow: 0 0 30px rgba(61,227,255,.7); }
+  .mod.new { background: linear-gradient(180deg, #1f4766, #102538); box-shadow: 0 0 0 3px var(--cyan), 0 0 50px rgba(61,227,255,.55); }
+  .spark { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: radial-gradient(circle, #ffffff 0%, #9ff3ff 40%, rgba(61,227,255,0) 72%); }
+
+  /* ---------- S1 ---------- */
+  #bulbWrap { position: absolute; left: 540px; top: 0; width: 0; height: 0; z-index: 2; }
+  #bulb { position: absolute; left: -130px; top: 0; }
+  #glow { position: absolute; left: 540px; top: 545px; width: 1100px; height: 1100px; margin: -550px 0 0 -550px; border-radius: 50%; z-index: 1;
+    background: radial-gradient(circle, rgba(220,250,255,.55) 0%, rgba(61,227,255,.22) 25%, rgba(61,227,255,0) 62%); }
+  #s1 .tag { top: 800px; font: 800 40px "JetBrains Mono", monospace; letter-spacing: .3em; color: var(--cyan); }
+  #s1 .t1 { top: 880px; font-size: 134px; font-weight: 700; letter-spacing: -.035em; }
+  #s1 .t2 { top: 1040px; font-size: 158px; font-weight: 700; letter-spacing: -.035em; color: var(--cyan); }
+  #s1ul { position: absolute; left: 160px; width: 760px; top: 1236px; height: 12px; border-radius: 6px; background: var(--cyan); box-shadow: 0 0 24px var(--cyan); transform-origin: 0 50%; }
+
+  /* ---------- S2 ---------- */
+  #s2 .h1 { top: 250px; font-size: 64px; font-weight: 500; }
+  #s2 .h2 { top: 340px; font-size: 82px; font-weight: 700; letter-spacing: -.03em; color: var(--cyan); }
+  #b2 { left: 90px; top: 600px; }
+  #caps { position: absolute; left: 0; right: 0; top: 1300px; height: 70px; }
+  #caps .cap { position: absolute; left: 0; right: 0; text-align: center; font: 800 40px "JetBrains Mono", monospace; color: var(--red); letter-spacing: .02em; opacity: 0; }
+  #s2 .h3 { top: 1440px; font-size: 70px; font-weight: 700; letter-spacing: -.03em; padding: 0 70px; line-height: 1.12; }
+
+  /* ---------- S3 ---------- */
+  #s3 .l1 { top: 660px; font-size: 80px; font-weight: 500; }
+  #tick { position: absolute; left: 0; right: 0; top: 780px; height: 230px; overflow: hidden; }
+  #tickCol { position: absolute; left: 0; right: 0; top: 0; }
+  #tickCol .w { height: 230px; display: flex; align-items: center; justify-content: center; font-size: 190px; font-weight: 700; letter-spacing: -.04em; }
+  #skill { position: relative; display: inline-block; }
+  #strike { position: absolute; left: -16px; right: -16px; top: 52%; height: 20px; border-radius: 10px; background: var(--red); transform-origin: 0 50%; }
+  #s3 .l3 { top: 1080px; font-size: 48px; font-weight: 500; color: var(--mute); padding: 0 100px; line-height: 1.3; }
+
+  /* ---------- S4 ---------- */
+  #s4 .h1 { top: 190px; font-size: 104px; font-weight: 700; letter-spacing: -.035em; line-height: 1.02; }
+  #s4 .sub { top: 425px; font-size: 40px; font-weight: 500; color: var(--mute); }
+  #b4w { position: absolute; left: 90px; top: 540px; width: 900px; height: 640px; transform-origin: 50% 0; }
+  #b4 { left: 0; top: 0; }
+  #wires { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 3; overflow: visible; }
+  .lead { position: absolute; left: 110px; width: 860px; height: 124px; border-radius: 28px; background: #131d3b; box-shadow: 0 0 0 2px #24345e, 0 30px 60px -30px rgba(0,0,0,.9);
+    display: flex; align-items: center; gap: 26px; padding: 0 30px; box-sizing: border-box; z-index: 4; }
+  .lead .ic { width: 72px; height: 72px; border-radius: 20px; background: var(--cyan); flex: none; position: relative; }
+  .lead .ic i { position: absolute; left: 22px; top: 12px; width: 28px; height: 48px; background: var(--navy); clip-path: polygon(60% 0, 0 58%, 42% 58%, 30% 100%, 100% 38%, 58% 38%); }
+  .lead .tt { font-size: 40px; font-weight: 700; letter-spacing: -.02em; }
+  .lead .mt { font: 500 28px "JetBrains Mono", monospace; color: var(--mute); margin-top: 4px; }
+  .lead .ok { margin-left: auto; font: 800 26px "JetBrains Mono", monospace; color: var(--navy); background: var(--green); border-radius: 999px; padding: 10px 18px 8px; }
+
+  /* ---------- S5 ---------- */
+  #s5 .h1 { top: 200px; font-size: 120px; font-weight: 700; letter-spacing: -.035em; }
+  #s5 .h2 { top: 330px; font-size: 140px; font-weight: 700; letter-spacing: -.035em; color: var(--cyan); }
+  #plate { position: absolute; left: 390px; top: 560px; width: 300px; height: 440px; border-radius: 40px; background: linear-gradient(160deg, #f1f4f8, #c3ccd8);
+    box-shadow: 0 50px 90px -40px rgba(0,0,0,.95), inset 0 2px 0 #fff; }
+  #rocker { position: absolute; left: 75px; top: 80px; width: 150px; height: 280px; border-radius: 22px;
+    background: linear-gradient(180deg, #ffffff 0%, #dfe5ed 50%, #b9c3d0 100%); box-shadow: 0 10px 20px rgba(0,0,0,.35), inset 0 1px 0 #fff; }
+  #ind { position: absolute; left: 141px; top: 34px; width: 18px; height: 18px; border-radius: 50%; background: var(--red); box-shadow: 0 0 14px var(--red); }
+  #indOn { position: absolute; left: 141px; top: 34px; width: 18px; height: 18px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 18px var(--cyan); opacity: 0; }
+  #crow { position: absolute; left: 0; right: 0; top: 1080px; display: flex; justify-content: center; align-items: center; gap: 26px; }
+  #crow .c1 { font-size: 100px; font-weight: 700; letter-spacing: -.035em; }
+  #kw { font: 800 84px "JetBrains Mono", monospace; color: var(--navy); background: var(--cyan); border-radius: 22px; padding: 14px 30px 10px;
+    box-shadow: 0 0 50px rgba(61,227,255,.6); }
+  #cbox { position: absolute; left: 90px; top: 1280px; width: 900px; height: 140px; border-radius: 70px; background: #131d3b; box-shadow: 0 0 0 2px #24345e;
+    display: flex; align-items: center; padding: 0 44px 0 22px; box-sizing: border-box; gap: 30px; }
+  #cbox .av { width: 96px; height: 96px; border-radius: 50%; background: #2a3a66; flex: none; }
+  #typed { flex: 1; font: 800 52px "JetBrains Mono", monospace; display: flex; align-items: center; }
+  #typed .c { display: inline-block; }
+  #caret { display: inline-block; width: 6px; height: 56px; background: var(--cyan); margin-left: 6px; }
+  #post { font-size: 42px; font-weight: 700; color: var(--cyan); }
+  #toast { position: absolute; left: 50%; top: 1460px; transform: translateX(-50%); background: var(--ink); color: var(--navy); border-radius: 999px;
+    font-size: 38px; font-weight: 700; padding: 22px 38px 20px; white-space: nowrap; }
+  #brand { top: 1600px; }
+  #brand .b1 { font-size: 76px; font-weight: 700; letter-spacing: .14em; }
+  #brand .b2 { font: 500 30px "JetBrains Mono", monospace; color: var(--mute); letter-spacing: .12em; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-width="1080" data-height="1920" data-duration="23.3">
+  <div id="bg" class="full" data-layout-ignore></div>
+  <div id="grid" class="full" data-layout-ignore></div>
+
+  <!-- ===== S1 HOOK: the bulb ===== -->
+  <section id="s1" class="clip scene" data-start="0" data-duration="2.8" data-track-index="1">
+    <div class="wrap" id="s1w">
+      <div id="glow"></div>
+      <div id="bulbWrap"><svg id="bulb" width="260" height="660" viewBox="0 0 260 660">
+        <line x1="130" y1="0" x2="130" y2="400" stroke="#4b5a80" stroke-width="6"/>
+        <rect x="100" y="396" width="60" height="70" rx="8" fill="#2a3352"/>
+        <rect x="104" y="410" width="52" height="6" fill="#4b5a80"/><rect x="104" y="428" width="52" height="6" fill="#4b5a80"/>
+        <circle id="glass" cx="130" cy="545" r="88" fill="#e8fbff" opacity=".96"/>
+        <path d="M118 466 L110 548 M142 466 L150 548" stroke="#9aa9c9" stroke-width="3"/><path d="M110 548 q5 -12 10 0 t10 0 t10 0 t10 0" fill="none" stroke="#ffb547" stroke-width="5" stroke-linecap="round"/>
+      </svg></div>
+      <div class="center tag" id="s1tag">ELECTRICIANS</div>
+      <div class="center t1 split" id="s1t1">Who controls</div>
+      <div class="center t2 split" id="s1t2">your work?</div>
+      <div id="s1ul"></div>
+    </div>
+  </section>
+
+  <!-- ===== S2 PROBLEM: someone else's power ===== -->
+  <section id="s2" class="clip scene" data-start="2.8" data-duration="5.6" data-track-index="1">
+    <div class="wrap" id="s2w">
+      <div class="center h1 split" id="s2h1">Most sparks run on</div>
+      <div class="center h2 split" id="s2h2">someone else's power.</div>
+      <div class="board" id="b2"></div>
+      <div id="caps" data-layout-ignore>
+        <div class="cap" id="cap0">Builder goes quiet.</div>
+        <div class="cap" id="cap1">Referrals dry up.</div>
+        <div class="cap" id="cap2">Old customers are sorted.</div>
+        <div class="cap" id="cap3">Luck runs out.</div>
+      </div>
+      <div class="center h3" id="s2h3">A quiet month you didn't choose.</div>
+      <div id="sp2"></div>
+    </div>
+  </section>
+
+  <!-- ===== S3 INSIGHT: skill vs control ===== -->
+  <section id="s3" class="clip scene" data-start="8.4" data-duration="3.6" data-track-index="1">
+    <div class="wrap" id="s3w">
+      <div class="center l1 split" id="s3l1">You're not short on</div>
+      <div id="tick"><div id="tickCol">
+        <div class="w"><span id="skill">skill.<span id="strike"></span></span></div>
+        <div class="w cy">control.</div>
+      </div></div>
+      <div class="center l3" id="s3l3">Every job still comes through someone else's door.</div>
+    </div>
+  </section>
+
+  <!-- ===== S4 SOLUTION: add your own circuit ===== -->
+  <section id="s4" class="clip scene" data-start="12.0" data-duration="6.3" data-track-index="1">
+    <div class="wrap" id="s4w">
+      <div class="center h1"><div id="s4a" class="split">Add your</div><div id="s4b" class="split cy">own circuit.</div></div>
+      <div class="center sub" id="s4sub">Meta ads that bring homeowners straight to you.</div>
+      <div id="b4w"><div class="board" id="b4"></div></div>
+      <svg id="wires" viewBox="0 0 1080 1920">
+        <path id="wire" d="M829 1012 C829 1110 540 1080 540 1176" fill="none" stroke="#3de3ff" stroke-width="7" stroke-linecap="round"/>
+        <circle class="pk" id="pk0" r="13" fill="#e9fdff"/><circle class="pk" id="pk1" r="13" fill="#e9fdff"/><circle class="pk" id="pk2" r="13" fill="#e9fdff"/>
+      </svg>
+      <div class="lead" id="ld0" style="top:1196px"><div class="ic"><i></i></div><div><div class="tt">Full rewire · 3-bed</div><div class="mt">Lucan · wants it this month</div></div><div class="ok">CHECKED</div></div>
+      <div class="lead" id="ld1" style="top:1340px"><div class="ic"><i></i></div><div><div class="tt">EV charger install</div><div class="mt">Swords · ready to book</div></div><div class="ok">CHECKED</div></div>
+      <div class="lead" id="ld2" style="top:1484px"><div class="ic"><i></i></div><div><div class="tt">Fuse board upgrade</div><div class="mt">Bray · after a quote</div></div><div class="ok">CHECKED</div></div>
+      <div id="sp4"></div>
+    </div>
+  </section>
+
+  <!-- ===== S5 CTA: take back the switch ===== -->
+  <section id="s5" class="clip scene" data-start="18.3" data-duration="5.0" data-track-index="1">
+    <div class="wrap" id="s5w">
+      <div class="center h1 split" id="s5a">Take back</div>
+      <div class="center h2 split" id="s5b">the switch.</div>
+      <div id="plate"><div id="ind"></div><div id="indOn"></div><div id="rocker"></div></div>
+      <div id="crow"><div class="c1" id="cw">Comment</div><div id="kw">SWITCH</div></div>
+      <div id="cbox"><div class="av"></div><div id="typed"></div><div id="post">Post</div></div>
+      <div id="toast">We'll DM you how it works.</div>
+      <div class="center" id="brand"><div class="b1">SOUTHLINE</div><div class="b2">META ADS FOR ELECTRICIANS</div></div>
+      <div id="sp5"></div>
+    </div>
+  </section>
+
+  <div id="dim" class="full" data-layout-ignore></div>
+  <div id="flash" class="full" data-layout-ignore></div>
+  <div id="scan" data-layout-ignore></div>
+  <div id="grain" class="full" data-layout-ignore></div>
+  <audio id="score" src="assets/audio.wav" data-start="0" data-duration="23.3" data-track-index="10" data-volume="1"></audio>
+</div>
+
+<script>
+  gsap.registerPlugin(MotionPathPlugin);
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  const S = { s1: 0, s2: 2.8, s3: 8.4, s4: 12.0, s5: 18.3, end: 23.3 };
+  let seed = 11; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+  // ---------- helpers ----------
+  // split text into per-character spans (spaces kept as fixed-width blocks)
+  document.querySelectorAll(".split").forEach(el => {
+    el.innerHTML = el.textContent.split("").map(c => c === " " ? '<span class="ch">&nbsp;</span>' : `<span class="ch">${c}</span>`).join("");
+  });
+  const chars = (sel, t, { y = 90, rx = -80, stagger = 0.022, dur = 0.55 } = {}) =>
+    tl.fromTo(`${sel} .ch`, { y, opacity: 0, rotationX: rx, transformPerspective: 600, transformOrigin: "50% 100%" },
+      { y: 0, opacity: 1, rotationX: 0, duration: dur, stagger, ease: "power4.out" }, t);
+  // deterministic spark burst at frame coords
+  function burst(host, x, y, t, n = 18, reach = 220) {
+    const box = document.getElementById(host);
+    for (let i = 0; i < n; i++) {
+      const p = document.createElement("div"); p.className = "spark"; p.style.left = x + "px"; p.style.top = y + "px"; box.appendChild(p);
+      const a = rnd() * Math.PI * 2, d = reach * (0.35 + rnd() * 0.65), s = 0.6 + rnd() * 1.4;
+      tl.set(p, { opacity: 0, scale: s }, 0);
+      tl.set(p, { opacity: 1 }, t);
+      tl.to(p, { x: Math.cos(a) * d, y: Math.sin(a) * d + 60, opacity: 0, scale: 0.2, duration: 0.7, ease: "power3.out" }, t);
+    }
+  }
+  // build a consumer unit (fuse board)
+  const LABELS = ["THE BUILDER", "WORD OF MOUTH", "OLD CUSTOMERS", "LUCK", "SPARE"];
+  function board(id) {
+    const b = document.getElementById(id);
+    let h = `<div class="strip">MAIN SUPPLY · YOUR WORK</div><div class="rail"></div>`;
+    LABELS.forEach((lab, i) => {
+      const x = 39 + i * 168;
+      if (lab === "SPARE") h += `<div class="mod spare" style="left:${x}px"></div><div class="lab spare" id="${id}-lab4" style="left:${x}px">SPARE</div>`;
+      else h += `<div class="mod" style="left:${x}px"><div class="led off"></div><div class="led g" id="${id}-g${i}"></div><div class="led r" id="${id}-r${i}"></div>
+        <div class="slot"></div><div class="lever" id="${id}-lv${i}"></div><div class="amp">B32</div></div><div class="lab" style="left:${x}px">${lab}</div>`;
+    });
+    b.innerHTML = h;
+  }
+  board("b2"); board("b4");
+  // the new circuit (S4) sits in the spare slot
+  document.getElementById("b4").insertAdjacentHTML("beforeend",
+    `<div class="mod new" id="nm" style="left:${39 + 4 * 168}px"><div class="led off"></div><div class="led c" id="nmC"></div><div class="slot"></div>
+       <div class="lever" id="nmLv"></div><div class="amp" style="color:#9ff3ff">B40</div></div>
+     <div class="lab new" id="nmLab" style="left:${39 + 4 * 168}px">YOUR OWN LEADS</div>`);
+
+  // ---------- global: grid drift, grain, power level ----------
+  tl.fromTo("#grid", { x: 0, y: 0 }, { x: -60, y: -120, duration: S.end, ease: "none" }, 0);
+  tl.fromTo("#grain", { x: 0, y: 0 }, { x: 150, y: -110, duration: S.end, ease: `steps(${Math.floor(S.end * 12)})` }, 0);
+  tl.set("#dim", { opacity: 0 }, 0);
+
+  // ---------- S1 HOOK ----------
+  {
+    const T = S.s1;
+    tl.fromTo("#bulbWrap", { rotation: 16 }, { rotation: 0, duration: 2.4, ease: "elastic.out(1, 0.28)" }, T);
+    tl.fromTo("#bulbWrap", { y: -260 }, { y: 0, duration: 0.55, ease: "power3.out" }, T);
+    tl.fromTo("#glow", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "power2.out" }, T + 0.15);
+    tl.fromTo("#s1tag", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, T + 0.2);
+    chars("#s1t1", T + 0.35); chars("#s1t2", T + 0.7, { stagger: 0.03 });
+    tl.fromTo("#s1ul", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "expo.out" }, T + 1.2);
+    // flicker... then the power cuts
+    tl.to("#glow", { keyframes: { opacity: [1, 0.2, 0.9, 0.1, 0.7, 0] }, duration: 0.45, ease: "none" }, T + 2.25);
+    tl.to("#glass", { keyframes: { opacity: [0.96, 0.4, 0.9, 0.3, 0.7, 0.25] }, duration: 0.45, ease: "none" }, T + 2.25);
+    tl.to("#dim", { keyframes: { opacity: [0, 0.4, 0.1, 0.6, 0.3, 0.96] }, duration: 0.5, ease: "none" }, T + 2.28);
+  }
+
+  // ---------- S2 PROBLEM: breakers trip one by one ----------
+  {
+    const T = S.s2;
+    tl.to("#dim", { keyframes: { opacity: [0.96, 0.3, 0.8, 0.1, 0.4, 0] }, duration: 0.45, ease: "none" }, T + 0.02);
+    chars("#s2h1", T + 0.3, { stagger: 0.015 }); chars("#s2h2", T + 0.55, { stagger: 0.018 });
+    tl.fromTo("#b2", { y: 140, opacity: 0, rotation: -2 }, { y: 0, opacity: 1, rotation: 0, duration: 0.6, ease: "power3.out" }, T + 0.8);
+    for (let i = 0; i < 4; i++) tl.fromTo(`#b2-g${i}`, { scale: 0 }, { scale: 1, duration: 0.25, ease: "back.out(3)" }, T + 1.25 + i * 0.08);
+    const trips = [2.0, 2.65, 3.3, 3.95];
+    trips.forEach((tt, i) => {
+      const t = T + tt;
+      tl.fromTo(`#b2-lv${i}`, { y: 0 }, { y: 82, duration: 0.14, ease: "power4.in" }, t);
+      tl.to(`#b2-lv${i}`, { y: 74, duration: 0.08, yoyo: true, repeat: 1, ease: "power1.out" }, t + 0.14);
+      tl.to(`#b2-g${i}`, { opacity: 0, duration: 0.05 }, t + 0.12);
+      tl.fromTo(`#b2-r${i}`, { opacity: 0 }, { opacity: 1, duration: 0.05 }, t + 0.12);
+      tl.to("#b2", { keyframes: { x: [0, -10, 8, -4, 0] }, duration: 0.22, ease: "none" }, t + 0.14);
+      burst("sp2", 90 + 39 + i * 168 + 75, 600 + 118 + 98 + 70, t + 0.12, 14, 170);
+      if (i > 0) tl.to(`#cap${i - 1}`, { opacity: 0, y: -20, duration: 0.18 }, t);
+      tl.fromTo(`#cap${i}`, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.25, ease: "power3.out" }, t + 0.1);
+      tl.to("#dim", { opacity: 0.085 * (i + 1), duration: 0.18, ease: "power2.out" }, t + 0.12);
+    });
+    tl.to("#cap3", { opacity: 0, duration: 0.2 }, T + 4.55);
+    tl.fromTo("#s2h3", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, T + 4.55);
+  }
+
+  // ---------- transition S2 -> S3: surge scanline ----------
+  tl.set("#scan", { opacity: 1 }, S.s3 - 0.3);
+  tl.fromTo("#scan", { y: -280 }, { y: 1940, duration: 0.5, ease: "power1.in" }, S.s3 - 0.3);
+  tl.set("#scan", { opacity: 0 }, S.s3 + 0.22);
+  tl.to("#dim", { opacity: 0.12, duration: 0.2 }, S.s3);
+
+  // ---------- S3 INSIGHT: skill -> control ----------
+  {
+    const T = S.s3;
+    chars("#s3l1", T + 0.15, { stagger: 0.018 });
+    tl.fromTo("#tickCol", { y: 240 }, { y: 0, duration: 0.5, ease: "power4.out" }, T + 0.45);
+    tl.fromTo("#strike", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.inOut" }, T + 1.15);
+    tl.to("#tickCol", { y: -230, duration: 0.6, ease: "back.inOut(1.6)" }, T + 1.65);
+    tl.fromTo("#tick", { scale: 1 }, { scale: 1.06, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out" }, T + 2.2);
+    tl.fromTo("#s3l3", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, T + 2.25);
+    // zoom-through exit
+    tl.to("#s3w", { scale: 2.6, opacity: 0, duration: 0.32, ease: "power3.in" }, S.s4 - 0.32);
+  }
+
+  // ---------- S4 SOLUTION: install the new circuit, leads flow ----------
+  {
+    const T = S.s4;
+    tl.fromTo("#s4w", { scale: 0.86, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.42, ease: "power3.out" }, T);
+    tl.to("#dim", { opacity: 0.32, duration: 0.3 }, T);
+    tl.set("#b4w", { scale: 0.86 }, T);
+    // old circuits are already tripped
+    for (let i = 0; i < 4; i++) { tl.set(`#b4-lv${i}`, { y: 82 }, T); tl.set(`#b4-g${i}`, { opacity: 0 }, T); tl.set(`#b4-r${i}`, { opacity: 1 }, T); }
+    chars("#s4a", T + 0.15); chars("#s4b", T + 0.4, { stagger: 0.026 });
+    tl.fromTo("#s4sub", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, T + 0.75);
+    tl.fromTo("#b4", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, T + 0.6);
+    tl.set("#nmLv", { y: 82 }, T);
+    tl.fromTo("#nm", { x: 420, y: -160, rotation: 16, opacity: 0 }, { x: 0, y: 0, rotation: 0, opacity: 1, duration: 0.6, ease: "back.out(1.3)" }, T + 1.2);
+    tl.to("#b4", { keyframes: { y: [0, 10, -4, 0] }, duration: 0.25, ease: "none" }, T + 1.75);
+    tl.fromTo("#b4-lab4", { opacity: 1 }, { opacity: 0, duration: 0.15 }, T + 1.85);
+    tl.fromTo("#nmLab", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2.4)" }, T + 1.9);
+    // flip ON
+    const ON = T + 2.35;
+    tl.to("#nmLv", { y: -6, duration: 0.12, ease: "power4.in" }, ON);
+    tl.to("#nmLv", { y: 0, duration: 0.1, ease: "power2.out" }, ON + 0.12);
+    tl.fromTo("#nmC", { opacity: 0 }, { opacity: 1, duration: 0.05 }, ON + 0.1);
+    tl.fromTo("#flash", { opacity: 0.55 }, { opacity: 0, duration: 0.55, ease: "power2.out" }, ON + 0.1);
+    tl.to("#dim", { opacity: 0, duration: 0.25, ease: "power2.out" }, ON + 0.1);
+    burst("sp4", 829, 760, ON + 0.1, 26, 300);
+    tl.fromTo("#b4w", { scale: 0.86 }, { scale: 0.88, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" }, ON + 0.1);
+    // wire draws, leads travel down it
+    tl.fromTo("#wire", { strokeDasharray: 420, strokeDashoffset: 420 }, { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" }, ON + 0.3);
+    [0, 1, 2].forEach(i => {
+      const t0 = ON + 0.75 + i * 0.62;
+      tl.set(`#pk${i}`, { opacity: 0 }, 0);
+      tl.set(`#pk${i}`, { opacity: 1 }, t0);
+      tl.to(`#pk${i}`, { motionPath: { path: "#wire" }, duration: 0.45, ease: "power1.in" }, t0);
+      tl.to(`#pk${i}`, { opacity: 0, duration: 0.08 }, t0 + 0.45);
+      tl.fromTo(`#ld${i}`, { y: -50, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, t0 + 0.42);
+    });
+  }
+
+  // ---------- transition S4 -> S5: power cut ----------
+  tl.to("#dim", { keyframes: { opacity: [0, 0.5, 0.2, 0.8, 0.96] }, duration: 0.3, ease: "none" }, S.s5 - 0.32);
+
+  // ---------- S5 CTA: flip the switch ----------
+  {
+    const T = S.s5;
+    tl.set("#rocker", { rotationX: 24, transformPerspective: 700 }, T);
+    tl.fromTo("#plate", { scale: 0.85, opacity: 0.9 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.8)" }, T + 0.1);
+    const F = T + 0.75;
+    tl.to("#rocker", { rotationX: -24, duration: 0.1, ease: "power4.in" }, F);
+    tl.to("#ind", { opacity: 0, duration: 0.04 }, F + 0.08);
+    tl.fromTo("#indOn", { opacity: 0 }, { opacity: 1, duration: 0.04 }, F + 0.08);
+    tl.to("#dim", { opacity: 0, duration: 0.2, ease: "power2.out" }, F + 0.08);
+    tl.fromTo("#flash", { opacity: 0.6 }, { opacity: 0, duration: 0.6, ease: "power2.out" }, F + 0.08);
+    burst("sp5", 540, 780, F + 0.08, 30, 360);
+    tl.fromTo("#plate", { scale: 1 }, { scale: 0.96, duration: 0.08, yoyo: true, repeat: 1 }, F);
+    chars("#s5a", F + 0.12, { stagger: 0.03 }); chars("#s5b", F + 0.32, { stagger: 0.03 });
+    tl.fromTo("#cw", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, F + 0.6);
+    tl.fromTo("#kw", { scale: 0.3, opacity: 0, rotation: -8 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.5, ease: "back.out(2.4)" }, F + 0.72);
+    tl.fromTo("#kw", { scale: 1 }, { scale: 1.05, duration: 0.45, yoyo: true, repeat: 5, ease: "sine.inOut" }, F + 1.3);
+    tl.fromTo("#cbox", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, F + 0.95);
+    const typed = document.getElementById("typed"); const word = "SWITCH";
+    typed.innerHTML = word.split("").map(ch => `<span class="c">${ch}</span>`).join("") + '<span id="caret"></span>';
+    tl.set("#typed .c", { opacity: 0 }, T);
+    word.split("").forEach((_, i) => tl.set(`#typed .c:nth-child(${i + 1})`, { opacity: 1 }, F + 1.35 + i * 0.09));
+    tl.fromTo("#caret", { opacity: 1 }, { opacity: 0, duration: 0.25, repeat: 9, yoyo: true, ease: "steps(1)" }, F + 0.95);
+    tl.fromTo("#post", { scale: 1 }, { scale: 0.86, duration: 0.08, yoyo: true, repeat: 1 }, F + 2.05);
+    tl.fromTo("#toast", { y: 40, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, F + 2.15);
+    tl.fromTo("#brand", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, F + 1.1);
+  }
+
+  window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
