@@ -13,7 +13,8 @@ description: >
 # videoad: Southline video ads, end to end
 
 Southline sells Meta ads (Facebook + Instagram) that bring tradespeople, mostly electricians in Ireland, their **own,
-pre-checked enquiries for big jobs**. The user (Ryan, Southline's founder) wants scroll-stopping 9:16 ads that relate to
+pre-checked enquiries for big jobs**. It also targets **clothing brands** (new ads every week, new buyers beyond their followers,
+reminders for browsers; see ad #8 in the angles log); confirm offer details for any new vertical. The user (Ryan, Southline's founder) wants scroll-stopping 9:16 ads that relate to
 the trade and sell that outcome. This skill is the whole production line we built and refined together; follow it so
 every ad is on-brand, honest, and different from the last one.
 
