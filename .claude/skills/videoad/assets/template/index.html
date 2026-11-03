@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Southline ad</title>
+<script src="assets/vendor/gsap.min.js"></script>
+<style>
+  /* Southline Edit Style v2 starter. Replace the scenes, keep the system. Make the visuals NEW for each ad. */
+  @font-face { font-family: "Instrument Sans"; src: url(assets/fonts/is-500.woff2) format("woff2"); font-weight: 500; }
+  @font-face { font-family: "Instrument Sans"; src: url(assets/fonts/is-700.woff2) format("woff2"); font-weight: 700; }
+  @font-face { font-family: "Instrument Serif"; src: url(assets/fonts/iserif-italic.woff2) format("woff2"); font-style: italic; font-weight: 400; }
+  @font-face { font-family: "IBM Plex Mono"; src: url(assets/fonts/plex-500.woff2) format("woff2"); font-weight: 500; }
+  :root { --cloud: #eceeed; --pine: #0c2a22; --ink: #0e1412; --graphite: #56605b; --fog: #c6ccc8; --gold: #c9821f; --goldb: #f0b455; }
+  html, body { margin: 0; background: var(--pine); }
+  body { font-family: "Instrument Sans", sans-serif; -webkit-font-smoothing: antialiased; }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+  .full { position: absolute; inset: 0; }
+  #bg { z-index: 0; background: var(--pine); }
+  #haze { position: absolute; left: 540px; top: 760px; width: 1300px; height: 1300px; margin: -650px 0 0 -650px; border-radius: 50%; z-index: 1;
+    background: radial-gradient(circle, rgba(240,180,85,.11) 0%, rgba(240,180,85,0) 62%); }
+  #grain { z-index: 90; opacity: .06; mix-blend-mode: overlay; inset: -200px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+  .scene { position: absolute; inset: 0; z-index: 10; }
+  .cam { position: absolute; inset: 0; transform-origin: 50% 40%; }
+  .light { color: var(--ink); } .dark { color: var(--cloud); }
+  .label { position: absolute; left: 72px; top: 470px; font: 500 24px "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+  .dark .label { color: #9fb0a8; } .light .label { color: var(--graphite); }
+  .corner { position: absolute; width: 28px; height: 28px; border-color: currentColor; opacity: .5; }
+  .corner.tl { left: 56px; top: 420px; border-left: 2px solid; border-top: 2px solid; }
+  .corner.br { right: 56px; top: 1480px; border-right: 2px solid; border-bottom: 2px solid; }
+  .ruler { position: absolute; left: 72px; width: 936px; top: 1500px; height: 18px; transform-origin: 0 50%;
+    background: repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 24px); opacity: .35; }
+  .ghost { position: absolute; left: -40px; top: 980px; font-weight: 700; font-size: 640px; letter-spacing: -0.06em; line-height: 1; white-space: nowrap;
+    color: transparent; -webkit-text-stroke: 2px currentColor; opacity: .11; }
+  .cap { position: absolute; left: 72px; width: 936px; top: 560px; transform-origin: 0% 50%; }
+  .cap .ld { font-family: "Instrument Serif", serif; font-style: italic; font-size: 66px; line-height: 1.05; opacity: .78; display: block; margin-bottom: 10px; }
+  .cap .kw { font-weight: 700; font-size: 136px; letter-spacing: -0.04em; line-height: .95; display: block; }
+  .cap .w { display: inline-block; position: relative; }
+  .ul { position: absolute; left: 0; right: 0; bottom: -10px; height: 12px; border-radius: 3px; transform-origin: 0 50%; display: block; }
+  .light .ul { background: var(--gold); } .dark .ul { background: var(--goldb); }
+  #kw { display: inline-block; background: var(--goldb); color: var(--ink); border-radius: 18px; padding: 6px 28px 2px; }
+  #brand { position: absolute; left: 72px; top: 1300px; }
+  #brand .b1 { font-weight: 700; font-size: 84px; letter-spacing: -0.03em; color: var(--cloud); }
+  #brand .b2 { font: 500 26px "IBM Plex Mono", monospace; letter-spacing: .14em; color: #9fb0a8; margin-top: 6px; }
+  #wipe { position: absolute; top: 0; bottom: 0; width: 1200px; left: -1200px; z-index: 60; background: var(--cloud); }
+  #wipe i { position: absolute; right: 0; top: 0; bottom: 0; width: 10px; background: var(--goldb); }
+  #streak { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 60; opacity: 0;
+    background: repeating-linear-gradient(0deg, rgba(198,204,200,.18) 0 3px, transparent 3px 22px); }
+</style>
+</head>
+<body>
+<!-- Set data-duration to the VO length + ~1 s end-card hold. Scenes: one .clip per beat on track 1, no overlaps. -->
+<div id="root" data-composition-id="main" data-width="1080" data-height="1920" data-duration="8">
+  <div id="bg" class="full" data-layout-ignore></div>
+  <div id="haze" data-layout-ignore></div>
+
+  <section id="s1" class="clip scene dark" data-start="0" data-duration="3" data-track-index="1">
+    <div class="cam" id="cam1">
+      <div class="ghost" id="g1" data-layout-ignore>sparks</div>
+      <span class="corner tl"></span><span class="corner br"></span>
+      <div class="label">01 — Hook</div>
+      <div class="ruler" id="r1"></div>
+      <div class="cap" id="c1"><span class="ld"><span class="w">example</span> <span class="w">lead-in</span></span>
+        <span class="kw"><span class="w">key</span> <span class="w">line.<span class="ul" id="u1"></span></span></span></div>
+    </div>
+  </section>
+
+  <section id="s2" class="clip scene light" data-start="3" data-duration="2.5" data-track-index="1">
+    <div class="full" style="background:var(--cloud)"></div>
+    <div class="cam" id="cam2">
+      <span class="corner tl"></span><span class="corner br"></span>
+      <div class="label">02 — Problem</div>
+      <div class="cap" id="c2"><span class="ld"><span class="w">on</span> <span class="w">cloud</span></span>
+        <span class="kw"><span class="w">gold<span class="ul" id="u2"></span></span> <span class="w">underline.</span></span></div>
+    </div>
+  </section>
+
+  <section id="s3" class="clip scene dark" data-start="5.5" data-duration="2.5" data-track-index="1">
+    <div class="cam" id="cam3">
+      <span class="corner tl"></span><span class="corner br"></span>
+      <div class="label">03 — Next step</div>
+      <div class="cap" id="c3"><span class="ld"><span class="w">comment</span></span><span class="kw"><span class="w" id="kw">KEYWORD</span></span></div>
+      <div id="brand"><div class="b1">Southline</div><div class="b2">META ADS FOR ELECTRICIANS</div></div>
+    </div>
+  </section>
+
+  <div id="wipe" data-layout-ignore><i></i></div>
+  <div id="streak" data-layout-ignore></div>
+  <div id="grain" class="full" data-layout-ignore></div>
+  <audio id="score" src="assets/audio.wav" data-start="0" data-duration="8" data-track-index="10" data-volume="1"></audio>
+</div>
+
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  const DUR = 8;
+  const E = { in: "expo.out", cam: "sine.inOut", ui: "back.out(1.4)" };
+  // --- helpers (brand sheet timings). Use string concatenation in querySelectorAll: template literals there fail lint.
+  function words(capSel, times) {   // one VO start time per .w in the caption
+    const ws = document.querySelectorAll(capSel + " .w");
+    ws.forEach((w, i) => tl.fromTo(w, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.18, ease: E.in }, times[i]));
+  }
+  const under = (sel, t) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.22, ease: E.in }, t);           // gold underline sweep
+  const exit = (sel, t) => tl.to(sel, { opacity: 0, y: -12, duration: 0.12, ease: "power2.in" }, t);              // caption exit
+  const drift = (sel, t0, t1, amt = 0.05) => tl.fromTo(sel, { scale: 1 }, { scale: 1 + amt, duration: t1 - t0, ease: E.cam }, t0);
+  const punch = (sel, t) => tl.fromTo(sel, { scale: 1.12 }, { scale: 1, duration: 0.35, ease: "expo.out" }, t);   // put on the caption, not .cam
+  const lineWipe = t => tl.fromTo("#wipe", { x: 0 }, { x: 2400, duration: 0.42, ease: "power2.inOut" }, t - 0.22); // Pine -> Cloud, ≤2 per ad
+  const whip = (outCam, inCam, t) => {                                                                             // ≤2 per ad
+    tl.fromTo("#streak", { opacity: 0, x: 0 }, { keyframes: { opacity: [0, 1, 0], x: [0, -220, -440] }, duration: 0.3, ease: "power2.inOut" }, t - 0.15);
+    tl.to(outCam, { x: -300, duration: 0.15, ease: "power3.in" }, t - 0.15);
+    tl.fromTo(inCam, { x: 300 }, { x: 0, duration: 0.25, ease: E.in }, t);
+  };
+
+  tl.fromTo("#haze", { x: -120, y: 0 }, { x: 140, y: 120, duration: DUR, ease: "sine.inOut" }, 0);
+  tl.fromTo("#grain", { x: 0, y: 0 }, { x: 140, y: -120, duration: DUR, ease: `steps(${Math.floor(DUR * 12)})` }, 0);
+
+  // --- example timing (replace with VO word timings)
+  drift("#cam1", 0, 3); tl.fromTo("#r1", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: E.in }, 0);
+  words("#c1", [0.2, 0.5, 1.0, 1.4]); under("#u1", 1.4); punch("#c1", 1.4);
+  lineWipe(3.0);
+  drift("#cam2", 3, 5.5); words("#c2", [3.1, 3.4, 3.8, 4.2]); under("#u2", 3.8);
+  drift("#cam3", 5.5, 8, 0.04); words("#c3", [5.6, 5.9]); punch("#c3", 5.9);
+  tl.fromTo("#brand", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: E.in }, 6.2);
+
+  window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
