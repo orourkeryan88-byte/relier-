@@ -34,6 +34,9 @@ a re-edit. Folders are in the user's repo under `ads/`.
 - **End card the user likes** (ad #8 v3, from their reference image): centred monogram with an arc through it, big
   heavy serif audience name in two colours ("Clothing / brands."), outlined pill with a comment icon, divider and
   Comment "KEYWORD", small letter-spaced "FOR MORE INFO." underneath. Reuse this structure (new colours each ad).
+- **Callout first, reference pacing** (ad #8 v4): "Call out instantly to start: 'clothing brands', open loop question,
+  then the rest; look at the other videos I sent for the pacing." Open on the audience name, readable at frame 0;
+  open-loop question by ~1 s; then a new frame every ~2 beats (0.8–1.7 s) with 2–5 big centred words. 15–18 s total.
 - Brand sheet (Southline Edit Style v2) is the house style from ad #6 onward; it was learned from three reference
   reels (Apple widgets concept, minimalist-design editorial, PayPal motion concept) and must stay original.
 

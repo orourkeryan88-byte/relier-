@@ -53,6 +53,13 @@ downloads), assorted blogs. Allowed: GitHub, npm, PyPI.
   `expo.out` pull-back (~0.6 s) reveals the context, with a white flash (0.7 → 0) and a small shake. Things that
   repeat (drops, waves) pulse on the beat, not on a reading pace.
 
+## Reference pacing (measured from References/, ad #8 v4)
+- The three reference reels are 12 s long and change frame about every 1–1.5 s, morphing or cutting; each frame
+  holds one idea in 2–4 big centred words, built word by word. Our 26 s cuts with 3.5–9.5 s scenes felt slow next to them.
+- Pattern that matches: 2-beat frames (≈0.86 s at 139 BPM), 3–4 beats for the open loop, the brand line and the
+  payoff; all words of a frame land in the first beat; every shot lands punched in (1.07 → 1 in 0.3 s) then creeps.
+- Generate clip start times from a beat table (see `ads/clothing-same-buyers/gen_composition.py`) instead of hand-typing them.
+
 ## Craft
 - User-supplied music (ad #7): "Secondhand extended outro" (fan edit of Don Toliver ft. Rema), screen-recorded, 16 s,
   139.2 BPM, band-limited, first 3.5 s was another clip. Looped 4.8271–15.1719 s (6 bars). Delivered with-music + SFX-only cuts.

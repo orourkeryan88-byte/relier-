@@ -3,107 +3,95 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=1080, height=1920" />
-<title>Southline: Same Buyers</title>
+<title>Southline: Clothing Brands</title>
 <script src="assets/vendor/gsap.min.js"></script>
 <style>
   /* Palette: Concrete #D9D8D3 / Jet #111111 / Graphite #5C5C5A / Fog #BEBDB8 / accent Signal Pink #FF3D8B (dark) #D81B6A (light)
-     Southline Edit Style v2 structure · clothing brands · "same buyers, every drop" */
+     Southline Edit Style · clothing brands · fast cut: callout, open loop, relate, problem, solution, CTA (139.2 BPM grid) */
   @font-face { font-family: "Instrument Sans"; src: url(assets/fonts/is-500.woff2) format("woff2"); font-weight: 500; }
   @font-face { font-family: "Instrument Sans"; src: url(assets/fonts/is-700.woff2) format("woff2"); font-weight: 700; }
   @font-face { font-family: "Instrument Serif"; src: url(assets/fonts/iserif-italic.woff2) format("woff2"); font-style: italic; font-weight: 400; }
   @font-face { font-family: "Fraunces"; src: url(assets/fonts/fr-700.woff2) format("woff2"); font-weight: 700; }
   @font-face { font-family: "Fraunces"; src: url(assets/fonts/fr-900.woff2) format("woff2"); font-weight: 900; }
   @font-face { font-family: "IBM Plex Mono"; src: url(assets/fonts/plex-500.woff2) format("woff2"); font-weight: 500; }
-  :root { --con: #d9d8d3; --jet: #111111; --gra: #5c5c5a; --fog: #bebdb8; --pink: #ff3d8b; --pinkd: #d81b6a; --paper: #efeee9; --jet2: #1d1d1d; }
+  :root { --con: #d9d8d3; --jet: #111111; --gra: #5c5c5a; --fog: #bebdb8; --pink: #ff3d8b; --pinkd: #d81b6a; --paper: #efeee9; --jet2: #1d1d1d; --wh: #f4f3ef; }
   html, body { margin: 0; background: var(--jet); }
   body { font-family: "Instrument Sans", sans-serif; -webkit-font-smoothing: antialiased; }
   #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
   .full { position: absolute; inset: 0; }
   #bg { z-index: 0; background: var(--jet); }
-  #haze { position: absolute; left: 540px; top: 900px; width: 1300px; height: 1300px; margin: -650px 0 0 -650px; border-radius: 50%; z-index: 1;
-    background: radial-gradient(circle, rgba(255,61,139,.08) 0%, rgba(255,61,139,0) 62%); }
   #grain { z-index: 90; opacity: .07; mix-blend-mode: overlay; inset: -200px;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
-  .scene { position: absolute; inset: 0; z-index: 10; }
-  .cam { position: absolute; inset: 0; transform-origin: 50% 40%; }
-  .light { color: var(--jet); } .dark { color: var(--con); }
-  .label { position: absolute; left: 72px; top: 470px; font: 500 24px "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
-  .dark .label { color: #9d9c97; } .light .label { color: var(--gra); }
-  .corner { position: absolute; width: 28px; height: 28px; border-color: currentColor; opacity: .5; }
-  .corner.tl { left: 56px; top: 420px; border-left: 2px solid; border-top: 2px solid; }
-  .corner.br { right: 56px; top: 1480px; border-right: 2px solid; border-bottom: 2px solid; }
-  .ghost { position: absolute; left: -40px; top: 1060px; font-weight: 700; font-size: 560px; letter-spacing: -0.06em; line-height: 1; white-space: nowrap;
-    color: transparent; -webkit-text-stroke: 2px currentColor; opacity: .09; }
-  .cap { position: absolute; left: 72px; width: 936px; top: 560px; transform-origin: 0% 50%; }
-  .cap .ld { font-family: "Instrument Serif", serif; font-style: italic; font-size: 66px; line-height: 1.05; opacity: .8; display: block; margin-bottom: 10px; }
-  .cap .kw { font-weight: 700; font-size: 128px; letter-spacing: -0.045em; line-height: .95; display: block; }
-  .cap .w { display: inline-block; position: relative; }
-  .ul { position: absolute; left: 0; right: 0; bottom: -10px; height: 12px; border-radius: 3px; transform-origin: 0 50%; display: block; }
-  .light .ul { background: var(--pinkd); } .dark .ul { background: var(--pink); }
-
-  /* hook: one buyer, then everyone */
-  #hookTxt { position: absolute; left: 0; right: 0; top: 860px; text-align: center; font-weight: 700; font-size: 170px; letter-spacing: -0.05em; color: var(--jet); z-index: 5; }
-  #hookLbl { position: absolute; left: 0; right: 0; top: 1060px; text-align: center; font: 500 30px "IBM Plex Mono", monospace; letter-spacing: .16em; color: var(--jet); z-index: 5; }
-  #flash { position: absolute; inset: 0; z-index: 70; background: #ffffff; opacity: 0; }
-  #ring1 { position: absolute; left: 268px; top: 1134px; width: 202px; height: 164px; border: 4px solid var(--pink); border-radius: 18px; opacity: 0; }
+  .scene { position: absolute; inset: 0; z-index: 10; overflow: hidden; }
+  .scene.dark { background: var(--jet); color: var(--con); } .scene.light { background: var(--con); color: var(--jet); }
+  .glow { position: absolute; inset: 0; }
+  .dark .glow { background: radial-gradient(ellipse 75% 50% at 50% 46%, rgba(255,61,139,.11) 0%, rgba(17,17,17,0) 62%), radial-gradient(ellipse 120% 90% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,.5) 100%); }
+  .light .glow { background: radial-gradient(ellipse 80% 55% at 50% 45%, rgba(255,255,255,.35) 0%, rgba(255,255,255,0) 65%); }
+  .cam { position: absolute; inset: 0; transform-origin: 50% 45%; }
+  .mono { font: 500 26px "IBM Plex Mono", monospace; letter-spacing: .14em; }
+  .ctr { position: absolute; left: 0; width: 1080px; text-align: center; }
+  .dark .ctr.mono { color: #a8a7a2; } .light .ctr.mono { color: var(--gra); }
+  .cap { position: absolute; left: 50px; width: 980px; text-align: center; transform-origin: 50% 50%; --ks: 124px; }
+  .cap .ld { font: italic 400 76px/1.05 "Instrument Serif", serif; opacity: .85; display: block; margin-bottom: 14px; }
+  .cap .kw { font-weight: 700; font-size: var(--ks); letter-spacing: -0.045em; line-height: .98; display: block; }
+  .cap .w { display: inline-block; }
+  .dark .pk { color: var(--pink); } .light .pk { color: var(--pinkd); }
+  .ul { position: absolute; left: 0; right: 0; bottom: -6px; height: 14px; border-radius: 4px; background: var(--pinkd); transform-origin: 0 50%; display: block; }
+  .ttl { position: absolute; left: 0; width: 1080px; text-align: center; transform-origin: 50% 50%; }
+  .ttl .mask { display: block; overflow: hidden; padding: 0 0 30px; margin-bottom: -30px; }
+  .ttl .in { display: inline-block; font: 900 210px/1.0 "Fraunces", serif; letter-spacing: -0.035em; color: var(--wh); }
+  .ttl .in.e { font-size: 184px; }
+  .ttl .in.pk { color: var(--pink); }
+  .arc { position: absolute; left: 120px; width: 840px; height: 84px; transform-origin: 50% 50%; }
+  .qghost { position: absolute; right: -60px; top: 760px; font: 900 1100px/1 "Fraunces", serif; color: transparent; -webkit-text-stroke: 3px var(--pink); opacity: .16; }
+  .ghost { position: absolute; left: -30px; top: 1080px; font-weight: 700; font-size: 330px; letter-spacing: -0.06em; line-height: 1; white-space: nowrap;
+    color: transparent; -webkit-text-stroke: 2px currentColor; opacity: .1; }
   /* buyer grid */
-  .grid { position: absolute; left: 164px; top: 1030px; width: 752px; height: 372px; }
+  .grid { position: absolute; left: 164px; top: 1000px; width: 752px; height: 372px; transform-origin: 50% 50%; }
   .sq { position: absolute; width: 30px; height: 30px; border-radius: 6px; }
   .dark .sq { background: #2b2b2b; } .light .sq { background: #c4c3be; }
-  .tagStack { position: absolute; left: 164px; top: 975px; height: 34px; width: 400px; }
-  .tagStack span { position: absolute; left: 0; top: 0; font: 500 24px "IBM Plex Mono", monospace; letter-spacing: .12em; color: #9d9c97; opacity: 0; }
-  #fBox { position: absolute; border: 2px solid var(--fog); border-radius: 10px; }
-  #fLbl { position: absolute; font: 500 22px "IBM Plex Mono", monospace; letter-spacing: .12em; color: var(--fog); white-space: nowrap; }
-
+  .ring { position: absolute; left: 104px; top: 104px; width: 202px; height: 164px; border: 4px solid var(--pink); border-radius: 18px; box-sizing: border-box; z-index: 2; }
+  .gtag { position: absolute; left: 164px; top: 950px; height: 34px; width: 500px; color: #9d9c97; }
+  .gtag span { position: absolute; left: 0; top: 0; }
   /* relate */
-  #post { position: absolute; left: 72px; top: 960px; width: 430px; height: 520px; border-radius: 34px; background: var(--jet); color: var(--con); padding: 26px; box-sizing: border-box; }
-  #post .pl { font: 500 20px "IBM Plex Mono", monospace; letter-spacing: .12em; color: #9d9c97; }
-  #post svg { display: block; margin: 26px auto 10px; }
-  #post .pt { font-weight: 700; font-size: 34px; text-align: center; }
-  .order { position: absolute; left: 540px; width: 468px; height: 82px; border-radius: 16px; background: var(--paper); border: 2px solid #c4c3be; display: flex; align-items: center;
-    padding: 0 22px; box-sizing: border-box; font: 500 22px "IBM Plex Mono", monospace; letter-spacing: .06em; color: var(--jet); }
-  #quiet { position: absolute; left: 540px; top: 1250px; font: 500 26px "IBM Plex Mono", monospace; letter-spacing: .12em; color: var(--gra); }
-  .box { position: absolute; width: 200px; height: 130px; border-radius: 10px; background: #b9a98e; border: 2px solid #8e7f66; box-sizing: border-box;
-    display: flex; align-items: center; justify-content: center; font: 500 40px "IBM Plex Mono", monospace; color: var(--jet); }
-  #still { position: absolute; left: 700px; top: 980px; width: 250px; padding: 18px 20px; background: var(--jet); color: var(--con); border-radius: 12px; font: 500 26px "IBM Plex Mono", monospace;
-    letter-spacing: .12em; text-align: center; }
-  #still::before { content: ""; position: absolute; left: 50%; top: -14px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 3px solid var(--jet); background: var(--con); }
-
-  /* problem: ad fatigue */
-  #adc { position: absolute; left: 172px; top: 1000px; width: 736px; height: 420px; border-radius: 30px; background: var(--jet2); color: var(--con); padding: 32px; box-sizing: border-box; }
-  #adc .h { font: 500 22px "IBM Plex Mono", monospace; letter-spacing: .12em; color: #9d9c97; display: flex; justify-content: space-between; }
-  #adc .big { font-weight: 700; font-size: 56px; margin-top: 18px; letter-spacing: -0.02em; }
-  #adc .bar { position: absolute; left: 32px; right: 32px; bottom: 50px; height: 26px; border-radius: 13px; background: #2b2b2b; }
-  #adc .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 13px; background: var(--con); transform-origin: 0 50%; }
-  #adc .bl { position: absolute; left: 32px; bottom: 90px; font: 500 20px "IBM Plex Mono", monospace; letter-spacing: .12em; color: #9d9c97; }
-
+  #tee { position: absolute; left: 330px; top: 900px; width: 420px; height: 470px; border-radius: 34px; background: var(--jet); color: var(--con); }
+  #tee svg { display: block; margin: 92px auto 0; }
+  #tee .live { position: absolute; left: 24px; top: 24px; background: var(--pink); color: var(--jet); padding: 8px 14px 6px; border-radius: 10px; font-size: 20px; }
+  #tee .tn { text-align: center; font-weight: 700; font-size: 36px; margin-top: 14px; }
+  .tiles { position: absolute; left: 0; top: 960px; width: 1080px; height: 320px; }
+  .tile { position: absolute; top: 0; width: 260px; height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+  #ti1 { left: 140px; } #ti2 { left: 410px; } #ti3 { left: 680px; }
+  .sh { flex: none; } .tl { margin-top: 20px; color: var(--gra); }
+  .story { width: 190px; height: 190px; border-radius: 50%; background: #c4c3be; box-shadow: 0 0 0 8px var(--con), 0 0 0 16px var(--pinkd); margin-bottom: 30px; }
+  .reel { width: 150px; height: 260px; border-radius: 22px; background: var(--jet); }
+  .post { width: 210px; height: 210px; border-radius: 18px; background: #c4c3be; border: 4px solid var(--jet); box-sizing: border-box; margin-bottom: 25px; }
+  .lrow { position: absolute; left: 230px; width: 620px; height: 96px; border-radius: 22px; background: var(--jet2); display: flex; align-items: center; justify-content: space-between;
+    padding: 0 34px; box-sizing: border-box; color: #c9c8c3; }
+  .lk { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 50px; color: var(--wh); }
+  .ord { position: absolute; left: 150px; width: 780px; height: 112px; border-radius: 22px; background: var(--jet2); display: flex; align-items: center; gap: 24px; padding: 0 28px; box-sizing: border-box; }
+  .av { width: 68px; height: 68px; border-radius: 50%; background: #3a3a3a; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 28px; color: var(--wh); flex: none; }
+  .av.rep { box-shadow: 0 0 0 4px var(--pink); }
+  .ot { font-size: 23px; line-height: 1.5; color: #c9c8c3; } .ot b { color: var(--wh); font-weight: 500; }
+  /* problem */
+  #boost { position: absolute; left: 380px; top: 860px; width: 320px; height: 100px; border-radius: 50px; background: var(--con); color: var(--jet); font-weight: 700; font-size: 44px;
+    display: flex; align-items: center; justify-content: center; }
+  .rip { position: absolute; left: 480px; top: 850px; width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--pink); box-sizing: border-box; opacity: 0; }
   /* solution */
-  .adw { position: absolute; left: 240px; top: 1010px; width: 600px; height: 240px; border-radius: 24px; background: var(--jet); color: var(--con); padding: 24px; box-sizing: border-box; }
-  .adw .h { font: 500 20px "IBM Plex Mono", monospace; letter-spacing: .12em; color: #9d9c97; }
-  .adw .t { font-weight: 700; font-size: 48px; margin-top: 18px; line-height: 1.05; }
-  #remind { position: absolute; left: 140px; top: 1080px; width: 800px; padding: 24px 28px; border-radius: 22px; background: var(--paper); border: 2px solid #c4c3be; color: var(--jet); box-sizing: border-box; }
-  #remind .h { font: 500 20px "IBM Plex Mono", monospace; letter-spacing: .12em; color: var(--gra); }
-  #remind .t { font-weight: 700; font-size: 36px; margin-top: 8px; line-height: 1.1; }
-
-  /* CTA: monogram end card */
-  #s7 .ctr { position: absolute; left: 0; width: 1080px; text-align: center; }
-  #vig { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 55% at 50% 42%, rgba(255,61,139,.10) 0%, rgba(17,17,17,0) 60%), radial-gradient(ellipse 120% 90% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%); }
-  #mono { top: 268px; font: 700 340px/1 "Fraunces", serif; color: #f4f3ef; letter-spacing: -0.02em; }
-  #arc { position: absolute; left: 120px; top: 468px; width: 840px; height: 84px; transform-origin: 50% 50%; }
-  #sl { top: 628px; font: 500 24px "IBM Plex Mono", monospace; letter-spacing: .22em; color: #a8a7a2; }
-  #title { position: absolute; left: 0; top: 690px; width: 1080px; transform-origin: 50% 50%; }
-  #title .mask { display: block; overflow: hidden; padding: 0 0 26px; margin-bottom: -26px; text-align: center; }
-  #title .in { display: inline-block; font: 900 184px/1.0 "Fraunces", serif; letter-spacing: -0.035em; }
-  #cl .in { color: #f4f3ef; } #br .in { color: var(--pink); }
+  .wk { position: absolute; left: 240px; top: 1060px; width: 600px; height: 220px; border-radius: 24px; background: var(--jet); color: var(--con); padding: 26px; box-sizing: border-box; transform-origin: 50% 0%; }
+  .wk .h { font-size: 20px; color: #9d9c97; } .wk:not(#wk3) { background: #262626; } .wk .t { font-weight: 700; font-size: 52px; margin-top: 22px; letter-spacing: -0.02em; }
+  #remind { position: absolute; left: 140px; top: 1010px; width: 800px; padding: 28px 30px; border-radius: 24px; background: var(--paper); border: 2px solid #c4c3be; color: var(--jet); box-sizing: border-box; }
+  #remind .h { font-size: 20px; color: var(--gra); } #remind .t { font-weight: 700; font-size: 44px; margin-top: 12px; line-height: 1.1; }
+  /* end card */
+  #mono { top: 268px; font: 700 340px/1 "Fraunces", serif; color: var(--wh); letter-spacing: -0.02em; }
   #pill { position: absolute; left: 150px; top: 1104px; width: 780px; height: 132px; }
   #pill svg.ol { position: absolute; inset: 0; overflow: visible; }
   #pill .row { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 30px; }
   #pill .ico { width: 74px; height: 74px; flex: none; }
   #pill .div { width: 4px; height: 66px; background: var(--pink); border-radius: 2px; flex: none; }
-  #pill .tx { font: 700 58px/1 "Instrument Sans", sans-serif; color: #f4f3ef; letter-spacing: -0.01em; white-space: nowrap; }
+  #pill .tx { font: 700 58px/1 "Instrument Sans", sans-serif; color: var(--wh); letter-spacing: -0.01em; white-space: nowrap; }
   #pill .q { color: var(--pink); } #pill .q .c { display: inline-block; }
-  #fmi { top: 1292px; font: 500 30px "IBM Plex Mono", monospace; letter-spacing: .3em; color: #d8d7d2; }
-
+  /* overlays */
+  #flash { position: absolute; inset: 0; z-index: 70; background: #ffffff; opacity: 0; }
   #wipe { position: absolute; top: 0; bottom: 0; width: 1200px; left: -1200px; z-index: 60; background: var(--con); }
   #wipe i { position: absolute; right: 0; top: 0; bottom: 0; width: 10px; background: var(--pink); }
   #streak { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 60; opacity: 0;
@@ -111,105 +99,133 @@
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-width="1080" data-height="1920" data-duration="26.7239">
+<div id="root" data-composition-id="main" data-width="1080" data-height="1920" data-duration="17.2412">
   <div id="bg" class="full" data-layout-ignore></div>
-  <div id="haze" data-layout-ignore></div>
 
-  <!-- 01 HOOK + 02 OPEN LOOP (Jet) 0–5.29 -->
-  <section id="s1" class="clip scene dark" data-start="0" data-duration="5.1724" data-track-index="1">
-    <div class="cam" id="cam1">
-      <span class="corner tl"></span><span class="corner br"></span>
-      <div class="label" id="l1">01 — Who bought</div>
-      <div class="cap" id="c1"><span class="ld"><span class="w">clothing</span> <span class="w">brands,</span></span>
-        <span class="kw"><span class="w">same</span> <span class="w">buyers.</span> <span class="w">every</span> <span class="w">drop.</span></span></div>
-      <div class="cap" id="c2"><span class="ld"><span class="w">why</span> <span class="w">does</span> <span class="w">every</span> <span class="w">drop</span></span>
-        <span class="kw"><span class="w">stop</span> <span class="w">at</span> <span class="w">your</span> <span class="w">followers?</span></span></div>
-      <div class="tagStack" data-layout-ignore><span id="d1">DROP 01 · SOLD TO</span><span id="d2">DROP 02 · SOLD TO</span><span id="d3">DROP 03 · SOLD TO</span></div>
-      <div class="grid" id="g1"></div><div id="ring1" data-layout-ignore></div>
-      <div id="hookTxt">your buyer.</div><div id="hookLbl">ONE OF 200 · DROP 01</div>
-      <div id="fBox" data-layout-ignore></div><div id="fLbl">YOUR FOLLOWERS</div>
+  <section id="f1" class="clip scene dark" data-start="0.0" data-duration="0.8621" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f1">
+      <div class="ttl" id="t1" style="top:640px"><span class="mask"><span class="in" id="t1a">Clothing</span></span><span class="mask"><span class="in pk" id="t1b">brands.</span></span></div>
+      <svg class="arc" id="arc1" style="top:1170px" viewBox="0 0 840 84" data-layout-ignore><path d="M0 74 Q420 -14 840 74 Q420 4 0 74 Z" fill="#ff3d8b"/></svg>
     </div>
   </section>
-
-  <!-- 03 RELATE (Concrete) 5.29–10.59 -->
-  <section id="s3" class="clip scene light" data-start="5.1724" data-duration="5.1723" data-track-index="1">
-    <div class="full" style="background:var(--con)"></div>
-    <div class="cam" id="cam3">
-      <span class="corner tl"></span><span class="corner br"></span>
-      <div class="label">02 — Sound familiar</div>
-      <div class="cap" id="c3a"><span class="ld"><span class="w">post</span> <span class="w">the</span> <span class="w">drop.</span></span>
-        <span class="kw"><span class="w">your</span> <span class="w">regulars</span> <span class="w">buy.</span></span></div>
-      <div class="cap" id="c3b"><span class="ld"><span class="w">then</span> <span class="w">it</span> <span class="w">goes</span> <span class="w">quiet.</span></span>
-        <span class="kw"><span class="w">rest</span> <span class="w">sits</span> <span class="w">in</span> <span class="w">boxes.<span class="ul" id="u3"></span></span></span></div>
-      <div id="post"><div class="pl">DROP 03 · LIVE</div>
-        <svg width="260" height="250" viewBox="0 0 260 250" fill="#d9d8d3"><path d="M90 20 L60 28 L10 70 L40 115 L65 98 L65 235 L195 235 L195 98 L220 115 L250 70 L200 28 L170 20 C160 42 100 42 90 20 Z"/></svg>
-        <div class="pt">Heavyweight tee</div></div>
-      <div class="order" id="o0" style="top:980px">ORDER #1041 · TEE · M</div>
-      <div class="order" id="o1" style="top:1076px">ORDER #1042 · TEE · L</div>
-      <div class="order" id="o2" style="top:1172px">ORDER #1043 · TEE · M</div>
-      <div id="quiet">0 ORDERS · 3 DAYS</div>
-      <div id="boxes">
-        <div class="box" id="bx0" style="left:560px;top:1330px">S</div><div class="box" id="bx1" style="left:780px;top:1330px">M</div>
-        <div class="box" id="bx2" style="left:560px;top:1196px">L</div><div class="box" id="bx3" style="left:780px;top:1196px">XL</div>
-      </div>
-      <div id="still">STILL HERE</div>
+  <section id="f2" class="clip scene dark" data-start="0.8621" data-duration="1.7241" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f2">
+      <div class="qghost" data-layout-ignore>?</div>
+      <div class="cap" id="c2" style="top:600px;--ks:132px;"><span class="ld"><span class="w">why</span> <span class="w">does</span> <span class="w">every</span> <span class="w">drop</span></span><span class="kw"><span class="w">sell</span> <span class="w">to</span> <span class="w">the</span> <span class="w pk">same</span> <span class="w">people?</span></span></div>
     </div>
   </section>
-
-  <!-- 04 PROBLEM (Jet) 10.59–14.56 -->
-  <section id="s4" class="clip scene dark" data-start="10.3447" data-duration="3.4483" data-track-index="1">
-    <div class="cam" id="cam4">
-      <span class="corner tl"></span><span class="corner br"></span>
-      <div class="label">03 — The problem</div>
-      <div class="cap" id="c4a"><span class="ld"><span class="w">boost</span> <span class="w">a</span> <span class="w">post?</span></span>
-        <span class="kw"><span class="w">same</span> <span class="w">crowd.</span></span></div>
-      <div class="cap" id="c4b"><span class="ld"><span class="w">your</span> <span class="w">best</span> <span class="w">ad?</span></span>
-        <span class="kw"><span class="w">dead</span> <span class="w">in</span> <span class="w">a</span> <span class="w">week.<span class="ul" id="u4"></span></span></span></div>
-      <div class="grid" id="g4"></div>
-      <div id="adc"><div class="h"><span>YOUR BEST AD</span><span>DAYS LIVE <span id="days">1</span></span></div>
-        <div class="big">New drop: heavyweight tee</div><div class="bl">PEOPLE STILL CLICKING</div><div class="bar"><div class="fill" id="fill"></div></div></div>
+  <section id="f3" class="clip scene dark" data-start="2.5862" data-duration="0.862" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f3">
+      <div class="cap" id="c3" style="top:560px;--ks:124px;"><span class="kw"><span class="w">every.</span> <span class="w">single.</span> <span class="w pk">drop.</span></span></div>
+      <div class="gtag mono" id="tag3"><span>DROP 01 · SOLD TO</span><span>DROP 02 · SOLD TO</span><span>DROP 03 · SOLD TO</span></div>
+      <div class="grid" id="g3"><div class="ring" id="ring3"></div></div>
     </div>
   </section>
-
-  <!-- 05 SOLUTION + 06 PAYOFF (Concrete) 14.56–23.38 -->
-  <section id="s5" class="clip scene light" data-start="13.793" data-duration="9.4826" data-track-index="1">
-    <div class="full" style="background:var(--con)"></div>
-    <div class="cam" id="cam5">
-      <span class="corner tl"></span><span class="corner br"></span>
-      <div class="label" id="l5">04 — What we do</div>
-      <div class="cap" id="c5a"><span class="ld"><span class="w">here's</span> <span class="w">what</span> <span class="w">we</span> <span class="w">do.</span></span>
-        <span class="kw"><span class="w">southline<span class="ul" id="u5a"></span></span></span></div>
-      <div class="cap" id="c5b"><span class="ld"><span class="w">meta</span> <span class="w">ads</span> <span class="w">for</span></span>
-        <span class="kw"><span class="w">clothing</span> <span class="w">brands.<span class="ul" id="u5b"></span></span></span></div>
-      <div class="cap" id="c5c"><span class="ld"><span class="w">new</span> <span class="w">ads</span></span>
-        <span class="kw"><span class="w">every</span> <span class="w">week.<span class="ul" id="u5c"></span></span></span></div>
-      <div class="cap" id="c5d"><span class="ld"><span class="w">shown</span> <span class="w">to</span> <span class="w">people</span></span>
-        <span class="kw"><span class="w">who've</span> <span class="w">never<span class="ul" id="u5d"></span></span> <span class="w">seen</span> <span class="w">you.</span></span></div>
-      <div class="cap" id="c5e"><span class="ld"><span class="w">looked,</span> <span class="w">didn't</span> <span class="w">buy?</span></span>
-        <span class="kw"><span class="w">we</span> <span class="w">remind<span class="ul" id="u5e"></span></span> <span class="w">them.</span></span></div>
-      <div class="cap" id="c6"><span class="ld"><span class="w">your</span> <span class="w">next</span> <span class="w">drop</span></span>
-        <span class="kw"><span class="w">reaches</span> <span class="w">new</span> <span class="w">people.</span></span></div>
-      <div id="weeks">
-        <div class="adw" id="w1"><div class="h">WEEK 1 · NEW AD</div><div class="t">Fit check, three ways</div></div>
-        <div class="adw" id="w2"><div class="h">WEEK 2 · NEW AD</div><div class="t">Why it's 300gsm</div></div>
-        <div class="adw" id="w3"><div class="h">WEEK 3 · NEW AD</div><div class="t">Packed by hand, Friday night</div></div>
-      </div>
-      <div class="grid" id="g5"></div>
-      <div id="remind"><div class="h">REMINDER · SAW IT, DIDN'T BUY</div><div class="t">Still thinking about the heavyweight tee? Size M left.</div></div>
+  <section id="f4" class="clip scene light" data-start="3.4482" data-duration="0.8621" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f4">
+      <div class="cap" id="c4" style="top:470px;"><span class="ld"><span class="w">you</span> <span class="w">post</span> <span class="w">the</span></span><span class="kw"><span class="w">new</span> <span class="w">drop.</span></span></div>
+      <div id="tee"><div class="live mono">DROP 03 · LIVE</div>
+        <svg width="250" height="240" viewBox="0 0 260 250" fill="#d9d8d3"><path d="M90 20 L60 28 L10 70 L40 115 L65 98 L65 235 L195 235 L195 98 L220 115 L250 70 L200 28 L170 20 C160 42 100 42 90 20 Z"/></svg>
+        <div class="tn">Heavyweight tee</div></div>
     </div>
   </section>
-
-  <!-- 07 CTA: monogram end card (beats 54–62) -->
-  <section id="s7" class="clip scene dark" data-start="23.2756" data-duration="3.4483" data-track-index="1">
-    <div id="vig" data-layout-ignore></div>
-    <div class="cam" id="cam7">
+  <section id="f5" class="clip scene light" data-start="4.3103" data-duration="0.8621" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f5">
+      <div class="cap" id="c5" style="top:560px;--ks:128px;"><span class="kw"><span class="w">story.</span> <span class="w">reel.</span> <span class="w pk">post.</span></span></div>
+      <div class="tiles"><div class="tile" id="ti1"><div class="sh story"></div><div class="mono tl">STORY</div></div>
+        <div class="tile" id="ti2"><div class="sh reel"></div><div class="mono tl">REEL</div></div>
+        <div class="tile" id="ti3"><div class="sh post"></div><div class="mono tl">POST</div></div></div>
+    </div>
+  </section>
+  <section id="f6" class="clip scene dark" data-start="5.1724" data-duration="0.862" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f6">
+      <div class="cap" id="c6" style="top:470px;"><span class="ld"><span class="w">and</span> <span class="w">you</span> <span class="w">get</span></span><span class="kw"><span class="w">the</span> <span class="w pk">same</span> <span class="w">likes.</span></span></div>
+      <div class="lrow" id="lr1" style="top:960px"><span class="mono">DROP 01</span><span class="lk"><svg width="38" height="38" viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z" fill="#ff3d8b"/></svg>41</span></div>
+      <div class="lrow" id="lr2" style="top:1076px"><span class="mono">DROP 02</span><span class="lk"><svg width="38" height="38" viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z" fill="#ff3d8b"/></svg>39</span></div>
+      <div class="lrow" id="lr3" style="top:1192px"><span class="mono">DROP 03</span><span class="lk"><svg width="38" height="38" viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z" fill="#ff3d8b"/></svg>42</span></div>
+    </div>
+  </section>
+  <section id="f7" class="clip scene dark" data-start="6.0344" data-duration="0.8621" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f7">
+      <div class="cap" id="c7" style="top:470px;"><span class="ld"><span class="w">and</span> <span class="w">the</span> <span class="w">orders?</span></span><span class="kw"><span class="w pk">same</span> <span class="w">faces.</span></span></div>
+      <div class="ord" id="or1" style="top:950px"><div class="av rep">AM</div><div class="ot mono"><b>NEW ORDER</b> · AOIFE M.<br><span class="pk">RETURNING CUSTOMER</span></div></div>
+      <div class="ord" id="or2" style="top:1080px"><div class="av">JK</div><div class="ot mono"><b>NEW ORDER</b> · JACK K.<br><span class="pk">RETURNING CUSTOMER</span></div></div>
+      <div class="ord" id="or3" style="top:1210px"><div class="av rep">AM</div><div class="ot mono"><b>NEW ORDER</b> · AOIFE M.<br><span class="pk">RETURNING CUSTOMER</span></div></div>
+    </div>
+  </section>
+  <section id="f8" class="clip scene light" data-start="6.8965" data-duration="0.862" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f8">
+      <div class="ghost" data-layout-ignore>clothes</div>
+      <div class="cap" id="c8" style="top:640px;--ks:168px;"><span class="ld"><span class="w">it's</span> <span class="w">not</span></span><span class="kw"><span class="w">the</span> <span class="w">clothes.</span></span></div>
+    </div>
+  </section>
+  <section id="f9" class="clip scene dark" data-start="7.7585" data-duration="0.8621" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f9">
+      <div class="cap" id="c9" style="top:520px;"><span class="ld"><span class="w">it's</span></span><span class="kw"><span class="w pk">who</span> <span class="w">sees</span> <span class="w">them.</span></span></div>
+      <div class="grid" id="g9"></div>
+      <div class="ctr mono" id="never" style="top:1410px">MOST PEOPLE NEVER SEE IT</div>
+    </div>
+  </section>
+  <section id="f10" class="clip scene dark" data-start="8.6206" data-duration="0.8621" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f10">
+      <div class="cap" id="c10" style="top:470px;"><span class="ld"><span class="w">boost</span> <span class="w">it?</span></span><span class="kw"><span class="w pk">same</span> <span class="w">crowd.</span></span></div>
+      <div id="boost">Boost post</div><div class="rip" id="rip" data-layout-ignore></div>
+      <div class="grid" id="g10" style="top:1030px"></div>
+    </div>
+  </section>
+  <section id="f11" class="clip scene light" data-start="9.4827" data-duration="1.2931" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f11">
+      <div class="cap" id="c11" style="top:600px;--ks:168px;"><span class="ld"><span class="w">here's</span> <span class="w">what</span> <span class="w">we</span> <span class="w">do.</span></span><span class="kw"><span class="w">Southline</span></span></div>
+      <div class="ctr mono" id="tag11" style="top:950px;line-height:1.6;font-size:30px">FACEBOOK + INSTAGRAM ADS<br>FOR CLOTHING BRANDS</div>
+    </div>
+  </section>
+  <section id="f12" class="clip scene light" data-start="10.7758" data-duration="0.862" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f12">
+      <div class="cap" id="c12" style="top:470px;"><span class="ld"><span class="w">new</span> <span class="w">ads</span></span><span class="kw"><span class="w">every</span> <span class="w pk">week.</span></span></div>
+      <div class="wk" id="wk1"><div class="h mono">WK 1 · NEW AD</div><div class="t">Heavyweight tee</div></div><div class="wk" id="wk2"><div class="h mono">WK 2 · NEW AD</div><div class="t">Behind the drop</div></div><div class="wk" id="wk3"><div class="h mono">WK 3 · NEW AD</div><div class="t">Back in stock</div></div>
+    </div>
+  </section>
+  <section id="f13" class="clip scene light" data-start="11.6378" data-duration="0.8621" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f13">
+      <div class="cap" id="c13" style="top:520px;"><span class="ld"><span class="w">shown</span> <span class="w">to</span></span><span class="kw"><span class="w pk">new</span> <span class="w">buyers.</span></span></div>
+      <div class="grid" id="g13"></div>
+      <div class="ctr mono" id="nb" style="top:1410px">+ PEOPLE WHO'VE NEVER SEEN YOU</div>
+    </div>
+  </section>
+  <section id="f14" class="clip scene light" data-start="12.4999" data-duration="0.862" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f14">
+      <div class="cap" id="c14" style="top:470px;"><span class="ld"><span class="w">+</span> <span class="w">reminders</span> <span class="w">for</span></span><span class="kw"><span class="w">anyone</span> <span class="w">who</span> <span class="w pk">looked.</span></span></div>
+      <div id="remind"><div class="h mono">REMINDER · SAW IT, DIDN'T BUY</div><div class="t">Still thinking about the heavyweight tee? Size M left.</div></div>
+    </div>
+  </section>
+  <section id="f15" class="clip scene light" data-start="13.3619" data-duration="1.2931" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f15">
+      <div class="cap" id="c15" style="top:470px;"><span class="ld"><span class="w">so</span> <span class="w">your</span> <span class="w">next</span> <span class="w">drop</span></span><span class="kw"><span class="w">reaches</span> <span class="w pk">new</span> <span class="w">people.</span></span></div>
+      <div class="grid" id="g15" style="top:1030px"></div>
+    </div>
+  </section>
+  <section id="f16" class="clip scene dark" data-start="14.655" data-duration="2.5862" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_f16">
       <div class="ctr" id="mono">S</div>
-      <svg id="arc" viewBox="0 0 840 84" data-layout-ignore><path d="M0 74 Q420 -14 840 74 Q420 4 0 74 Z" fill="#ff3d8b"/></svg>
-      <div class="ctr" id="sl">SOUTHLINE · FACEBOOK + INSTAGRAM ADS</div>
-      <div id="title">
-        <span class="mask" id="cl"><span class="in">Clothing</span></span>
-        <span class="mask" id="br"><span class="in">brands.</span></span>
-      </div>
+      <svg class="arc" id="arc" style="top:468px" viewBox="0 0 840 84" data-layout-ignore><path d="M0 74 Q420 -14 840 74 Q420 4 0 74 Z" fill="#ff3d8b"/></svg>
+      <div class="ctr mono" id="sl" style="top:628px;letter-spacing:.22em;color:#a8a7a2">SOUTHLINE · FACEBOOK + INSTAGRAM ADS</div>
+      <div class="ttl" id="title" style="top:690px"><span class="mask" id="cl"><span class="in e">Clothing</span></span><span class="mask" id="br"><span class="in e pk">brands.</span></span></div>
       <div id="pill">
         <svg class="ol" viewBox="0 0 780 132" data-layout-ignore><rect id="pillR" x="2" y="2" width="776" height="128" rx="64" fill="none" stroke="#ff3d8b" stroke-width="4"/></svg>
         <div class="row">
@@ -218,7 +234,7 @@
           <span class="tx"><span class="cm">Comment</span> <span class="q"><span class="c">“D</span><span class="c">R</span><span class="c">O</span><span class="c">P”</span></span></span>
         </div>
       </div>
-      <div class="ctr" id="fmi">FOR MORE INFO.</div>
+      <div class="ctr mono" id="fmi" style="top:1292px;font-size:30px;letter-spacing:.3em;color:#d8d7d2">FOR MORE INFO.</div>
     </div>
   </section>
 
@@ -226,173 +242,164 @@
   <div id="wipe" data-layout-ignore><i></i></div>
   <div id="streak" data-layout-ignore></div>
   <div id="grain" class="full" data-layout-ignore></div>
-  <audio id="score" src="assets/audio.wav" data-start="0" data-duration="26.7239" data-track-index="10" data-volume="1"></audio>
+  <audio id="score" src="assets/audio.wav" data-start="0" data-duration="17.2412" data-track-index="10" data-volume="1"></audio>
 </div>
 
 <script>
   window.__timelines = window.__timelines || {};
   const tl = gsap.timeline({ paused: true });
-  // Beat grid of the music bed: 139.2 BPM, loop starts on a downbeat, so beat n is at n * P seconds.
-  const P = 0.43103, B = n => +(n * P).toFixed(4), DUR = B(62);
-  const E = { in: "expo.out", cam: "sine.inOut", ui: "back.out(1.4)" };
-  let seed = 9; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-  // words land on the given beats (eighths allowed), key words on whole beats
+  // Beat grid of the music: 139.2 BPM; the loop starts on a downbeat, so beat n is at n * P seconds.
+  const P = 0.43103, B = n => +(n * P).toFixed(4), DUR = B(40);
+  const E = { in: "expo.out", ui: "back.out(1.6)" };
   function wordsAt(capSel, beats) {
     const ws = document.querySelectorAll(capSel + " .w");
-    ws.forEach((w, i) => tl.fromTo(w, { y: 28, opacity: 0, scale: 1.08 }, { y: 0, opacity: 1, scale: 1, duration: 0.16, ease: E.in }, B(beats[i])));
+    ws.forEach((w, i) => tl.fromTo(w, { y: 30, opacity: 0, scale: 1.1 }, { y: 0, opacity: 1, scale: 1, duration: 0.16, ease: E.in }, B(beats[Math.min(i, beats.length - 1)])));
   }
-  const under = (sel, b) => tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.2, ease: E.in }, B(b));
-  const exit = (sel, b) => tl.to(sel, { opacity: 0, y: -12, duration: 0.1, ease: "power2.in" }, B(b));
-  const drift = (sel, b0, b1, amt = 0.05) => tl.fromTo(sel, { scale: 1 }, { scale: 1 + amt, duration: B(b1) - B(b0), ease: E.cam }, B(b0));
-  const punch = (sel, b) => tl.to(sel, { keyframes: { scale: [1.14, 1] }, duration: 0.32, ease: "expo.out" }, B(b));   // .to: no pre-applied start state
-  const flash = (b, a = 0.55) => { tl.set("#flash", { opacity: a }, B(b)); tl.to("#flash", { opacity: 0, duration: 0.35, ease: "power2.out" }, B(b) + 0.001); };
-  const shake = (sel, b) => tl.to(sel, { keyframes: { x: [0, -10, 8, -4, 0], y: [0, 6, -5, 2, 0] }, duration: 0.2, ease: "none" }, B(b));
-  // a small bump on every beat (on an element that has no other scale tween at that time)
-  const pulse = (sel, b0, b1, amt = 0.035) => { for (let b = b0; b < b1; b++) tl.to(sel, { keyframes: { scale: [1 + amt, 1] }, duration: 0.28, ease: "power2.out" }, B(b)); };
-  const lineWipe = b => tl.fromTo("#wipe", { x: 0 }, { x: 2400, duration: 0.42, ease: "power2.inOut" }, B(b) - 0.22);
-  const whip = (outCam, inCam, b) => {
-    tl.fromTo("#streak", { opacity: 0, x: 0 }, { keyframes: { opacity: [0, 1, 0], x: [0, -220, -440] }, duration: 0.3, ease: "power2.inOut" }, B(b) - 0.15);
-    tl.to(outCam, { x: -300, duration: 0.15, ease: "power3.in" }, B(b) - 0.15);
-    tl.fromTo(inCam, { x: 300 }, { x: 0, duration: 0.25, ease: E.in }, B(b));
+  const punch = (sel, b, k = 1.12) => tl.to(sel, { keyframes: { scale: [k, 1] }, duration: 0.3, ease: "expo.out" }, B(b));
+  const flash = (b, a = 0.5) => { tl.set("#flash", { opacity: a }, B(b)); tl.to("#flash", { opacity: 0, duration: 0.3, ease: "power2.out" }, B(b) + 0.001); };
+  const pulse = (sel, b0, b1, amt = 0.035, step = 1) => { for (let b = b0; b < b1; b += step) tl.to(sel, { keyframes: { scale: [1 + amt, 1] }, duration: 0.24, ease: "power2.out" }, B(b)); };
+  const pop = (sel, b, from, d = 0.3) => { tl.set(sel, Object.assign({ opacity: 0 }, from), 0); tl.to(sel, { opacity: 1, x: 0, y: 0, scale: 1, duration: d, ease: E.ui }, B(b)); };
+  const fadeUp = (sel, b) => { tl.set(sel, { opacity: 0, y: 16 }, 0); tl.to(sel, { opacity: 1, y: 0, duration: 0.25, ease: E.in }, B(b)); };
+  // every shot: lands punched-in, settles fast, then keeps creeping in (no static frames)
+  const shot = (cam, b0, b1, k = 1.07) => {
+    tl.set(cam, { scale: k }, B(b0));
+    tl.to(cam, { keyframes: [{ scale: 1, duration: 0.3, ease: "expo.out" }, { scale: 1.035, duration: Math.max(0.1, B(b1) - B(b0) - 0.3), ease: "none" }] }, B(b0));
   };
-  tl.fromTo("#haze", { x: -120, y: 0 }, { x: 140, y: 120, duration: DUR, ease: "sine.inOut" }, 0);
+  const lineWipe = b => tl.fromTo("#wipe", { x: 0 }, { x: 2400, duration: 0.42, ease: "power2.inOut" }, B(b) - 0.22);
+  const whip = (outCam, b) => {
+    tl.fromTo("#streak", { opacity: 0, x: 0 }, { keyframes: { opacity: [0, 1, 0], x: [0, -220, -440] }, duration: 0.3, ease: "power2.inOut" }, B(b) - 0.15);
+    tl.to(outCam, { x: -320, duration: 0.15, ease: "power3.in" }, B(b) - 0.15);
+  };
   tl.fromTo("#grain", { x: 0, y: 0 }, { x: 140, y: -120, duration: DUR, ease: `steps(${Math.floor(DUR * 12)})` }, 0);
 
   // buyer grid: 20 x 10 squares; the "followers" cluster is the same block every time
   const COLS = 20, ROWS = 10, CELL = 38;
   const inCluster = (r, c) => r >= 3 && r <= 6 && c >= 3 && c <= 7 && !((r === 3 || r === 6) && (c === 3 || c === 7));
+  const dist = (r, c) => Math.max(Math.max(3 - r, r - 6, 0), Math.max(3 - c, c - 7, 0));
   function grid(id) {
-    const g = document.getElementById(id); const all = [], cl = [], rest = [];
+    const g = document.getElementById(id); const all = [], cl = [], rest = [], by = {};
     for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
       const d = document.createElement("div"); d.className = "sq"; d.style.left = (c * CELL) + "px"; d.style.top = (r * CELL) + "px"; g.appendChild(d);
-      all.push(d); (inCluster(r, c) ? cl : rest).push(d);
+      all.push(d); (inCluster(r, c) ? cl : rest).push(d); const k = dist(r, c); (by[k] = by[k] || []).push(d);
     }
-    return { all, cl, rest };
+    return { all, cl, rest, by };
   }
-  const G1 = grid("g1"), G4 = grid("g4"), G5 = grid("g5");
+  const G3 = grid("g3"), G9 = grid("g9"), G10 = grid("g10"), G13 = grid("g13"), G15 = grid("g15");
+  const shotsAt = [["f1",0,2],["f2",2,6],["f3",6,8],["f4",8,10],["f5",10,12],["f6",12,14],["f7",14,16],["f8",16,18],["f9",18,20],["f10",20,22],["f11",22,25],["f12",25,27],["f13",27,29],["f14",29,31],["f15",31,34],["f16",34,40]];
+  shotsAt.slice(1).forEach(([id, a, b]) => shot("#cam_" + id, a, b));
 
-  // ---------- 01 HOOK (beats 0–8): one buyer fills the screen, then rip back to the whole grid ----------
-  // frame 1: we're inside a single pink square (row 4, col 5), scaled to fill the frame
-  tl.set(G1.cl, { backgroundColor: "#ff3d8b" }, 0);
-  tl.set("#g1", { transformOrigin: "205px 167px" }, 0);
-  tl.fromTo("#g1", { scale: 34, x: 171, y: -237, rotation: -6 }, { scale: 34.6, rotation: -4, duration: B(1), ease: "none" }, 0);   // alive from frame 1
-  tl.fromTo("#hookTxt", { scale: 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.14, ease: "power4.out" }, 0);
-  tl.fromTo("#hookLbl", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.18, ease: E.in }, 0.08);
-  // beat 1: the pull-back reveal
-  tl.to("#g1", { scale: 1, x: 0, y: 0, rotation: 0, duration: 0.62, ease: "expo.out" }, B(1));
-  tl.to(["#hookTxt", "#hookLbl"], { opacity: 0, scale: 0.6, duration: 0.12, ease: "power2.in" }, B(1));
-  flash(1, 0.7); shake("#cam1", 1);
-  drift("#cam1", 1, 12, 0.05);
-  tl.fromTo("#cam1 .corner", { opacity: 0 }, { opacity: 0.5, duration: 0.2 }, B(1.5));
-  tl.fromTo("#l1", { opacity: 0 }, { opacity: 1, duration: 0.2 }, B(1.5));
-  // caption on the grid: "clothing brands," on eighths, key words on the beat
-  wordsAt("#c1", [2, 2.5, 3, 4, 5, 6]); punch("#c1", 3); exit("#c1", 7.8);
-  // the same cluster flashes on every drop (beats 4, 6, 8) + ring + beat pulse on the grid
-  [[4, "#d1"], [6, "#d2"], [8, "#d3"]].forEach(([b, d], i) => {
-    tl.to(G1.cl, { keyframes: { scale: [1.35, 1] }, duration: 0.3, ease: "power2.out", stagger: 0.008 }, B(b));
-    tl.set("#ring1", { opacity: 0.9, scale: 1 }, B(b));
-    tl.to("#ring1", { opacity: 0, scale: 1.7, duration: 0.5, ease: "power2.out" }, B(b) + 0.001);
-    tl.set(d, { opacity: 1 }, B(b)); if (i < 2) tl.set(d, { opacity: 0 }, B(b + 2) - 0.02);
+  // ---------- 01 CALLOUT (beats 0–2): "Clothing brands." readable in frame 1 ----------
+  tl.fromTo("#cam_f1", { scale: 1.22 }, { scale: 1.0, duration: 0.45, ease: "expo.out" }, 0);       // already on screen at t=0, slamming in
+  tl.to("#cam_f1", { scale: 1.04, duration: B(2) - 0.45, ease: "none" }, 0.45);
+  tl.set("#t1b", { yPercent: 105 }, 0);
+  tl.to("#t1b", { yPercent: 0, duration: 0.2, ease: "expo.out" }, B(0.5));
+  tl.set("#arc1", { scaleX: 0 }, 0);
+  tl.to("#arc1", { scaleX: 1, duration: 0.4, ease: "expo.out" }, B(1));
+  punch("#t1", 1, 1.08); flash(1, 0.3);
+
+  // ---------- 02 OPEN LOOP (beats 2–6) ----------
+  wordsAt("#c2", [2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 4, 4.5]); punch("#c2", 4);
+  tl.fromTo(".qghost", { rotation: -8, y: 40 }, { rotation: 6, y: -40, duration: B(4), ease: "none" }, B(2));
+
+  // ---------- 03 every single drop (beats 6–8) ----------
+  wordsAt("#c3", [6, 6.5, 7]);
+  tl.set(G3.cl, { backgroundColor: "#ff3d8b" }, B(6));
+  tl.set("#tag3 span", { opacity: 0 }, 0);
+  [6, 6.5, 7].forEach((b, i) => { tl.set("#tag3 span:nth-child(" + (i + 1) + ")", { opacity: 1 }, B(b)); if (i) tl.set("#tag3 span:nth-child(" + i + ")", { opacity: 0 }, B(b)); });
+  tl.set("#ring3", { opacity: 0 }, 0); tl.set("#ring3", { opacity: 1 }, B(6));
+  pulse("#g3", 6, 8, 0.05, 0.5);
+
+  // ---------- 04 relate: new drop (beats 8–10) ----------
+  lineWipe(8);
+  wordsAt("#c4", [8, 8.25, 8.5, 9]);
+  pop("#tee", 8, { y: 120, scale: 0.9 });
+  // ---------- 05 story. reel. post. (beats 10–12) ----------
+  wordsAt("#c5", [10, 10.5, 11]);
+  pop("#ti1", 10, { y: 80 }); pop("#ti2", 10.5, { y: 80 }); pop("#ti3", 11, { y: 80 });
+  pulse("#c5", 11, 12, 0.04, 0.5);
+  // ---------- 06 same likes (beats 12–14) ----------
+  whip("#cam_f5", 12);
+  wordsAt("#c6", [12, 12.25, 12.5, 12.75, 13, 13.25]);
+  pop("#lr1", 12.5, { x: -80 }); pop("#lr2", 13, { x: 80 }); pop("#lr3", 13.5, { x: -80 });
+  // ---------- 07 same faces (beats 14–16) ----------
+  wordsAt("#c7", [14, 14.25, 14.5, 15, 15.25]); punch("#c7", 15);
+  pop("#or1", 14, { y: 60 }); pop("#or2", 14.5, { y: 60 }); pop("#or3", 15, { y: 60 });
+
+  // ---------- 08 problem: it's not the clothes (beats 16–18) ----------
+  whip("#cam_f7", 16);
+  wordsAt("#c8", [16, 16.25, 16.75, 17]); punch("#c8", 17);
+  tl.fromTo("#f8 .ghost", { x: 0 }, { x: -160, duration: B(2), ease: "none" }, B(16));
+  // ---------- 09 it's who sees them (beats 18–20) ----------
+  wordsAt("#c9", [18, 18.5, 18.75, 19]); punch("#c9", 19);
+  tl.set(G9.cl, { backgroundColor: "#ff3d8b" }, B(18));
+  tl.to(G9.rest, { keyframes: { opacity: [0.35, 1] }, duration: 0.3, stagger: { each: 0.0015, from: "random" } }, B(19));
+  fadeUp("#never", 19.5);
+  // ---------- 10 boost it? same crowd (beats 20–22) ----------
+  wordsAt("#c10", [20, 20.25, 21, 21.25]);
+  tl.to("#boost", { keyframes: { scale: [0.88, 1] }, duration: 0.2, ease: "power2.out" }, B(20.25));
+  tl.set("#rip", { opacity: 0 }, 0);
+  tl.set("#rip", { opacity: 1, scale: 1 }, B(20.5));
+  tl.to("#rip", { scale: 7, opacity: 0, duration: 0.5, ease: "power2.out" }, B(20.5));
+  [20.75, 21, 21.5].forEach(b => { tl.set(G10.cl, { backgroundColor: "#ff3d8b" }, B(b)); tl.to(G10.cl, { backgroundColor: "#2b2b2b", duration: 0.18 }, B(b) + 0.06); });
+  tl.set(G10.cl, { backgroundColor: "#ff3d8b" }, B(21.75));
+
+  // ---------- 11 solution: Southline (beats 22–25) ----------
+  lineWipe(22);
+  wordsAt("#c11", [22, 22.25, 22.5, 22.75, 23]); punch("#c11", 23); flash(23, 0.25);
+  fadeUp("#tag11", 23.5);
+  // ---------- 12 new ads every week (beats 25–27) ----------
+  wordsAt("#c12", [25, 25.25, 25.5, 26]);
+  [25, 25.5, 26].forEach((b, i) => {
+    pop("#wk" + (i + 1), b, { y: 140 }, 0.2);
+    for (let j = 0; j < i; j++) {
+      tl.to("#wk" + (j + 1), { y: -(i - j) * 58, scale: 1 - (i - j) * 0.06, duration: 0.2, ease: "power2.out" }, B(b));
+      if (j === i - 1) tl.to("#wk" + (j + 1) + " .t", { opacity: 0, duration: 0.12 }, B(b));   // only the front card shows its title
+    }
   });
-  pulse("#g1", 3, 12, 0.025);
-  // open loop (beats 8–12)
-  wordsAt("#c2", [8, 8.5, 9, 9.5, 10, 10.5, 10.75, 11]); punch("#c2", 11);
-  tl.set("#fBox", { left: 164 + 3 * CELL - 10, top: 1030 + 3 * CELL - 10, width: 5 * CELL + 12, height: 4 * CELL + 12 }, 0);
-  tl.set("#fLbl", { left: 164 + 3 * CELL - 10, top: 1030 + 7 * CELL + 14 }, 0);
-  tl.fromTo("#fBox", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: E.in }, B(11));
-  tl.fromTo("#fLbl", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: E.in }, B(11.5));
-  tl.to(G1.rest, { opacity: 0.3, duration: 0.3 }, B(11.5));
-
-  // ---------- 03 RELATE (beats 12–24) ----------
-  lineWipe(12);
-  drift("#cam3", 12, 24, 0.05);
-  wordsAt("#c3a", [12, 12.5, 13, 14, 14.5, 15]); exit("#c3a", 17.7);
-  tl.fromTo("#post", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: E.in }, B(12.5));
-  ["#o0", "#o1", "#o2"].forEach((o, i) => tl.fromTo(o, { x: 60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.25, ease: E.ui }, B(15 + i * 0.5)));
-  tl.to(["#o0", "#o1", "#o2"], { opacity: 0, duration: 0.2 }, B(17.7));
-  wordsAt("#c3b", [18, 18.25, 18.5, 19, 20, 20.5, 21, 21.5]); under("#u3", 21.5);
-  tl.fromTo("#quiet", { opacity: 0 }, { opacity: 1, duration: 0.2 }, B(19));
-  tl.to("#quiet", { opacity: 0, duration: 0.15 }, B(19.8));
-  ["#bx0", "#bx1", "#bx2", "#bx3"].forEach((bx, i) => tl.fromTo(bx, { y: -300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "bounce.out" }, B(20 + i * 0.5)));
-  tl.fromTo("#still", { scale: 1.7, opacity: 0, rotation: -12 }, { scale: 1, opacity: 1, rotation: -5, duration: 0.18, ease: "power4.in" }, B(22) - 0.18);
-  shake("#cam3", 22);
-
-  // ---------- 04 PROBLEM (beats 24–32) ----------
-  whip("#cam3", "#cam4", 24);
-  drift("#cam4", 24, 32, 0.05);
-  tl.set("#g4", { scale: 0.8, y: -40 }, B(24));
-  tl.fromTo(G4.all, { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: { each: 0.001, from: "center" } }, B(24));
-  wordsAt("#c4a", [24.25, 24.5, 24.75, 25.5, 26]); punch("#c4a", 26);
-  tl.fromTo(G4.cl, { backgroundColor: "#2b2b2b" }, { backgroundColor: "#ff3d8b", duration: 0.12, stagger: 0.008 }, B(25.5));
-  exit("#c4a", 27.6); tl.to("#g4", { opacity: 0, duration: 0.2 }, B(27.6));
-  wordsAt("#c4b", [28, 28.25, 28.5, 29, 29.5, 29.75, 30]); under("#u4", 30);
-  tl.fromTo("#adc", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: E.in }, B(27.8));
-  const dayObj = { v: 1 };
-  tl.fromTo(dayObj, { v: 1 }, { v: 7, duration: B(31) - B(28), ease: "steps(6)", onUpdate: () => { document.getElementById("days").textContent = Math.round(dayObj.v); } }, B(28));
-  tl.fromTo("#fill", { scaleX: 1, backgroundColor: "#d9d8d3" }, { scaleX: 0.12, backgroundColor: "#5c5c5a", duration: B(31) - B(28), ease: "steps(6)" }, B(28));
-
-  // ---------- 05 SOLUTION (beats 32–48) ----------
-  lineWipe(32);
-  drift("#cam5", 32, 54, 0.06);
-  wordsAt("#c5a", [32.25, 32.5, 32.75, 33, 34]); under("#u5a", 34); punch("#c5a", 34); exit("#c5a", 35.4);
-  wordsAt("#c5b", [35.5, 35.75, 36, 36.5, 37]); under("#u5b", 37); exit("#c5b", 37.9);
-  wordsAt("#c5c", [38, 38.25, 38.5, 39]); under("#u5c", 39); exit("#c5c", 40.9);
-  ["#w1", "#w2", "#w3"].forEach((w, i) => {
-    tl.fromTo(w, { x: 260, opacity: 0, rotation: 4 }, { x: 0, opacity: 1, rotation: 0, duration: 0.26, ease: E.ui }, B(38 + i));
-    if (i < 2) tl.to(w, { x: -260, opacity: 0, rotation: -4, duration: 0.2, ease: "power3.in" }, B(39 + i) - 0.12);
+  // ---------- 13 shown to new buyers (beats 27–29) ----------
+  wordsAt("#c13", [27, 27.25, 27.5, 28]);
+  tl.set(G13.cl, { backgroundColor: "#111111" }, B(27));
+  [[27.5, [1, 2]], [28, [3, 4, 5]], [28.5, [6, 7, 8, 9]], [28.75, [10, 11, 12]]].forEach(([b, ks]) => {
+    const sq = []; ks.forEach(k => (G13.by[k] || []).forEach(d => sq.push(d)));
+    tl.to(sq, { backgroundColor: "#d81b6a", duration: 0.12, stagger: 0.001 }, B(b));
   });
-  tl.to("#weeks", { opacity: 0, y: -30, duration: 0.25 }, B(40.9));
-  wordsAt("#c5d", [41, 41.25, 41.5, 42, 42.5, 43, 43.5]); under("#u5d", 42.5);
-  tl.set("#g5", { y: -30 }, B(32));
-  tl.fromTo(G5.all, { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: { each: 0.001, from: "center" } }, B(41));
-  tl.fromTo(G5.cl, { backgroundColor: "#c4c3be" }, { backgroundColor: "#5c5c5a", duration: 0.15 }, B(41.25));
-  const fresh = G5.rest.filter(() => rnd() < 0.55);
-  // new buyers light up in four waves, one per beat
-  const waves = [[], [], [], []]; fresh.forEach((d, i) => waves[i % 4].push(d));
-  waves.forEach((w, i) => {
-    tl.to(w, { backgroundColor: "#111111", duration: 0.12 }, B(42.5 + i * 0.5));
-    tl.to(w, { keyframes: { scale: [1.3, 1] }, duration: 0.25, ease: "power2.out" }, B(42.5 + i * 0.5));
-  });
-  exit("#c5d", 44.4); tl.to("#g5", { opacity: 0, duration: 0.2 }, B(44.4));
-  wordsAt("#c5e", [44.5, 44.75, 45, 45.5, 46, 46.5]); under("#u5e", 46); exit("#c5e", 47.8);
-  tl.fromTo("#remind", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: E.ui }, B(44.75));
-  tl.to("#remind", { opacity: 0, duration: 0.2 }, B(47.8));
+  fadeUp("#nb", 28);
+  // ---------- 14 reminders (beats 29–31) ----------
+  wordsAt("#c14", [29, 29.25, 29.5, 29.75, 30]); punch("#c14", 30);
+  pop("#remind", 29.5, { y: 90, scale: 0.94 });
 
-  // ---------- 06 PAYOFF (beats 48–54): music drops out on 51.5, everything lights on 52 ----------
-  tl.to("#g5", { opacity: 1, duration: 0.25 }, B(48));
-  wordsAt("#c6", [48.5, 48.75, 49, 50, 50.5, 51]);
-  tl.to(G5.all, { backgroundColor: "#d81b6a", duration: 0.08, stagger: { each: 0.0018, from: "center" } }, B(52));
-  flash(52, 0.5); punch("#c6", 52);
-  pulse("#g5", 52, 54, 0.04);
+  // ---------- 15 payoff (beats 31–34): the whole grid lights on beat 32 ----------
+  wordsAt("#c15", [31, 31.25, 31.5, 31.75, 32, 32.25, 32.5]);
+  tl.set(G15.cl, { backgroundColor: "#111111" }, B(31));
+  tl.to(G15.all, { backgroundColor: "#d81b6a", duration: 0.08, stagger: { each: 0.0016, from: "center" } }, B(32));
+  flash(32, 0.5); punch("#c15", 32);
+  pulse("#g15", 32, 34, 0.04);
 
-  // ---------- 07 CTA (beats 54–62): monogram end card ----------
-  drift("#cam7", 54, 62, 0.035);
+  // ---------- 16 CTA end card (beats 34–40): loops back to the opening callout ----------
   tl.set("#mono", { opacity: 0, y: 40, scale: 1.18 }, 0);
-  tl.to("#mono", { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "expo.out" }, B(54));
+  tl.to("#mono", { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "expo.out" }, B(34));
   tl.set("#arc", { scaleX: 0 }, 0);
-  tl.to("#arc", { scaleX: 1, duration: 0.55, ease: "expo.out" }, B(54.5));
-  tl.set("#sl", { opacity: 0, y: 14 }, 0);
-  tl.to("#sl", { opacity: 1, y: 0, duration: 0.3, ease: E.in }, B(55));
+  tl.to("#arc", { scaleX: 1, duration: 0.5, ease: "expo.out" }, B(34.25));
+  fadeUp("#sl", 34.5);
   tl.set("#cl .in", { yPercent: 115 }, 0);
-  tl.to("#cl .in", { yPercent: 0, duration: 0.42, ease: "expo.out" }, B(55.5));
+  tl.to("#cl .in", { yPercent: 0, duration: 0.35, ease: "expo.out" }, B(34.75));
   tl.set("#br .in", { yPercent: 115 }, 0);
-  tl.to("#br .in", { yPercent: 0, duration: 0.42, ease: "expo.out" }, B(56));
-  punch("#title", 56); flash(56, 0.3);
-  const PL = 2 * (776 - 128) + Math.PI * 128;                       // pill outline length
+  tl.to("#br .in", { yPercent: 0, duration: 0.35, ease: "expo.out" }, B(35));
+  punch("#title", 35); flash(35, 0.3);
+  const PL = 2 * (776 - 128) + Math.PI * 128;
   tl.set("#pillR", { strokeDasharray: PL, strokeDashoffset: PL }, 0);
-  tl.to("#pillR", { strokeDashoffset: 0, duration: 0.5, ease: "power2.inOut" }, B(57));
+  tl.to("#pillR", { strokeDashoffset: 0, duration: 0.45, ease: "power2.inOut" }, B(35.5));
   tl.set("#pill .ico", { opacity: 0, scale: 0.3 }, 0);
-  tl.set("#pill .ico", { opacity: 1 }, B(57.25));
-  tl.to("#pill .ico", { scale: 1, duration: 0.35, ease: "back.out(2.5)" }, B(57.25));
+  tl.set("#pill .ico", { opacity: 1 }, B(35.75));
+  tl.to("#pill .ico", { scale: 1, duration: 0.3, ease: "back.out(2.5)" }, B(35.75));
   tl.set("#pill .div", { scaleY: 0 }, 0);
-  tl.to("#pill .div", { scaleY: 1, duration: 0.2, ease: E.in }, B(57.5));
+  tl.to("#pill .div", { scaleY: 1, duration: 0.2, ease: E.in }, B(36));
   tl.set("#pill .cm", { opacity: 0, x: -14 }, 0);
-  tl.to("#pill .cm", { opacity: 1, x: 0, duration: 0.25, ease: E.in }, B(57.5));
+  tl.to("#pill .cm", { opacity: 1, x: 0, duration: 0.22, ease: E.in }, B(36));
   tl.set("#pill .q .c", { opacity: 0 }, 0);
-  [0, 1, 2, 3].forEach(i => tl.set(`#pill .q .c:nth-child(${i + 1})`, { opacity: 1 }, B(58 + i * 0.25)));
-  tl.set("#fmi", { opacity: 0, y: 14 }, 0);
-  tl.to("#fmi", { opacity: 1, y: 0, duration: 0.3, ease: E.in }, B(59.5));
-  pulse("#pill", 60, 62, 0.025);
+  [0, 1, 2, 3].forEach(i => tl.set("#pill .q .c:nth-child(" + (i + 1) + ")", { opacity: 1 }, B(36.5 + i * 0.25)));
+  fadeUp("#fmi", 37.5);
+  pulse("#pill", 38, 40, 0.025);
 
   window.__timelines["main"] = tl;
 </script>
