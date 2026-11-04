@@ -14,10 +14,11 @@ a re-edit. Folders are in the user's repo under `ads/`.
 
 | 7 | `electrician-business-check/` | Be obvious: electrician's test-record sheet stamps their pains FAIL; real problem is people can't find them (empty slot in the homeowner's feed); plain offer, enquiry form lands on phone | "Electricians in Ireland, this one's for you." | WORK | Aubergine/Lilac + Mint accent, Instrument Sans/Serif + Plex Mono, no VO |
 | 8 | `clothing-same-buyers/` | **Clothing brands** (new vertical): every drop sells to the same followers; boosting = same crowd; best ad dead in a week; Southline: new ads weekly, new buyers, reminders | "Clothing brands, same buyers. every drop." (buyer grid) | DROP → SCALE (v5, user's end card) | Concrete/Jet + Signal Pink, buyer grid, stock boxes, no VO, user's track |
+| 9 | `clothing-black-friday/` | **Clothing brands, Black Friday**: your BF sale goes to your followers, so it's a discount for regulars who'd have paid full price; Southline puts the BF drop in front of new buyers; urgency: BF is 27 Nov | "Clothing brands." → "Who's actually buying your Black Friday sale?" | FRIDAY | Black/Bone/Graphite + silver chrome, chrome swing tag, receipt printer, follower ring in a field, calendar flip; SA end card with new pill |
 
 ## Rejected / feedback to respect
 - **No voiceovers** (ad #7): text-led with music + SFX by default.
-- **Different colours each time** (ad #7): palettes used so far are green/gold, hi-vis yellow/ink, navy/cyan, pine/cloud/gold, aubergine/lilac/mint, concrete/jet/pink.
+- **Different colours each time** (ad #7): palettes used so far are green/gold, hi-vis yellow/ink, navy/cyan, pine/cloud/gold, aubergine/lilac/mint, concrete/jet/pink, black/bone/chrome.
 - **Be obvious** (after ad #6): "make it more obvious who we're talking to, what we sell, the solution to their
   problems, make them realise their problems." Name the audience, the problem and the offer plainly; don't hide them
   behind metaphor.
