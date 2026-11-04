@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Southline: Word of mouth</title>
+<script src="assets/vendor/gsap.min.js"></script>
+<style>
+  /* Ad #10 · Slate #1C2127 / Chalk #F1EEE8 / Copper #E08A4E · 'You can't turn word of mouth up.' */
+  :root { --bg: #1c2127; --fg: #f1eee8; --paper: #f1eee8; --ink: #1c2127; --acc: #e08a4e; --accd: #a5561f; --endbg: #14181d; --glow: rgba(224,138,78,.10); --mid: #5c6670; }
+  @font-face { font-family: "Instrument Sans"; src: url(assets/fonts/is-500.woff2) format("woff2"); font-weight: 500; }
+  @font-face { font-family: "Instrument Sans"; src: url(assets/fonts/is-700.woff2) format("woff2"); font-weight: 700; }
+  @font-face { font-family: "Instrument Serif"; src: url(assets/fonts/iserif-italic.woff2) format("woff2"); font-style: italic; font-weight: 400; }
+  @font-face { font-family: "Fraunces"; src: url(assets/fonts/fr-700.woff2) format("woff2"); font-weight: 700; }
+  @font-face { font-family: "Fraunces"; src: url(assets/fonts/fr-900.woff2) format("woff2"); font-weight: 900; }
+  @font-face { font-family: "IBM Plex Mono"; src: url(assets/fonts/plex-500.woff2) format("woff2"); font-weight: 500; }
+  html, body { margin: 0; background: var(--bg); }
+  body { font-family: "Instrument Sans", sans-serif; -webkit-font-smoothing: antialiased; }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+  .full { position: absolute; inset: 0; }
+  #bg { z-index: 0; background: var(--bg); }
+  #grain { z-index: 90; opacity: .07; mix-blend-mode: overlay; inset: -200px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+  .scene { position: absolute; inset: 0; z-index: 10; overflow: hidden; }
+  .scene.dark { background: var(--bg); color: var(--fg); } .scene.light { background: var(--paper); color: var(--ink); }
+  .scene.end { background: var(--endbg); color: #ffffff; } .end .glow { display: none; }
+  .glow { position: absolute; inset: 0; }
+  .dark .glow { background: radial-gradient(ellipse 70% 45% at 50% 42%, var(--glow) 0%, rgba(0,0,0,0) 62%), radial-gradient(ellipse 120% 90% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,.5) 100%); }
+  .light .glow { background: radial-gradient(ellipse 80% 55% at 50% 40%, rgba(255,255,255,.4) 0%, rgba(255,255,255,0) 65%); }
+  .cam { position: absolute; inset: 0; transform-origin: 50% 45%; }
+  .mono { font: 500 24px "IBM Plex Mono", monospace; letter-spacing: .14em; }
+  .ctr { position: absolute; left: 0; width: 1080px; text-align: center; }
+  .ac { color: var(--acc); } .light .ac { color: var(--accd); }
+  .cap { position: absolute; left: 50px; width: 980px; text-align: center; transform-origin: 50% 50%; --ks: 88px; }
+  .cap .ld { font: italic 400 72px/1.05 "Instrument Serif", serif; opacity: .85; display: block; margin-bottom: 16px; }
+  .cap .kw { font-weight: 700; font-size: var(--ks); letter-spacing: -0.04em; line-height: 1.05; display: block; }
+  .cap .kw.fr { font-family: "Fraunces", serif; font-weight: 900; letter-spacing: -0.03em; }
+  .cap .sb { font: italic 400 58px/1.12 "Instrument Serif", serif; display: block; margin-top: 18px; opacity: .9; }
+  .cap .w { display: inline-block; padding: 0 0.02em; }
+  .ttl { position: absolute; left: 0; width: 1080px; text-align: center; transform-origin: 50% 50%; --ts: 190px; }
+  .ttl .mask { display: block; overflow: hidden; padding: 0 0 28px; margin-bottom: -28px; }
+  .ttl .in { display: inline-block; font: 900 var(--ts)/1.0 "Fraunces", serif; letter-spacing: -0.035em; }
+  .sub { font: italic 400 66px/1.12 "Instrument Serif", serif; opacity: .92; padding: 0 110px; box-sizing: border-box; }
+  .lbl span { display: inline-block; border: 2px solid currentColor; border-radius: 30px; padding: 8px 22px 6px; font-size: 22px; opacity: .85; }
+  .flab { font-size: 24px; opacity: .7; }
+  .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; flex: none; background: var(--acc); }
+  /* phone */
+  .phone { position: absolute; border-radius: 56px; background: #0c0c0c; box-shadow: 0 0 0 4px #2c2c2c, 0 30px 80px rgba(0,0,0,.45); overflow: hidden; }
+  .phone .notch { position: absolute; left: 50%; top: 14px; width: 120px; height: 30px; margin-left: -60px; border-radius: 15px; background: #000; z-index: 3; }
+  .phone .scr { position: absolute; inset: 10px; border-radius: 46px; overflow: hidden; background: #f6f5f1; color: #111; }
+  .card { position: absolute; left: 18px; right: 18px; border-radius: 22px; background: #ffffff; box-shadow: 0 2px 0 rgba(0,0,0,.06); padding: 16px; box-sizing: border-box; color: #111; }
+  .card .hd { display: flex; align-items: center; gap: 10px; font: 700 20px "Instrument Sans", sans-serif; }
+  .card .av { width: 40px; height: 40px; border-radius: 50%; background: #cfcac0; flex: none; }
+  .card .sp { font: 500 15px "IBM Plex Mono", monospace; letter-spacing: .08em; color: #777; display: block; }
+  .card .tx2 { font: 500 24px/1.3 "Instrument Sans", sans-serif; margin-top: 12px; }
+  .card .im { margin-top: 12px; height: 150px; border-radius: 14px; background: #e3dfd6; }
+  .note { position: absolute; left: 16px; right: 16px; border-radius: 20px; background: rgba(255,255,255,.96); color: #111; padding: 14px 16px; box-sizing: border-box;
+    box-shadow: 0 8px 24px rgba(0,0,0,.18); font: 500 19px/1.35 "IBM Plex Mono", monospace; letter-spacing: .04em; }
+  .note b { font: 700 22px "Instrument Sans", sans-serif; letter-spacing: 0; display: block; margin-bottom: 4px; }
+  /* end cards */
+  .eb { position: absolute; left: 0; top: -43px; width: 1080px; }
+  .eb img { display: block; width: 1080px; height: auto; }
+  #smono { top: 250px; font: 700 300px/1 "Fraunces", serif; color: #ffffff; letter-spacing: -0.02em; }
+  .arc { position: absolute; left: 120px; width: 840px; height: 84px; transform-origin: 50% 50%; }
+  #sline { top: 610px; color: rgba(255,255,255,.7); font-size: 22px; letter-spacing: .22em; }
+  #stitle .in { color: #ffffff; }
+  #fmi { top: 1262px; color: #ffffff; font-size: 30px; letter-spacing: .3em; }
+  #pill { position: absolute; }
+  #pill svg.ol { position: absolute; inset: 0; overflow: visible; }
+  #pill .row { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 26px; }
+  #pill .ico { width: 64px; height: 64px; flex: none; }
+  #pill .dv { width: 5px; height: 58px; background: currentColor; border-radius: 2px; flex: none; }
+  #pill .tx { font: 700 54px/1 "Instrument Sans", sans-serif; letter-spacing: -0.01em; white-space: nowrap; }
+  #pill .q .c { display: inline-block; }
+  /* overlays */
+  #flash { position: absolute; inset: 0; z-index: 70; background: #ffffff; opacity: 0; }
+  #wipe { position: absolute; top: 0; bottom: 0; width: 1200px; left: -1200px; z-index: 60; background: var(--bg); }
+  #wipe i { position: absolute; right: 0; top: 0; bottom: 0; width: 12px; background: var(--acc); }
+
+  .wire { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+  .hs { position: absolute; width: 200px; text-align: center; }
+  .hl { margin-top: 10px; font-size: 20px; color: var(--acc); }
+  .rec { position: absolute; background: #2a3139; color: var(--fg); border: 2px solid var(--acc); border-radius: 22px; padding: 8px 16px 6px; font-size: 18px; letter-spacing: .06em; }
+  .wk { position: absolute; left: 90px; width: 900px; }
+  .wl { font-size: 20px; opacity: .7; margin-bottom: 12px; }
+  .cells { display: flex; gap: 14px; }
+  .cell { position: relative; width: 168px; height: 150px; border-radius: 18px; border: 3px solid #3a424b; box-sizing: border-box; background: #232930; }
+  .cell .dn { position: absolute; left: 14px; top: 12px; font-size: 18px; opacity: .6; }
+  .cell .jb { position: absolute; left: 0; right: 0; bottom: 22px; text-align: center; font: 900 46px "Fraunces", serif; color: var(--bg); opacity: 0; }
+  .stamp { position: absolute; left: 330px; top: 1010px; width: 420px; text-align: center; font: 900 110px/1 "Fraunces", serif; color: var(--fg);
+    border: 8px solid var(--fg); border-radius: 18px; padding: 10px 0 18px; transform: rotate(-8deg); background: rgba(28,33,39,.8); }
+  .dial { position: absolute; width: 400px; text-align: center; }
+  .dial .dt { font: 500 18px "IBM Plex Mono", monospace; letter-spacing: .12em; fill: currentColor; opacity: .6; }
+  .dial .dl { font-size: 24px; margin-top: 8px; }
+  .light .dial .dl { color: var(--ink); }
+  #ph6 .scr { background: linear-gradient(180deg, #2a3038 0%, #1a1e23 100%); color: #f1eee8; }
+  .lk { position: absolute; left: 0; right: 0; top: 60px; text-align: center; font: 700 64px "Instrument Sans", sans-serif; letter-spacing: -0.02em; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-width="1080" data-height="1920" data-duration="29.31">
+  <div id="bg" class="full" data-layout-ignore></div>
+
+  <section id="s1" class="clip scene dark" data-start="0.0" data-duration="2.5862" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_s1">
+      <div class="ttl" id="t1" style="top:720px;--ts:150px"><span class="mask"><span class="in">Electricians</span></span><span class="mask"><span class="in ac" id="t1b">in Ireland.</span></span></div>
+      <svg class="wire" viewBox="0 0 1080 1920" data-layout-ignore><path id="w0" d="M-20 1130 Q270 1210 540 1130 T1100 1130" fill="none" stroke="var(--acc)" stroke-width="6" stroke-linecap="round"/></svg>
+      <div class="ctr sub" id="sub1" style="top:1230px">This one's for you.</div>
+    </div>
+  </section>
+  <section id="s2" class="clip scene dark" data-start="2.5862" data-duration="3.0172" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_s2">
+      <div class="cap" id="c2" style="top:620px;--ks:112px;"><span class="kw"><span class="w">Where's</span> <span class="w">your</span> <span class="w ac">next</span> <span class="w ac">month</span> <span class="w">of</span> <span class="w">work</span> <span class="w">coming</span> <span class="w">from?</span></span></div>
+    </div>
+  </section>
+  <section id="s3" class="clip scene dark" data-start="5.6034" data-duration="5.6034" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_s3">
+      <div class="cap" id="c3a" style="top:330px;--ks:80px;"><span class="kw"><span class="w">Right</span> <span class="w">now,</span> <span class="w">most</span> <span class="w">of</span> <span class="w">your</span> <span class="w">work</span> <span class="w">comes</span> <span class="w">from</span> <span class="w ac">word</span> <span class="w ac">of</span> <span class="w ac">mouth.</span></span></div>
+      <div class="cap" id="c3b" style="top:330px;--ks:80px;"><span class="kw"><span class="w">One</span> <span class="w">good</span> <span class="w">job</span> <span class="w">leads</span> <span class="w">to</span> <span class="w">the</span> <span class="w ac">next.</span></span></div>
+      <svg class="wire" viewBox="0 0 1080 1920" data-layout-ignore>
+        <path id="w1" d="M290 1000 Q400 1080 500 1000" fill="none" stroke="var(--acc)" stroke-width="6" stroke-linecap="round"/>
+        <path id="w2" d="M620 1000 Q720 1080 820 1000" fill="none" stroke="var(--acc)" stroke-width="6" stroke-linecap="round"/></svg>
+      <div class="hs" id="h1" style="left:90px;top:900px"><svg viewBox="0 0 200 180" width="200" height="180"><path d="M14 82 L100 14 L186 82" fill="none" stroke="#f1eee8" stroke-width="6" stroke-linejoin="round"/><rect x="34" y="74" width="132" height="98" rx="6" fill="#262c33" stroke="#f1eee8" stroke-width="5"/><rect class="win" x="54" y="96" width="40" height="34" rx="4" fill="#3a424b"/><rect x="112" y="112" width="34" height="60" rx="4" fill="#3a424b"/></svg><div class="hl mono">JOB · NAAS</div></div><div class="hs" id="h2" style="left:440px;top:900px"><svg viewBox="0 0 200 180" width="200" height="180"><path d="M14 82 L100 14 L186 82" fill="none" stroke="#f1eee8" stroke-width="6" stroke-linejoin="round"/><rect x="34" y="74" width="132" height="98" rx="6" fill="#262c33" stroke="#f1eee8" stroke-width="5"/><rect class="win" x="54" y="96" width="40" height="34" rx="4" fill="#3a424b"/><rect x="112" y="112" width="34" height="60" rx="4" fill="#3a424b"/></svg><div class="hl mono">JOB · NEWBRIDGE</div></div><div class="hs" id="h3" style="left:790px;top:900px"><svg viewBox="0 0 200 180" width="200" height="180"><path d="M14 82 L100 14 L186 82" fill="none" stroke="#f1eee8" stroke-width="6" stroke-linejoin="round"/><rect x="34" y="74" width="132" height="98" rx="6" fill="#262c33" stroke="#f1eee8" stroke-width="5"/><rect class="win" x="54" y="96" width="40" height="34" rx="4" fill="#3a424b"/><rect x="112" y="112" width="34" height="60" rx="4" fill="#3a424b"/></svg><div class="hl mono">JOB · KILDARE</div></div>
+      <div class="rec mono" id="rec1" style="left:250px;top:830px">★ "Ring this lad"</div>
+      <div class="rec mono" id="rec2" style="left:615px;top:830px">★ "He did ours"</div>
+    </div>
+  </section>
+  <section id="s4" class="clip scene dark" data-start="11.2068" data-duration="4.3103" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_s4">
+      <div class="cap" id="c4a" style="top:330px;--ks:80px;"><span class="kw"><span class="w">But</span> <span class="w">you</span> <span class="w">can't</span> <span class="w">control</span> <span class="w ac">when</span> <span class="w">people</span> <span class="w">mention</span> <span class="w">you.</span></span></div>
+      <div class="cap" id="c4b" style="top:330px;--ks:80px;"><span class="kw"><span class="w">Some</span> <span class="w">weeks</span> <span class="w">are</span> <span class="w">packed.</span> <span class="w">Some</span> <span class="w">weeks</span> <span class="w">are</span> <span class="w ac">dead</span> <span class="w ac">quiet.</span></span></div>
+      <div class="wk" id="wa" style="top:680px"><div class="wl mono">THIS WEEK</div><div class="cells"><div class="cell" id="wac0"><span class="dn mono">MON</span><span class="jb">JOB</span></div><div class="cell" id="wac1"><span class="dn mono">TUE</span><span class="jb">JOB</span></div><div class="cell" id="wac2"><span class="dn mono">WED</span><span class="jb">JOB</span></div><div class="cell" id="wac3"><span class="dn mono">THU</span><span class="jb">JOB</span></div><div class="cell" id="wac4"><span class="dn mono">FRI</span><span class="jb">JOB</span></div></div></div><div class="wk" id="wb" style="top:940px"><div class="wl mono">NEXT WEEK</div><div class="cells"><div class="cell" id="wbc0"><span class="dn mono">MON</span><span class="jb">JOB</span></div><div class="cell" id="wbc1"><span class="dn mono">TUE</span><span class="jb">JOB</span></div><div class="cell" id="wbc2"><span class="dn mono">WED</span><span class="jb">JOB</span></div><div class="cell" id="wbc3"><span class="dn mono">THU</span><span class="jb">JOB</span></div><div class="cell" id="wbc4"><span class="dn mono">FRI</span><span class="jb">JOB</span></div></div></div>
+      <div class="stamp" id="quiet">QUIET</div>
+    </div>
+  </section>
+  <section id="s5" class="clip scene light" data-start="15.5171" data-duration="3.0172" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_s5">
+      <div class="dial" id="d5" style="left:340px;top:330px"><svg viewBox="0 0 400 330" width="400" height="330"><path d="M70.1 275 A150 150 0 1 1 329.9 275" fill="none" stroke="#d6cfc4" stroke-width="26" stroke-linecap="round"/><path class="fill" id="d5f" d="M70.1 275 A150 150 0 1 1 329.9 275" fill="none" stroke="var(--acc)" stroke-width="26" stroke-linecap="round"/><line class="ndl" id="d5n" x1="200" y1="200" x2="320" y2="200" stroke="#1c2127" stroke-width="10" stroke-linecap="round"/><circle cx="200" cy="200" r="20" fill="#1c2127"/><text x="62" y="318" class="dt">LOW</text><text x="300" y="318" class="dt">BUSY</text></svg><div class="dl mono">WORD OF MOUTH</div></div>
+      <div class="cap" id="c5" style="top:930px;--ks:96px;"><span class="kw fr"><span class="w">And</span> <span class="w">you</span> <span class="w">can't</span> <span class="w">turn</span> <span class="w">word</span> <span class="w">of</span> <span class="w">mouth</span> <span class="w ac">up</span> <span class="w">when</span> <span class="w">it's</span> <span class="w">quiet.</span></span></div>
+    </div>
+  </section>
+  <section id="s6" class="clip scene dark" data-start="18.5343" data-duration="5.1723" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_s6">
+      <div class="cap" id="c6" style="top:230px;--ks:82px;"><span class="kw"><span class="w">We</span> <span class="w">run</span> <span class="w">Facebook</span> <span class="w">&</span> <span class="w">Instagram</span> <span class="w">ads</span> <span class="w">for</span> <span class="w">your</span> <span class="w ac">business.</span></span><span class="sb"><span class="w">Homeowners</span> <span class="w">near</span> <span class="w">you</span> <span class="w">see</span> <span class="w">your</span> <span class="w">work.</span> <span class="w">Enquiries</span> <span class="w">come</span> <span class="w ac">straight</span> <span class="w ac">to</span> <span class="w ac">your</span> <span class="w ac">phone.</span></span></div>
+      <div class="dial" id="d6" style="left:60px;top:820px"><svg viewBox="0 0 400 330" width="400" height="330"><path d="M70.1 275 A150 150 0 1 1 329.9 275" fill="none" stroke="#353d46" stroke-width="26" stroke-linecap="round"/><path class="fill" id="d6f" d="M70.1 275 A150 150 0 1 1 329.9 275" fill="none" stroke="var(--acc)" stroke-width="26" stroke-linecap="round"/><line class="ndl" id="d6n" x1="200" y1="200" x2="320" y2="200" stroke="#f1eee8" stroke-width="10" stroke-linecap="round"/><circle cx="200" cy="200" r="20" fill="#f1eee8"/><text x="62" y="318" class="dt">LOW</text><text x="300" y="318" class="dt">BUSY</text></svg><div class="dl mono">YOUR ADS</div></div>
+      <div class="phone" id="ph6" style="left:560px;top:700px;width:420px;height:700px"><i class="notch"></i><div class="scr"><div class="lk">09:41</div><div class="note" id="n1" style="top:170px"><b>New enquiry</b>Rewire · Naas<br><span style="opacity:.6">Checked · wants a quote</span></div><div class="note" id="n2" style="top:300px"><b>New enquiry</b>EV charger · Newbridge<br><span style="opacity:.6">Checked · wants a quote</span></div><div class="note" id="n3" style="top:430px"><b>New enquiry</b>Fuse board · Kildare<br><span style="opacity:.6">Checked · wants a quote</span></div></div></div>
+    </div>
+  </section>
+  <section id="s7" class="clip scene dark" data-start="23.7066" data-duration="2.5862" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_s7">
+      <div class="cap" id="c7" style="top:380px;--ks:120px;"><span class="kw fr"><span class="w">Keep</span> <span class="w">the</span> <span class="w">referrals.</span> <span class="w">Stop</span> <span class="w ac">relying</span> <span class="w">on</span> <span class="w">them.</span></span></div>
+      <div class="wk" id="wc" style="top:840px"><div class="wl mono">THIS WEEK</div><div class="cells"><div class="cell" id="wcc0"><span class="dn mono">MON</span><span class="jb">JOB</span></div><div class="cell" id="wcc1"><span class="dn mono">TUE</span><span class="jb">JOB</span></div><div class="cell" id="wcc2"><span class="dn mono">WED</span><span class="jb">JOB</span></div><div class="cell" id="wcc3"><span class="dn mono">THU</span><span class="jb">JOB</span></div><div class="cell" id="wcc4"><span class="dn mono">FRI</span><span class="jb">JOB</span></div></div></div><div class="wk" id="wd" style="top:1100px"><div class="wl mono">NEXT WEEK</div><div class="cells"><div class="cell" id="wdc0"><span class="dn mono">MON</span><span class="jb">JOB</span></div><div class="cell" id="wdc1"><span class="dn mono">TUE</span><span class="jb">JOB</span></div><div class="cell" id="wdc2"><span class="dn mono">WED</span><span class="jb">JOB</span></div><div class="cell" id="wdc3"><span class="dn mono">THU</span><span class="jb">JOB</span></div><div class="cell" id="wdc4"><span class="dn mono">FRI</span><span class="jb">JOB</span></div></div></div>
+    </div>
+  </section>
+  <section id="s8" class="clip scene end" data-start="26.2928" data-duration="3.0172" data-track-index="1">
+    <div class="glow" data-layout-ignore></div>
+    <div class="cam" id="cam_s8">
+      <div class="ctr" id="smono">S</div>
+      <svg class="arc" id="sarc" style="top:470px" viewBox="0 0 840 84" data-layout-ignore><path d="M0 74 Q420 -14 840 74 Q420 4 0 74 Z" fill="#e08a4e"/></svg>
+      <div class="ctr mono" id="sline">SOUTHLINE · FACEBOOK + INSTAGRAM ADS</div>
+      <div class="ttl" id="stitle" style="top:700px;--ts:128px"><span class="mask" id="st1"><span class="in">Electricians</span></span><span class="mask" id="st2"><span class="in">in Ireland.</span></span></div>
+      <div id="pill" style="left:190px;top:1100px;width:700px;height:116px;color:#ffffff"><svg class="ol" viewBox="0 0 700 116" data-layout-ignore><rect id="pillR" x="2.75" y="2.75" width="694.5" height="110.5" rx="55.25" fill="none" stroke="#ffffff" stroke-width="5.5"/></svg><div class="row"><svg class="ico" viewBox="0 0 74 74"><path d="M14 12 H60 Q66 12 66 18 V46 Q66 52 60 52 H32 L18 64 V52 H14 Q8 52 8 46 V18 Q8 12 14 12 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><circle cx="25" cy="32" r="4.2" fill="currentColor"/><circle cx="37" cy="32" r="4.2" fill="currentColor"/><circle cx="49" cy="32" r="4.2" fill="currentColor"/></svg><span class="dv"></span><span class="tx"><span class="cm">Comment</span> <span class="q"><span class="c">“b</span><span class="c">u</span><span class="c">s</span><span class="c">y”</span></span></span></div></div>
+      <div class="ctr mono" id="fmi">FOR MORE INFO.</div>
+    </div>
+  </section>
+
+  <div id="flash" data-layout-ignore></div>
+  <div id="wipe" data-layout-ignore><i></i></div>
+  <div id="grain" class="full" data-layout-ignore></div>
+  <audio id="score" src="assets/audio.wav" data-start="0" data-duration="29.31" data-track-index="10" data-volume="1"></audio>
+</div>
+
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  const P = 0.43103, SC = {"s1": 0, "s2": 6, "s3": 13, "s4": 26, "s5": 36, "s6": 43, "s7": 55, "s8": 61}, END = {"s1": 6, "s2": 13, "s3": 26, "s4": 36, "s5": 43, "s6": 55, "s7": 61, "s8": 68}, DUR = +(68 * P).toFixed(4);
+  const B = n => +(n * P).toFixed(4);
+  let cur = "s1"; const A = l => B(SC[cur] + l);      // local beat -> seconds in the current scene
+  const E = { in: "expo.out", ui: "back.out(1.5)" };
+  function wordsAt(sel, beats) {
+    const ws = document.querySelectorAll(sel + " .w");
+    ws.forEach((w, i) => tl.fromTo(w, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.22, ease: E.in }, A(beats[Math.min(i, beats.length - 1)])));
+  }
+  const from = (b0, n, step = 0.5) => Array.from({ length: n }, (_, i) => b0 + i * step);
+  const punch = (sel, l, k = 1.06) => tl.to(sel, { keyframes: { scale: [k, 1] }, duration: 0.35, ease: "expo.out" }, A(l));
+  const flash = (l, a = 0.35) => { tl.set("#flash", { opacity: a }, A(l)); tl.to("#flash", { opacity: 0, duration: 0.35, ease: "power2.out" }, A(l) + 0.001); };
+  const pulse = (sel, l0, l1, amt = 0.025, step = 1) => { for (let l = l0; l < l1; l += step) tl.to(sel, { keyframes: { scale: [1 + amt, 1] }, duration: 0.26, ease: "power2.out" }, A(l)); };
+  const pop = (sel, l, f, d = 0.35) => { tl.set(sel, Object.assign({ opacity: 0 }, f), 0); tl.to(sel, { opacity: 1, x: 0, y: 0, scale: 1, duration: d, ease: E.ui }, A(l)); };
+  const fadeUp = (sel, l) => { tl.set(sel, { opacity: 0, y: 14 }, 0); tl.to(sel, { opacity: 1, y: 0, duration: 0.3, ease: E.in }, A(l)); };
+  const fadeOut = (sel, l, d = 0.15) => tl.to(sel, { opacity: 0, y: -10, duration: d, ease: "power2.in" }, A(l));
+  const swing = (sel, l, a = 16, d = 1.5) => tl.to(sel, { keyframes: { rotation: [a, -a * 0.6, a * 0.32, -a * 0.14, a * 0.05, 0] }, duration: d, ease: "sine.inOut" }, A(l));
+  const count = (sel, l, to, d, fmt = n => String(n), ease = "power3.out", fromV = 0) => { const o = { v: fromV }; const el = document.querySelector(sel);
+    tl.to(o, { v: to, duration: d, ease, onUpdate: () => { el.textContent = fmt(Math.round(o.v)); } }, A(l)); };
+  const euro = n => "€" + (n >= 1000 ? Math.floor(n / 1000) + "," + String(n % 1000).padStart(3, "0") : n);
+  const draw = (sel, l, d, fromF = 1, toF = 0) => { const el = document.querySelector(sel); const L = el.getTotalLength ? el.getTotalLength() : 1200;
+    tl.set(sel, { strokeDasharray: L, strokeDashoffset: L * fromF }, 0); if (fromF >= 1) { tl.set(sel, { opacity: 0 }, 0); tl.set(sel, { opacity: 1 }, A(l)); } tl.to(sel, { strokeDashoffset: L * toF, duration: d, ease: "power2.inOut" }, A(l)); return L; };
+  const shot = (cam, s) => { const a = B(SC[s]), b = B(END[s]);
+    tl.set(cam, { scale: 1.04 }, a);
+    tl.to(cam, { keyframes: [{ scale: 1, duration: 0.4, ease: "expo.out" }, { scale: 1.025, duration: Math.max(0.1, b - a - 0.4), ease: "none" }] }, a); };
+  const lineWipe = l => tl.fromTo("#wipe", { x: 0 }, { x: 2400, duration: 0.45, ease: "power2.inOut" }, A(l) - 0.23);
+  tl.fromTo("#grain", { x: 0, y: 0 }, { x: 140, y: -120, duration: DUR, ease: `steps(${Math.floor(DUR * 12)})` }, 0);
+  Object.keys(SC).forEach(s => { if (s !== "s1") shot("#cam_" + s, s); });
+  // callout scene: on screen at t=0, slams in, then creeps
+  tl.fromTo("#cam_s1", { scale: 1.16 }, { scale: 1.0, duration: 0.5, ease: "expo.out" }, 0);
+  tl.to("#cam_s1", { scale: 1.03, duration: B(END.s1) - 0.5, ease: "none" }, 0.5);
+
+  const NCH = 4;
+
+  function pillIn(l) {
+    const r = document.getElementById("pillR"); const PL = 2 * (r.width.baseVal.value - r.height.baseVal.value) + Math.PI * r.height.baseVal.value;
+    tl.set("#pillR", { strokeDasharray: PL, strokeDashoffset: PL }, 0); tl.to("#pillR", { strokeDashoffset: 0, duration: 0.45, ease: "power2.inOut" }, A(l));
+    tl.set("#pill .ico", { opacity: 0, scale: 0.3 }, 0); tl.set("#pill .ico", { opacity: 1 }, A(l + 0.25)); tl.to("#pill .ico", { scale: 1, duration: 0.3, ease: "back.out(2.5)" }, A(l + 0.25));
+    tl.set("#pill .dv", { scaleY: 0 }, 0); tl.to("#pill .dv", { scaleY: 1, duration: 0.2, ease: E.in }, A(l + 0.5));
+    tl.set("#pill .cm", { opacity: 0, x: -14 }, 0); tl.to("#pill .cm", { opacity: 1, x: 0, duration: 0.22, ease: E.in }, A(l + 0.5));
+    tl.set("#pill .q .c", { opacity: 0 }, 0);
+    for (let i = 0; i < NCH; i++) tl.set("#pill .q .c:nth-child(" + (i + 1) + ")", { opacity: 1 }, A(l + 1 + i * 0.25));
+    pulse("#pill", Math.ceil(l + 1.5 + NCH * 0.25), END[cur] - SC[cur], 0.025);
+  }
+
+  // ---------- 1 CALLOUT ----------
+  cur = "s1";
+  tl.set("#t1b", { yPercent: 140 }, 0); tl.to("#t1b", { yPercent: 0, duration: 0.25, ease: "expo.out" }, A(0.5));
+  draw("#w0", 1, 0.6); punch("#t1", 2, 1.05); fadeUp("#sub1", 2.5);
+
+  // ---------- 2 OPEN LOOP ----------
+  cur = "s2";
+  wordsAt("#c2", from(0, 8));
+
+  // ---------- 3 RELATE: one job leads to the next ----------
+  cur = "s3";
+  wordsAt("#c3a", from(0, 11, 0.25));
+  pop("#h1", 0.5, { y: 60, scale: 0.9 });
+  tl.set("#h1 .win", { attr: { fill: "#3a424b" } }, 0); tl.to("#h1 .win", { attr: { fill: "#e08a4e" }, duration: 0.2 }, A(1));
+  draw("#w1", 3, 0.45); pop("#rec1", 3.25, { y: 20, scale: 0.8 });
+  pop("#h2", 3.5, { y: 60, scale: 0.9 }); tl.set("#h2 .win", { attr: { fill: "#3a424b" } }, 0); tl.to("#h2 .win", { attr: { fill: "#e08a4e" }, duration: 0.2 }, A(4));
+  fadeOut("#c3a", 6.5);
+  wordsAt("#c3b", from(7, 7, 0.25));
+  draw("#w2", 7.5, 0.45); pop("#rec2", 7.75, { y: 20, scale: 0.8 });
+  pop("#h3", 8, { y: 60, scale: 0.9 }); tl.set("#h3 .win", { attr: { fill: "#3a424b" } }, 0); tl.to("#h3 .win", { attr: { fill: "#e08a4e" }, duration: 0.2 }, A(8.5));
+  pulse(["#h1", "#h2", "#h3"], 9, 13, 0.03);
+
+  // ---------- 4 PROBLEM: packed weeks, dead weeks ----------
+  cur = "s4";
+  wordsAt("#c4a", from(0, 8, 0.25));
+  pop("#wa", 0.5, { y: 40 }); pop("#wb", 1, { y: 40 });
+  [0, 1, 2, 3, 4].forEach(i => { tl.to("#wac" + i, { backgroundColor: "#e08a4e", borderColor: "#e08a4e", duration: 0.12 }, A(2 + i * 0.25));
+    tl.set("#wac" + i + " .jb", { opacity: 1 }, A(2 + i * 0.25)); });
+  fadeOut("#c4a", 4.6);
+  wordsAt("#c4b", from(5, 9, 0.25));
+  tl.set("#quiet", { opacity: 0, scale: 2, rotation: -20 }, 0);
+  tl.to("#quiet", { opacity: 1, scale: 1, rotation: -8, duration: 0.22, ease: "power4.in" }, A(7.25) - 0.2);
+  punch("#wb", 7.25, 1.03);
+
+  // ---------- 5 STING: the dial you can't turn up ----------
+  cur = "s5";
+  draw("#d5f", 0, 0.01, 1, 0.85);
+  tl.set("#d5n", { rotation: 186, svgOrigin: "200 200" }, 0);
+  tl.to("#d5f", { strokeDashoffset: () => document.querySelector("#d5f").getTotalLength() * 0.3, duration: 0.5, ease: "power2.out" }, A(1));
+  tl.to("#d5n", { rotation: 318, svgOrigin: "200 200", duration: 0.5, ease: "power2.out" }, A(1));
+  tl.to("#d5f", { strokeDashoffset: () => document.querySelector("#d5f").getTotalLength() * 0.85, duration: 0.7, ease: "elastic.out(1, 0.4)" }, A(2));
+  tl.to("#d5n", { rotation: 186, svgOrigin: "200 200", duration: 0.7, ease: "elastic.out(1, 0.4)" }, A(2));
+  wordsAt("#c5", from(0.5, 11, 0.25));
+
+  // ---------- 6 FIX: a dial you control ----------
+  cur = "s6";
+  lineWipe(0);
+  wordsAt("#c6 .kw", from(0, 8, 0.5));
+  wordsAt("#c6 .sb", from(4, 12, 0.25));
+  draw("#d6f", 0, 0.01, 1, 0.9);
+  tl.set("#d6n", { rotation: 174, svgOrigin: "200 200" }, 0);
+  pop("#d6", 0.5, { scale: 0.85 });
+  tl.to("#d6f", { strokeDashoffset: () => document.querySelector("#d6f").getTotalLength() * 0.1, duration: 0.8, ease: "power3.out" }, A(1.5));
+  tl.to("#d6n", { rotation: 366, svgOrigin: "200 200", duration: 0.8, ease: "power3.out" }, A(1.5));
+  pop("#ph6", 1, { x: 80 });
+  [1, 2, 3].forEach(i => pop("#n" + i, 5 + i * 1, { y: -30, scale: 0.9 }, 0.3));
+
+  // ---------- 7 PAYOFF ----------
+  cur = "s7";
+  wordsAt("#c7", from(0, 6, 0.5));
+  pop("#wc", 0.5, { y: 40 }); pop("#wd", 0.75, { y: 40 });
+  ["wc", "wd"].forEach((w, k) => [0, 1, 2, 3, 4].forEach(i => { const l = 1 + k * 1.25 + i * 0.25;
+    tl.to("#" + w + "c" + i, { backgroundColor: "#e08a4e", borderColor: "#e08a4e", duration: 0.12 }, A(l)); tl.set("#" + w + "c" + i + " .jb", { opacity: 1 }, A(l)); }));
+
+  // ---------- END CARD ----------
+  cur = "s8";
+
+  tl.set("#smono", { opacity: 0, y: 40, scale: 1.18 }, 0); tl.to("#smono", { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "expo.out" }, A(0));
+  tl.set("#sarc", { scaleX: 0 }, 0); tl.to("#sarc", { scaleX: 1, duration: 0.5, ease: "expo.out" }, A(0.25));
+  fadeUp("#sline", 0.5);
+  tl.set("#st1 .in", { yPercent: 115 }, 0); tl.to("#st1 .in", { yPercent: 0, duration: 0.35, ease: "expo.out" }, A(0.75));
+  tl.set("#st2 .in", { yPercent: 115 }, 0); tl.to("#st2 .in", { yPercent: 0, duration: 0.35, ease: "expo.out" }, A(1));
+  punch("#stitle", 1, 1.05);
+  pillIn(2);
+  fadeUp("#fmi", 2.75 + NCH * 0.25);
+
+  window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
