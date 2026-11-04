@@ -14,7 +14,7 @@ a re-edit. Folders are in the user's repo under `ads/`.
 
 | 7 | `electrician-business-check/` | Be obvious: electrician's test-record sheet stamps their pains FAIL; real problem is people can't find them (empty slot in the homeowner's feed); plain offer, enquiry form lands on phone | "Electricians in Ireland, this one's for you." | WORK | Aubergine/Lilac + Mint accent, Instrument Sans/Serif + Plex Mono, no VO |
 | 8 | `clothing-same-buyers/` | **Clothing brands** (new vertical): every drop sells to the same followers; boosting = same crowd; best ad dead in a week; Southline: new ads weekly, new buyers, reminders | "Clothing brands, same buyers. every drop." (buyer grid) | DROP → SCALE (v5, user's end card) | Concrete/Jet + Signal Pink, buyer grid, stock boxes, no VO, user's track |
-| 9 | `clothing-black-friday/` | **Clothing brands, Black Friday**: your BF sale goes to your followers, so it's a discount for regulars who'd have paid full price; Southline puts the BF drop in front of new buyers; urgency: BF is 27 Nov | "Clothing brands." → "Who's actually buying your Black Friday sale?" | FRIDAY | Black/Bone/Graphite + silver chrome, chrome swing tag, receipt printer, follower ring in a field, calendar flip; SA end card with new pill |
+| 9 | `clothing-black-friday/` | **Clothing brands, Black Friday**: your BF sale goes to your followers, so it's a discount for regulars who'd have paid full price; Southline puts the BF drop in front of new buyers; urgency: BF is 27 Nov | "Clothing brands." → v2: "Why does Black Friday never actually grow your brand?" (looks-like vs actually-happened) | FRIDAY | Black/Bone/Graphite + silver chrome, chrome swing tag, receipt printer, follower ring in a field, calendar flip; SA end card with new pill |
 
 ## Rejected / feedback to respect
 - **No voiceovers** (ad #7): text-led with music + SFX by default.
@@ -40,6 +40,10 @@ a re-edit. Folders are in the user's repo under `ads/`.
   open-loop question by ~1 s; then a new frame every ~2 beats (0.8–1.7 s) with 2–5 big centred words. 15–18 s total.
 - **"Too fast to process, doesn't make sense"** (ad #8 v6 → v7): clarity first. One story, full sentences, 2–4 s
   per scene, labelled visuals. Speed comes from beat-synced motion inside a scene, not from more scenes.
+- **"Looks like you're telling them they're doing it right"** (ad #9 v1 → v2): showing the viewer's current routine
+  (discount → post → orders arrive) reads as approval. Show the win they expect, then reveal what it really cost
+  (WHAT IT LOOKS LIKE → rewind → WHAT ACTUALLY HAPPENED), make the loss concrete (illustrative numbers), and say
+  "Here's what to change." before the fix.
 - **User-supplied end card** (ad #8 v5): the user sent their own artwork (SA monogram, "Clothing brands.", Comment
   "scale", FOR MORE INFO.) and said "put this as the end". When the user supplies artwork, use it as-is (no redraw),
   on a matching background, animated in bands on the beat; the CTA keyword becomes whatever the artwork says.
