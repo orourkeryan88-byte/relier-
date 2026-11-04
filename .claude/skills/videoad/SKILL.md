@@ -30,6 +30,8 @@ session's branch, and end with a short summary (scenes table, what to check, fil
    new ad must not reuse an angle, hook, CTA keyword or visual system from that log** unless the user asks for a
    re-edit. Append the new ad to the log when you deliver.
 3. `references/lessons.md`: bugs, blocked hosts and fixes we already paid for. Skim it so you don't repeat them.
+4. `references/growth-checklist.md`: the owner's standing rule (marketing, branding, design, content, distribution,
+   automation, innovation, proof). Every ad must cover all eight; score it before delivering and flag any gap (usually proof).
 
 ## 1. Understand the brief (don't over-ask)
 
