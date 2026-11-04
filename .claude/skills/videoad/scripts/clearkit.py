@@ -49,7 +49,7 @@ def _pill(keyword, left, top, w, h, color):
             f'<div class="row">{ICO}<span class="dv"></span><span class="tx"><span class="cm">Comment</span> <span class="q">{"".join(spans)}</span></span></div></div>'), (w, h)
 
 
-def endcard_sa(keyword):
+def endcard_sa(keyword, tagline=None):
     """The owner's SA artwork (assets/endcard.jpg) in bands, with our own pill carrying the keyword."""
     sc = 1080 / 1170
     def band(i, t0, t1):
@@ -57,7 +57,8 @@ def endcard_sa(keyword):
         return (f'<div class="eb" id="eb{i}" style="clip-path: inset({top}px 0 {bot}px 0); transform-origin: 540px {round((t0 + t1) / 2 * sc)}px">'
                 f'<img src="assets/endcard.jpg" alt="" width="1080" height="{round(1735 * sc)}"></div>')
     pill, (w, h) = _pill(keyword, 210, 1061, 661, 109, "#ffffff")
-    html = "\n      ".join(["", band(1, 441, 802), band(2, 832, 1150), pill, band(4, 1337, 1386)])
+    last = (f'<div class="ctr tagl" id="eb4">{tagline}</div>' if tagline else band(4, 1337, 1386))
+    html = "\n      ".join(["", band(1, 441, 802), band(2, 832, 1150), pill, last])
     return html, w, h
 
 
@@ -136,6 +137,7 @@ BASE_CSS = '''
   .arc { position: absolute; left: 120px; width: 840px; height: 84px; transform-origin: 50% 50%; }
   #sline { top: 610px; color: rgba(255,255,255,.7); font-size: 22px; letter-spacing: .22em; }
   #stitle .in { color: #ffffff; }
+  .tagl { top: 1192px; color: #ffffff; font: 500 28px "Instrument Sans", sans-serif; letter-spacing: .26em; }
   #fmi { top: 1262px; color: #ffffff; font-size: 30px; letter-spacing: .3em; }
   #pill { position: absolute; }
   #pill svg.ol { position: absolute; inset: 0; overflow: visible; }
@@ -226,7 +228,7 @@ class Cues:
         self.drop.append([self.at(s, l0), self.at(s, l1)])
 
 
-def build(hf, cues_path, title, palette, scenes, total, css, js, cues, endcard="southline", keyword="", end_lines=("", ""), beat=P, comment="", end_size=150):
+def build(hf, cues_path, title, palette, scenes, total, css, js, cues, endcard="southline", keyword="", end_lines=("", ""), beat=P, comment="", end_size=150, sa_tagline=None):
     """scenes: list of (id, start_beat, tone, html). The last scene is the end card (html generated here)."""
     sc = {s[0]: s[1] for s in scenes}
     order = [s[0] for s in scenes]
@@ -235,7 +237,7 @@ def build(hf, cues_path, title, palette, scenes, total, css, js, cues, endcard="
     dur = B(total)
     last = order[-1]
     if endcard == "sa":
-        ec_html, _, _ = endcard_sa(keyword); ec_js = END_SA_JS
+        ec_html, _, _ = endcard_sa(keyword, sa_tagline); ec_js = END_SA_JS
     else:
         ec_html, _, _ = endcard_southline(end_lines[0], end_lines[1], keyword, palette["--acc"], end_size); ec_js = END_SL_JS
     scenes = [(i, s, t, (ec_html if i == last else h)) for i, s, t, h in scenes]
