@@ -1,0 +1,5 @@
+
+# render temp files and caches
+__pycache__/
+ads/*/work-*/
+ads/*/.*.hf-transaction-*/
