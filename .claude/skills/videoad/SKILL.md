@@ -127,6 +127,12 @@ If it isn't installed: `git clone --depth 1 https://github.com/calesthio/OpenMon
    `querySelector`, `tl.set` before revealing hidden elements, `data-layout-ignore` on full-frame overlays, local
    fonts only, etc.).
 
+### clearkit (current engine)
+`scripts/clearkit.py` builds a whole ad from a short spec: palette, scene table (start beats), per-scene HTML, CSS, a
+GSAP timeline in local beats (`cur = "s3"; wordsAt("#c3", from(0, 8, 0.25))`), cues, and an end card
+(`endcard="sa"` uses the owner's SA artwork with a new keyword pill; `endcard="southline"` builds the Southline card).
+Copy a spec from `ads/electrician-word-of-mouth/gen_composition.py` (or the other ads #10–#13) and change the story.
+
 ## 6. Score
 
 **If the user supplies a track** (often a screen recording of a TikTok/Instagram sound): extract it with ffmpeg, find the

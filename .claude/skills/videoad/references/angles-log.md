@@ -15,10 +15,14 @@ a re-edit. Folders are in the user's repo under `ads/`.
 | 7 | `electrician-business-check/` | Be obvious: electrician's test-record sheet stamps their pains FAIL; real problem is people can't find them (empty slot in the homeowner's feed); plain offer, enquiry form lands on phone | "Electricians in Ireland, this one's for you." | WORK | Aubergine/Lilac + Mint accent, Instrument Sans/Serif + Plex Mono, no VO |
 | 8 | `clothing-same-buyers/` | **Clothing brands** (new vertical): every drop sells to the same followers; boosting = same crowd; best ad dead in a week; Southline: new ads weekly, new buyers, reminders | "Clothing brands, same buyers. every drop." (buyer grid) | DROP → SCALE (v5, user's end card) | Concrete/Jet + Signal Pink, buyer grid, stock boxes, no VO, user's track |
 | 9 | `clothing-black-friday/` | **Clothing brands, Black Friday**: your BF sale goes to your followers, so it's a discount for regulars who'd have paid full price; Southline puts the BF drop in front of new buyers; urgency: BF is 27 Nov | "Clothing brands." → v2: "Why does Black Friday never actually grow your brand?" (looks-like vs actually-happened) | FRIDAY | Black/Bone/Graphite + silver chrome, chrome swing tag, receipt printer, follower ring in a field, calendar flip; SA end card with new pill |
+| 10 | `electrician-word-of-mouth/` | Referral ceiling: word of mouth comes in waves and can't be turned up when it's quiet; your own ads are a dial you control. Payoff "Keep the referrals. Stop relying on them." | "Electricians in Ireland." → "Where's your next month of work coming from?" | BUSY | Slate/Chalk + Copper, copper wire between houses, packed vs quiet weeks, two dials; Southline end card |
+| 11 | `electrician-van-feed/` | Visibility: your name's on the van outside the job, but neighbours look for electricians in their feed and book someone else. Payoff "Keep the van. Add the feed." | "Electricians in Ireland." → "Who actually sees your name on the van?" | SEEN | Asphalt/Paper + Electric lime, van + street + phone feed, empty "not here" slot; Southline end card |
+| 12 | `clothing-dead-stock/` | Stock already paid for: 300 ordered, 120 sold to followers, rest on the rail; reposting gets fewer likes; discounting kills margin; ads show it to new people. Payoff "Sell what you've already got. At full price." | "Clothing brands." → "How much of your last drop is still on the rail?" | STOCK | Ink/Stone + Tangerine, clothes rail (1 garment = 30 pcs), repost cards, price tag + margin bar; SA end card |
+| 13 | `clothing-launch-day/` | Launch effort vs reach: months of design/samples/shoot, launched to a half-empty room of the same followers; ads build buzz before and fill the room on the day. Payoff "Launch to a full room." | "Clothing brands." → "Why does launch day feel so quiet after months of work?" | LAUNCH | Charcoal/Cream + Amber spotlight, progress steps, stage + seats; SA end card |
 
 ## Rejected / feedback to respect
 - **No voiceovers** (ad #7): text-led with music + SFX by default.
-- **Different colours each time** (ad #7): palettes used so far are green/gold, hi-vis yellow/ink, navy/cyan, pine/cloud/gold, aubergine/lilac/mint, concrete/jet/pink, black/bone/chrome.
+- **Different colours each time** (ad #7): palettes used so far are green/gold, hi-vis yellow/ink, navy/cyan, pine/cloud/gold, aubergine/lilac/mint, concrete/jet/pink, black/bone/chrome, slate/chalk/copper, asphalt/paper/lime, ink/stone/tangerine, charcoal/cream/amber.
 - **Be obvious** (after ad #6): "make it more obvious who we're talking to, what we sell, the solution to their
   problems, make them realise their problems." Name the audience, the problem and the offer plainly; don't hide them
   behind metaphor.
@@ -51,8 +55,6 @@ a re-edit. Folders are in the user's repo under `ads/`.
   reels (Apple widgets concept, minimalist-design editorial, PayPal motion concept) and must stay original.
 
 ## Unused angle ideas (fresh territory)
-- Referral ceiling: word of mouth only grows as fast as your last job.
 - Cost per *job*, not cost per lead (maths framing, illustrative only).
-- Your name on the van vs your name in their feed (visibility where homeowners actually scroll).
 - The callback race: the first spark to ring back wins; Southline's checked leads arrive ready to book.
 - Grant-season demand (solar/battery/heat-pump wiring); verify SEAI figures first.
